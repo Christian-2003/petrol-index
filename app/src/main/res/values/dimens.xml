@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="space_vertical">12dp</dimen>
+    <dimen name="space_vertical_between">6dp</dimen>
+    <dimen name="space_horizontal">24dp</dimen>
+    <dimen name="space_horizontal_between">12dp</dimen>
+
+    <dimen name="diagram_height">128dp</dimen>
+</resources>

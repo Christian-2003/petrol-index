@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Petrol Index</string>
+
+    <string name="main_title">Petrol Index</string>
+    <string name="main_diagram_price_per_liter_title">Price per litre over time</string>
+    <string name="main_diagram_price_per_liter_indicator">{arg} €/L</string>
+    <string name="main_diagram_cumulated_expenses_title">Cumulated expenses (€)</string>
+    <string name="main_diagram_cumulated_expenses_indicator">{arg} €</string>
+    <string name="main_diagram_cumulated_volume_title">Cumulated volume (L)</string>
+    <string name="main_diagram_cumulated_volume_indicator">{arg} L</string>
+    <string name="main_content_description_add_petrol_entry">Add new petrol entry</string>
+    <string name="main_content_description_view_database">View database</string>
+    <string name="main_content_description_settings">Open Settings</string>
+
+    <string name="petrol_entries_title">Petrol entries</string>
+    <string name="petrol_entries_date">{arg}</string>
+    <string name="petrol_entries_subline">{totalPrice} €, {volume} L</string>
+    <string name="petrol_entries_amount">{arg} l</string>
+    <string name="petrol_entries_price">{arg} €</string>
+    <string name="petrol_entries_price_per_liter">{arg} € per litre</string>
+    <string name="petrol_entries_delete_title">Confirm delete</string>
+    <string name="petrol_entries_delete_info">Are you sure you want to delete the petrol entry?</string>
+    <string name="petrol_entries_delete_confirm">Delete</string>
+    <string name="petrol_entries_delete_cancel">Cancel</string>
+    <string name="petrol_entries_content_description_go_back">Go back</string>
+    <string name="petrol_entries_content_description_delete">Delete petrol entry</string>
+
+    <string name="add_petrol_entry_title_add">Add petrol entry</string>
+    <string name="add_petrol_entry_title_edit">Edit petrol entry</string>
+    <string name="add_petrol_entry_info">Configure your petrol entry to analyze your petrol consumption</string>
+    <string name="add_petrol_entry_label_epoch_second">Date</string>
+    <string name="add_petrol_entry_label_volume">Volume (L)</string>
+    <string name="add_petrol_entry_label_total_price">Total price (€)</string>
+    <string name="add_petrol_entry_label_description">Description</string>
+    <string name="add_petrol_entry_button_add">Add to database</string>
+    <string name="add_petrol_entry_button_edit">Save</string>
+    <string name="add_petrol_entry_error_total_price">The total price is not valid</string>
+    <string name="add_petrol_entry_error_volume">The volume is not valid</string>
+    <string name="add_petrol_entry_content_description_go_back">Go back</string>
+    <string name="add_petrol_entry_content_description_info">Info</string>
+    <string name="add_petrol_entry_content_description_calendar">Select date</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_data">Data</string>
+    <string name="settings_data_export">Export data</string>
+    <string name="settings_data_export_info">Export data to file</string>
+    <string name="settings_data_import">Import data</string>
+    <string name="settings_data_import_info">Import data from file</string>
+    <string name="settings_content_description_go_back">Go back</string>
+</resources>
