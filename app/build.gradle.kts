@@ -13,8 +13,8 @@ android {
         applicationId = "de.christian2003.petrolindex"
         minSdk = 34
         targetSdk = 34
-        versionCode = 4
-        versionName = "1.0.0-pre3"
+        versionCode = 5
+        versionName = "1.0.0-pre4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -89,4 +89,5 @@ dependencies {
     implementation(libs.compose.charts)
     androidTestImplementation(libs.androidx.ui.test)
     androidTestImplementation(libs.ui.test.junit4)
+    implementation(libs.gson)
 }

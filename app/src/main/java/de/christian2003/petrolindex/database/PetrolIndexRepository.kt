@@ -52,4 +52,12 @@ class PetrolIndexRepository(
         return petrolEntryDao.getById(id)
     }
 
+
+    /**
+     * Method deletes all petrol entries from the database.
+     */
+    suspend fun deleteAllPetrolEntries() {
+        petrolEntryDao.deleteAll()
+    }
+
 }

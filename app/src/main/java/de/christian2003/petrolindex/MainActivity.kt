@@ -1,17 +1,13 @@
 package de.christian2003.petrolindex
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,21 +23,86 @@ import de.christian2003.petrolindex.view.petrol_entries.PetrolEntriesView
 import de.christian2003.petrolindex.view.petrol_entries.PetrolEntriesViewModel
 import de.christian2003.petrolindex.view.settings.SettingsView
 import de.christian2003.petrolindex.view.settings.SettingsViewModel
-import org.jetbrains.annotations.Async.Execute
+
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PetrolIndex()
+            PetrolIndex(
+                writeToFile = { uri, content ->
+                    writeToFile(uri, content)
+                },
+                readFromFile = {uri ->
+                    readFromFile(uri)
+                }
+            )
         }
     }
+
+
+    /**
+     * Method writes the content string specified to the file whose URI is passed as argument.
+     * Afterwards, a boolean indicating whether the file operation was successful is returned.
+     * This method blocks the calling dispatcher.
+     *
+     * @param uri       URI of the file to which to write the content.
+     * @param content   Content to write to the file specified.
+     * @return          Whether the file operation was successful.
+     */
+    private fun writeToFile(uri: Uri, content: String): Boolean {
+        try {
+            contentResolver.openOutputStream(uri)?.use { stream ->
+                stream.write(content.toByteArray())
+                stream.flush()
+            }
+        }
+        catch (e: Exception) {
+            Log.e("WriteToFile", e.stackTraceToString())
+            return false
+        }
+        return true
+    }
+
+
+    /**
+     * Method reads the file whose URI is passed as argument. The content of the file is returned
+     * as string afterwards. If the file cannot be read, null is returned. This method blocks the
+     * calling dispatcher.
+     *
+     * @param uri   URI of the file to read.
+     * @return      Content of the file as string.
+     */
+    private fun readFromFile(uri: Uri): String? {
+        var content: String? = null
+        try {
+            contentResolver.openInputStream(uri)?.use { stream ->
+                val buffer = ByteArray(1024)
+                val stringBuilder = StringBuilder()
+                var bytesRead: Int
+                while (stream.read(buffer).also { bytesRead = it } != -1) {
+                    stringBuilder.append(String(buffer, 0, bytesRead))
+                }
+                content = stringBuilder.toString()
+            }
+        }
+        catch (e: Exception) {
+            Log.e("ReadFromFile", e.stackTraceToString())
+            content = null
+        }
+        return content
+    }
+
 }
 
 
 @Composable
-fun PetrolIndex() {
+fun PetrolIndex(
+    writeToFile: (Uri, String) -> Boolean,
+    readFromFile: (Uri) -> String?
+) {
     val navController = rememberNavController()
     val database = PetrolIndexDatabase.getInstance(LocalContext.current)
     val repository = PetrolIndexRepository(database.petrolEntryDao)
@@ -55,7 +116,7 @@ fun PetrolIndex() {
     val addPetrolEntryViewModel: AddPetrolEntryViewModel = viewModel()
 
     val settingsViewModel: SettingsViewModel = viewModel()
-    settingsViewModel.init(repository)
+    settingsViewModel.init(repository, writeToFile, readFromFile)
 
     PetrolIndexTheme {
         NavHost(

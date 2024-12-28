@@ -44,7 +44,11 @@
     <string name="settings_data">Data</string>
     <string name="settings_data_export">Export data</string>
     <string name="settings_data_export_info">Export data to file</string>
+    <string name="settings_data_export_error">Could not export data</string>
+    <string name="settings_data_export_success">Successfully exported data</string>
     <string name="settings_data_import">Import data</string>
     <string name="settings_data_import_info">Import data from file</string>
+    <string name="settings_data_import_error">Could not import data</string>
+    <string name="settings_data_import_success">Successfully imported data</string>
     <string name="settings_content_description_go_back">Go back</string>
 </resources>

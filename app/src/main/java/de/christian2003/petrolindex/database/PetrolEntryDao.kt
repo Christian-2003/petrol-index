@@ -50,4 +50,10 @@ interface PetrolEntryDao {
     @Delete
     suspend fun delete(petrolEntry: PetrolEntry)
 
+    /**
+     * Method deletes all petrol entries from the database.
+     */
+    @Query("DELETE FROM petrol_entries")
+    suspend fun deleteAll()
+
 }
