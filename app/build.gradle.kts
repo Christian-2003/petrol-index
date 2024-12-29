@@ -56,7 +56,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -67,27 +66,27 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.room)
+    implementation(libs.room.runtime)
+    implementation(libs.coroutines)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.compose.charts)
+    implementation(libs.gson)
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.room)
-    implementation(libs.room.runtime)
-    annotationProcessor(libs.room.compiler)
-    ksp(libs.room.compiler)
-    implementation(libs.coroutines)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.ktor.client.android)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.compose.charts)
     androidTestImplementation(libs.androidx.ui.test)
     androidTestImplementation(libs.ui.test.junit4)
-    implementation(libs.gson)
+
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    annotationProcessor(libs.room.compiler)
+
+    ksp(libs.room.compiler)
 }
