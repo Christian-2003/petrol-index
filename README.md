@@ -5,7 +5,7 @@
 ![GitHub](https://img.shields.io/github/issues/Christian-2003/petrol-index?color=purple)
 ![GitHub](https://img.shields.io/github/repo-size/Christian-2003/petrol-index?color=blue)
 
-Have you ever been interested in knowing how much petrol you consume? Fear no more, Petrol Index documents your petrol consumtion.
+Have you ever been interested in knowing how much petrol you consume? Fear no more, Petrol Index documents your petrol consumption.
 
 <div align="center">
     <img src="docs/img/preview_1.png" height="390">
