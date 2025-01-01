@@ -12,7 +12,7 @@
     <string name="main_content_description_view_database">View database</string>
     <string name="main_content_description_settings">Open Settings</string>
 
-    <string name="petrol_entries_title">Petrol entries</string>
+    <string name="petrol_entries_title">Petrol consumption</string>
     <string name="petrol_entries_date">{arg}</string>
     <string name="petrol_entries_subline">{totalPrice} $, {volume} L</string>
     <string name="petrol_entries_price_per_liter">{arg} $ per litre</string>
