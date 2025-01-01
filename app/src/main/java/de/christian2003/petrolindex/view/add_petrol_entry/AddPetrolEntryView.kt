@@ -4,10 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -92,6 +94,7 @@ fun AddPetrolEntryView(
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .imePadding()
                 .padding(innerPadding)
                 .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
                 .verticalScroll(rememberScrollState()),
@@ -131,7 +134,13 @@ fun AddPetrolEntryView(
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.space_vertical))
             ) {
                 Text(
-                    text = stringResource(if (viewModel.editedPetrolEntry == null) { R.string.add_petrol_entry_button_add } else { R.string.add_petrol_entry_button_edit }),
+                    text = stringResource(
+                        if (viewModel.editedPetrolEntry == null) {
+                            R.string.add_petrol_entry_button_add
+                        } else {
+                            R.string.add_petrol_entry_button_edit
+                        }
+                    ),
                 )
             }
         }
@@ -385,5 +394,17 @@ fun TopCard() {
                 color = MaterialTheme.colorScheme.onTertiaryContainer
             )
         }
+    }
+}
+
+
+@Composable
+fun KeyboardAware(
+    content: @Composable() () -> Unit
+) {
+    Box(
+        modifier = Modifier.imePadding()
+    ) {
+        content()
     }
 }
