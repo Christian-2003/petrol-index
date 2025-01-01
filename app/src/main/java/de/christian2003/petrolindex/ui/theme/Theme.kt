@@ -278,4 +278,3 @@ fun PetrolIndexTheme(
         content = content
     )
 }
-

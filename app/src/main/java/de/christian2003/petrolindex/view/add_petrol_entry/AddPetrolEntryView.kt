@@ -16,7 +16,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -39,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import de.christian2003.petrolindex.R
@@ -125,6 +125,7 @@ fun AddPetrolEntryView(
             Button(
                 onClick = {
                     viewModel.insert()
+                    onNavigateBack()
                 },
                 enabled = viewModel.volumeValid && viewModel.totalPriceValid,
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.space_vertical))
@@ -193,128 +194,160 @@ fun InputSection(
         modifier = Modifier.fillMaxWidth()
     ) {
         //Enter date:
-        OutlinedTextField(
-            value = LocaleFormatter.epochSecondToFormattedDate(epochSecond),
-            singleLine = true,
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Rounded.DateRange,
-                    contentDescription = stringResource(R.string.add_petrol_entry_content_description_calendar)
-                )
-            },
-            onValueChange = {
-                onEpochSecondChanged(it.toLong())
-            },
-            label = {
-                Text(
-                    text = stringResource(R.string.add_petrol_entry_label_epoch_second)
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = dimensionResource(R.dimen.space_vertical))
-                .pointerInput(epochSecond) {
-                    awaitEachGesture {
-                        // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                        // in the Initial pass to observe events before the text field consumes them
-                        // in the Main pass.
-                        awaitFirstDown(pass = PointerEventPass.Initial)
-                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                        if (upEvent != null) {
-                            onShowDatePicker()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            TextFieldPrefixIcon(R.drawable.ic_calendar)
+            OutlinedTextField(
+                value = LocaleFormatter.epochSecondToFormattedDate(epochSecond),
+                singleLine = true,
+                trailingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_calendar),
+                        contentDescription = stringResource(R.string.add_petrol_entry_content_description_calendar),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
+                onValueChange = {
+                    onEpochSecondChanged(it.toLong())
+                },
+                label = {
+                    Text(
+                        text = stringResource(R.string.add_petrol_entry_label_epoch_second)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = dimensionResource(R.dimen.space_vertical))
+                    .pointerInput(epochSecond) {
+                        awaitEachGesture {
+                            // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
+                            // in the Initial pass to observe events before the text field consumes them
+                            // in the Main pass.
+                            awaitFirstDown(pass = PointerEventPass.Initial)
+                            val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                            if (upEvent != null) {
+                                onShowDatePicker()
+                            }
                         }
                     }
-                }
-        )
+            )
+        }
+
 
         //Enter volume:
-        OutlinedTextField(
-            value = "" + volume,
-            singleLine = true,
-            onValueChange = {
-                onVolumeChanged(it)
-            },
-            label = {
-                Text(
-                    text = stringResource(R.string.add_petrol_entry_label_volume)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            TextFieldPrefixIcon(R.drawable.ic_petrol)
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = "" + volume,
+                    singleLine = true,
+                    onValueChange = {
+                        onVolumeChanged(it)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(R.string.add_petrol_entry_label_volume)
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    isError = !volumeValid,
+                    trailingIcon = {
+                        if (!volumeValid) {
+                            Icon(
+                                imageVector = Icons.Filled.Info,
+                                tint = MaterialTheme.colorScheme.error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = dimensionResource(R.dimen.space_vertical))
                 )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            isError = !volumeValid,
-            trailingIcon = {
                 if (!volumeValid) {
-                    Icon(
-                        imageVector = Icons.Filled.Info,
-                        tint = MaterialTheme.colorScheme.error,
-                        contentDescription = "Error"
+                    Text(
+                        text = stringResource(R.string.add_petrol_entry_error_volume),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(top = 4.dp, start = 16.dp)
                     )
                 }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = dimensionResource(R.dimen.space_vertical))
-        )
-        if (!volumeValid) {
-            Text(
-                text = stringResource(R.string.add_petrol_entry_error_volume),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp, start = 16.dp)
-            )
+            }
         }
+
 
         //Enter total price:
-        OutlinedTextField(
-            value = "" + totalPrice,
-            singleLine = true,
-            onValueChange = {
-                onTotalPriceChanged(it)
-            },
-            label = {
-                Text(
-                    text = stringResource(R.string.add_petrol_entry_label_total_price)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            TextFieldPrefixIcon(R.drawable.ic_price)
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = "" + totalPrice,
+                    singleLine = true,
+                    onValueChange = {
+                        onTotalPriceChanged(it)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(R.string.add_petrol_entry_label_total_price)
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    isError = !totalPriceValid,
+                    trailingIcon = {
+                        if (!totalPriceValid) {
+                            Icon(
+                                imageVector = Icons.Filled.Info,
+                                tint = MaterialTheme.colorScheme.error,
+                                contentDescription = "Error"
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = dimensionResource(R.dimen.space_vertical))
                 )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            isError = !totalPriceValid,
-            trailingIcon = {
                 if (!totalPriceValid) {
-                    Icon(
-                        imageVector = Icons.Filled.Info,
-                        tint = MaterialTheme.colorScheme.error,
-                        contentDescription = "Error"
+                    Text(
+                        text = stringResource(R.string.add_petrol_entry_error_total_price),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(top = 4.dp, start = 16.dp)
                     )
                 }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = dimensionResource(R.dimen.space_vertical))
-        )
-        if (!totalPriceValid) {
-            Text(
-                text = stringResource(R.string.add_petrol_entry_error_total_price),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp, start = 16.dp)
-            )
+            }
         }
 
+
         //Enter description:
-        OutlinedTextField(
-            value = description,
-            singleLine = true,
-            onValueChange = {
-                onDescriptionChanged(it)
-            },
-            label = {
-                Text(
-                    text = stringResource(R.string.add_petrol_entry_label_description)
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.space_vertical))
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            TextFieldPrefixIcon(R.drawable.ic_description)
+            OutlinedTextField(
+                value = description,
+                singleLine = true,
+                onValueChange = {
+                    onDescriptionChanged(it)
+                },
+                label = {
+                    Text(
+                        text = stringResource(R.string.add_petrol_entry_label_description)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.space_vertical))
+            )
+        }
     }
 }
 
@@ -391,4 +424,25 @@ fun TopCard() {
             )
         }
     }
+}
+
+
+/**
+ * Composable displays a prefix icon at the start of a text field.
+ *
+ * @param drawableResource  Drawable resource for the image.
+ */
+@Composable
+fun TextFieldPrefixIcon(
+    drawableResource: Int
+) {
+    Icon(
+        painter = painterResource(drawableResource),
+        contentDescription = "",
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(
+            top = dimensionResource(R.dimen.space_vertical) + dimensionResource(R.dimen.padding_material_text_field_top),
+            end = dimensionResource(R.dimen.space_horizontal)
+        )
+    )
 }

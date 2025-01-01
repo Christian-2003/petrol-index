@@ -7,4 +7,6 @@
     <dimen name="space_horizontal_between">12dp</dimen>
 
     <dimen name="diagram_height">128dp</dimen>
+
+    <dimen name="padding_material_text_field_top">8dp</dimen>
 </resources>
