@@ -25,8 +25,19 @@ import de.christian2003.petrolindex.view.settings.SettingsView
 import de.christian2003.petrolindex.view.settings.SettingsViewModel
 
 
+/**
+ * Class implements the main activity of the app.
+ *
+ * @author  Christian-2003
+ * @since   1.0.0
+ */
 class MainActivity : ComponentActivity() {
 
+    /**
+     * Method is called when the main activity is (re)created.
+     *
+     * @param savedInstanceState    Previously saved state of the instance.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -98,6 +109,12 @@ class MainActivity : ComponentActivity() {
 }
 
 
+/**
+ * Composable displays the entire application.
+ *
+ * @param writeToFile   Callback to invoke to write data to a file.
+ * @param readFromFile  Callback to invoke to read data from a file.
+ */
 @Composable
 fun PetrolIndex(
     writeToFile: (Uri, String) -> Boolean,

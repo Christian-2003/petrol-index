@@ -1,12 +1,18 @@
 package de.christian2003.petrolindex.model.utils
 
 import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+
+/**
+ * Class contains methods to use in order to format numbers according to the default locale.
+ *
+ * @author  Christian-2003
+ * @since   1.0.0
+ */
 class LocaleFormatter {
 
     companion object {

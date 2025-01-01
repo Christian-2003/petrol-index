@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -95,8 +93,8 @@ fun PetrolEntriesView(
         if (petrolEntry != null) {
             ConfirmDeleteDialog(
                 petrolEntry = petrolEntry,
-                onConfirmDelete = { petrolEntry ->
-                    viewModel.delete(petrolEntry)
+                onConfirmDelete = { p ->
+                    viewModel.delete(p)
                     viewModel.petrolEntryToDelete = null
                 },
                 onDismiss = {

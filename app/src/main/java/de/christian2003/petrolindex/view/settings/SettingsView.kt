@@ -26,9 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import de.christian2003.petrolindex.R
 
 
+/**
+ * Composable displays the view containing all settings.
+ *
+ * @param viewModel         View model for the view.
+ * @param onNavigateBack    Callback to invoke in order to navigate back.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsView(
@@ -134,6 +141,11 @@ fun SettingsView(
 }
 
 
+/**
+ * Composable displays a title for a group of related settings.
+ *
+ * @param title Title to display.
+ */
 @Composable
 fun SettingsTitle(
     title: String
@@ -146,11 +158,19 @@ fun SettingsTitle(
             bottom = dimensionResource(R.dimen.space_vertical_between)),
         text = title,
         color = MaterialTheme.colorScheme.primary,
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        fontWeight = FontWeight.Bold
     )
 }
 
 
+/**
+ * Composable displays an item button.
+ *
+ * @param setting   Title for the setting.
+ * @param info      Info for the setting.
+ * @param onClick   Callback to invoke when the item button is clicked.
+ */
 @Composable
 fun SettingsItemButton(
     setting: String,
@@ -165,7 +185,8 @@ fun SettingsItemButton(
             }
             .padding(
                 vertical = dimensionResource(R.dimen.space_vertical_between),
-                horizontal = dimensionResource(R.dimen.space_horizontal))
+                horizontal = dimensionResource(R.dimen.space_horizontal)
+            )
     ) {
         Text(
             text = setting,
