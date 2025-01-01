@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Petrol Index</string>
+
+    <string name="main_title">Petrol Index</string>
+    <string name="main_diagram_price_per_liter_title">Preis pro Liter nach Zeit</string>
+    <string name="main_diagram_price_per_liter_indicator">{arg} €/L</string>
+    <string name="main_diagram_cumulated_expenses_title">Kumulierte Ausgaben (€)</string>
+    <string name="main_diagram_cumulated_expenses_indicator">{arg} €</string>
+    <string name="main_diagram_cumulated_volume_title">Kumuliertes Volumen (L)</string>
+    <string name="main_diagram_cumulated_volume_indicator">{arg} L</string>
+    <string name="main_content_description_add_petrol_entry">Neuen Benzinverbrauch hinzufügen</string>
+    <string name="main_content_description_view_database">Datenbank einsehen</string>
+    <string name="main_content_description_settings">Einstellungen öffnen</string>
+
+    <string name="petrol_entries_title">Benzinverbräuche</string>
+    <string name="petrol_entries_date">{arg}</string>
+    <string name="petrol_entries_subline">{totalPrice} €, {volume} L</string>
+    <string name="petrol_entries_price_per_liter">{arg} € pro Liter</string>
+    <string name="petrol_entries_delete_title">Löschen bestätigen</string>
+    <string name="petrol_entries_delete_info">Bist du dir sicher, dass du diesen Benzinverbrauch löschen möchtest?</string>
+    <string name="petrol_entries_delete_confirm">Löschen</string>
+    <string name="petrol_entries_delete_cancel">Abbrechen</string>
+    <string name="petrol_entries_content_description_go_back">Zurück</string>
+    <string name="petrol_entries_content_description_delete">Benzinverbrauch löschen</string>
+
+    <string name="add_petrol_entry_title_add">Benzinverbrauch hinzufügen</string>
+    <string name="add_petrol_entry_title_edit">Benzinverbrauch bearbeiten</string>
+    <string name="add_petrol_entry_info">Konfiguriere deinen Benzinverbrauch mit diesem Formular um deinen Benzinbedarf zu analysieren</string>
+    <string name="add_petrol_entry_label_epoch_second">Datum</string>
+    <string name="add_petrol_entry_label_volume">Volumen (L)</string>
+    <string name="add_petrol_entry_label_total_price">Gesamtpreis (€)</string>
+    <string name="add_petrol_entry_label_description">Beschreibung</string>
+    <string name="add_petrol_entry_button_add">Hinzufügen</string>
+    <string name="add_petrol_entry_button_edit">Speichern</string>
+    <string name="add_petrol_entry_error_total_price">Der Gesamtrpreis ist ungültig</string>
+    <string name="add_petrol_entry_error_volume">Das Volumen ist ungültig</string>
+    <string name="add_petrol_entry_content_description_go_back">Zurück</string>
+    <string name="add_petrol_entry_content_description_info">Info</string>
+    <string name="add_petrol_entry_content_description_calendar">Datum auswählen</string>
+
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_data">Daten</string>
+    <string name="settings_data_export">Daten exportieren</string>
+    <string name="settings_data_export_info">Daren in externe Datei exportieren</string>
+    <string name="settings_data_export_error">Daten konnten nicht exportiert werden</string>
+    <string name="settings_data_export_success">Daten wurden erfolgreich exportiert</string>
+    <string name="settings_data_import">Daten importieren</string>
+    <string name="settings_data_import_info">Daten aus externer Datei importieren</string>
+    <string name="settings_data_import_error">Daten konnten nicht importiert werden</string>
+    <string name="settings_data_import_success">Daten wurden erfolgreich importiert</string>
+    <string name="settings_content_description_go_back">Zurück</string>
+</resources>
