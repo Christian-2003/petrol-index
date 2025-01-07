@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.rounded.Add
@@ -25,10 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.intl.LocaleList
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.models.DotProperties
 import ir.ehsannarmani.compose_charts.models.Line
@@ -40,7 +40,6 @@ import ir.ehsannarmani.compose_charts.models.DrawStyle
 import ir.ehsannarmani.compose_charts.models.GridProperties
 import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
 import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
-import java.util.Locale
 
 
 /**
@@ -118,6 +117,7 @@ fun MainView(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
         ) {
             Text(
@@ -128,11 +128,19 @@ fun MainView(
                 petrolEntries = petrolEntries
             )
             Text(
-                text = stringResource(R.string.main_diagram_cumulated_expenses_title),
+                text = stringResource(R.string.main_diagram_distance_title),
                 color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(top = dimensionResource(R.dimen.space_vertical))
             )
-            CumulatedExpenses(
+            DiagramDistance(
+                petrolEntries = petrolEntries
+            )
+            Text(
+                text = stringResource(R.string.main_diagram_cumulated_expenses_title),
+                color = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.space_vertical))
+            )
+            DiagramCumulatedExpenses(
                 petrolEntries = petrolEntries
             )
             Text(
@@ -140,7 +148,7 @@ fun MainView(
                 color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.padding(top = dimensionResource(R.dimen.space_vertical))
             )
-            CumulatedVolume(
+            DiagramCumulatedVolume(
                 petrolEntries = petrolEntries
             )
         }
@@ -177,7 +185,7 @@ fun DiagramPricePerLitre(
  * @param petrolEntries Petrol entries whose cumulated expenses to display.
  */
 @Composable
-fun CumulatedExpenses(
+fun DiagramCumulatedExpenses(
     petrolEntries: List<PetrolEntry>
 ) {
     var sum: Int = 0
@@ -188,7 +196,7 @@ fun CumulatedExpenses(
     val indicatorLabel = stringResource(R.string.main_diagram_cumulated_expenses_indicator)
     val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
     Diagram(
-        color = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.tertiary,
         items = prices,
         title = stringResource(R.string.main_diagram_cumulated_expenses_title),
         indicatorBuilder = { indicator ->
@@ -204,7 +212,7 @@ fun CumulatedExpenses(
  * @param petrolEntries Petrol entries whose cumulated volume to display.
  */
 @Composable
-fun CumulatedVolume(
+fun DiagramCumulatedVolume(
     petrolEntries: List<PetrolEntry>
 ) {
     var sum: Int = 0
@@ -220,6 +228,33 @@ fun CumulatedVolume(
         title = stringResource(R.string.main_diagram_cumulated_volume_title),
         indicatorBuilder = { indicator ->
             indicatorLabel.replace("{arg}", String.format(locale, "%.2f", indicator))
+        }
+    )
+}
+
+
+/**
+ * Composable displays the diagram displaying the distance traveled.
+ *
+ * @param petrolEntries Petrol entries whose distance traveled to display.
+ */
+@Composable
+fun DiagramDistance(
+    petrolEntries: List<PetrolEntry>
+) {
+    val distances: MutableList<Double> = mutableListOf()
+    petrolEntries.asReversed().forEach { petrolEntry ->
+        if (petrolEntry.distanceTraveled != null) {
+            distances.add(petrolEntry.distanceTraveled.toDouble())
+        }
+    }
+    val indicatorLabel = stringResource(R.string.main_diagram_distance_indicator)
+    Diagram(
+        color = MaterialTheme.colorScheme.secondary,
+        items = distances.toList(),
+        title = stringResource(R.string.main_diagram_cumulated_volume_title),
+        indicatorBuilder = { indicator ->
+            indicatorLabel.replace("{arg}", indicator.toInt().toString())
         }
     )
 }

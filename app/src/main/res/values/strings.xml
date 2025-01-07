@@ -8,14 +8,17 @@
     <string name="main_diagram_cumulated_expenses_indicator">{arg} $</string>
     <string name="main_diagram_cumulated_volume_title">Cumulated volume (L)</string>
     <string name="main_diagram_cumulated_volume_indicator">{arg} L</string>
+    <string name="main_diagram_distance_title">Distance traveled (miles)</string>
+    <string name="main_diagram_distance_indicator">{arg} miles</string>
     <string name="main_content_description_add_petrol_entry">Add new petrol entry</string>
     <string name="main_content_description_view_database">View database</string>
     <string name="main_content_description_settings">Open Settings</string>
 
     <string name="petrol_entries_title">Petrol consumption</string>
     <string name="petrol_entries_date">{arg}</string>
-    <string name="petrol_entries_subline">{totalPrice} $, {volume} L</string>
-    <string name="petrol_entries_price_per_liter">{arg} $ per litre</string>
+    <string name="petrol_entries_subline">{totalPrice} $ \u0020 {volume} L</string>
+    <string name="petrol_entries_subline_1">{totalPrice} $ \u0020 {volume} L \u0020 {distance} miles</string>
+    <string name="petrol_entries_price_per_liter">{arg} $/L</string>
     <string name="petrol_entries_delete_title">Confirm delete</string>
     <string name="petrol_entries_delete_info">Are you sure you want to delete the petrol entry?</string>
     <string name="petrol_entries_delete_confirm">Delete</string>

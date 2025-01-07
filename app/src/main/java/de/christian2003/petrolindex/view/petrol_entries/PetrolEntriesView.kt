@@ -148,6 +148,11 @@ fun PetrolEntryRow(
     val formattedPrice = LocaleFormatter.centsToFormattedCurrency(petrolEntry.totalPrice)
     val formattedAmount = LocaleFormatter.millilitersToFormattedLiters(petrolEntry.volume)
     val formattedPricePerLiter = LocaleFormatter.centsToFormattedCurrency(petrolEntry.getPricePerLiter())
+    val subline: String = if (petrolEntry.distanceTraveled == null) {
+        stringResource(R.string.petrol_entries_subline).replace("{totalPrice}", formattedPrice).replace("{volume}", formattedAmount)
+    } else {
+        stringResource(R.string.petrol_entries_subline_1).replace("{totalPrice}", formattedPrice).replace("{volume}", formattedAmount).replace("{distance}", petrolEntry.distanceTraveled.toString())
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -178,7 +183,7 @@ fun PetrolEntryRow(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(R.string.petrol_entries_subline).replace("{totalPrice}", formattedPrice).replace("{volume}", formattedAmount),
+                    text = subline,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.weight(1f)
