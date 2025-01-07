@@ -120,33 +120,14 @@ fun MainView(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
         ) {
-            Text(
-                text = stringResource(R.string.main_diagram_price_per_liter_title),
-                color = MaterialTheme.colorScheme.primary
-            )
             DiagramPricePerLitre(
                 petrolEntries = petrolEntries
-            )
-            Text(
-                text = stringResource(R.string.main_diagram_distance_title),
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(top = dimensionResource(R.dimen.space_vertical))
             )
             DiagramDistance(
                 petrolEntries = petrolEntries
             )
-            Text(
-                text = stringResource(R.string.main_diagram_cumulated_expenses_title),
-                color = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.padding(top = dimensionResource(R.dimen.space_vertical))
-            )
             DiagramCumulatedExpenses(
                 petrolEntries = petrolEntries
-            )
-            Text(
-                text = stringResource(R.string.main_diagram_cumulated_volume_title),
-                color = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.padding(top = dimensionResource(R.dimen.space_vertical))
             )
             DiagramCumulatedVolume(
                 petrolEntries = petrolEntries
@@ -252,7 +233,7 @@ fun DiagramDistance(
     Diagram(
         color = MaterialTheme.colorScheme.secondary,
         items = distances.toList(),
-        title = stringResource(R.string.main_diagram_cumulated_volume_title),
+        title = stringResource(R.string.main_diagram_distance_title),
         indicatorBuilder = { indicator ->
             indicatorLabel.replace("{arg}", indicator.toInt().toString())
         }
@@ -261,11 +242,13 @@ fun DiagramDistance(
 
 
 /**
- * Composable displays a line chart diagram for the items specified.
+ * Composable displays a line chart diagram for the items specified. If the passed list of items
+ * is has less than 2 items, nothing will be displayed.
  *
- * @param items List of data points to display within the line.
- * @param color Color for the diagram.
- * @param title Title for the diagram.
+ * @param items             List of data points to display within the line.
+ * @param color             Color for the diagram.
+ * @param title             Title for the diagram.
+ * @param indicatorBuilder  Builder to generate the indicator labels on the y-axis.
  */
 @Composable
 fun Diagram(
@@ -274,43 +257,50 @@ fun Diagram(
     title: String,
     indicatorBuilder: (Double) -> String
 ) {
-    LineChart(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(dimensionResource(R.dimen.diagram_height)),
-        data = listOf(
-            Line(
-                label = title,
-                values = items,
-                color = SolidColor(color),
-                curvedEdges = false,
-                dotProperties = DotProperties(
-                    enabled = true,
+    if (items.size >= 2) {
+        Text(
+            text = title,
+            color = color
+        )
+        LineChart(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(R.dimen.diagram_height))
+                .padding(bottom = dimensionResource(R.dimen.space_vertical)),
+            data = listOf(
+                Line(
+                    label = title,
+                    values = items,
                     color = SolidColor(color),
-                    strokeWidth = 2.dp,
-                    radius = 2.dp
-                ),
-                firstGradientFillColor = color.copy(alpha = .5f),
-                secondGradientFillColor = Color.Transparent,
-                drawStyle = DrawStyle.Stroke(2.dp)
-            )
-        ),
-        labelHelperProperties = LabelHelperProperties(
-            enabled = false
-        ),
-        indicatorProperties = HorizontalIndicatorProperties(
-            enabled = true,
-            textStyle = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.onSurface),
-            contentBuilder = indicatorBuilder
-        ),
-        gridProperties = GridProperties(
-            xAxisProperties = GridProperties.AxisProperties(
-                enabled = true,
-                color = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant)
+                    curvedEdges = false,
+                    dotProperties = DotProperties(
+                        enabled = true,
+                        color = SolidColor(color),
+                        strokeWidth = 2.dp,
+                        radius = 2.dp
+                    ),
+                    firstGradientFillColor = color.copy(alpha = .5f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(2.dp)
+                )
             ),
-            yAxisProperties = GridProperties.AxisProperties(
+            labelHelperProperties = LabelHelperProperties(
                 enabled = false
+            ),
+            indicatorProperties = HorizontalIndicatorProperties(
+                enabled = true,
+                textStyle = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+                contentBuilder = indicatorBuilder
+            ),
+            gridProperties = GridProperties(
+                xAxisProperties = GridProperties.AxisProperties(
+                    enabled = true,
+                    color = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant)
+                ),
+                yAxisProperties = GridProperties.AxisProperties(
+                    enabled = false
+                )
             )
         )
-    )
+    }
 }
