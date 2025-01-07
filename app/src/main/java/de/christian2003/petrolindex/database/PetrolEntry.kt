@@ -38,7 +38,13 @@ class PetrolEntry(
     /**
      * Attribute stores a description for the entry.
      */
-    val description: String
+    val description: String,
+
+    /**
+     * Attribute stores the distance traveled since the last time the user visited the petrol station.
+     * The value null indicates that no value has been set.
+     */
+    val distanceTraveled: Int? = null
 
 ) {
 

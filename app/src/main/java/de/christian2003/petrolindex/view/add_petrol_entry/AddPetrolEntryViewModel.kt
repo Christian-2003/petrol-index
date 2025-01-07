@@ -53,6 +53,11 @@ class AddPetrolEntryViewModel: ViewModel() {
     var description: String by mutableStateOf("")
 
     /**
+     * Attribute stores the string representation of the distance traveled in km.
+     */
+    var distanceTraveled: String by mutableStateOf("")
+
+    /**
      * Attribute indicates whether the date picker dialog is currently visible.
      */
     var showModalDatePickerDialog: Boolean by mutableStateOf(false)
@@ -80,6 +85,7 @@ class AddPetrolEntryViewModel: ViewModel() {
         volume = ""
         totalPrice = ""
         description = ""
+        distanceTraveled = ""
         totalPriceValid = true
         volumeValid = true
         showModalDatePickerDialog = false
@@ -100,6 +106,7 @@ class AddPetrolEntryViewModel: ViewModel() {
                 volume = (petrolEntry.volume.toDouble() / 100).toString().format("%.2f")
                 totalPrice = (petrolEntry.totalPrice.toDouble() / 100).toString().format("%.2f")
                 description = petrolEntry.description
+                distanceTraveled = if (petrolEntry.distanceTraveled == null) { "" } else { petrolEntry.distanceTraveled.toString() }
                 totalPriceValid = true
                 volumeValid = true
                 showModalDatePickerDialog = false
@@ -120,12 +127,21 @@ class AddPetrolEntryViewModel: ViewModel() {
             if (volume.isEmpty()) {
                 volume = "0"
             }
+
+            //Convert distance traveled:
+            val distanceTraveledResult: Int? = try {
+                distanceTraveled.toInt()
+            } catch (e: Exception) {
+                null
+            }
+
             val petrolEntry = PetrolEntry(
                 id = if (editedPetrolEntry != null) { editedPetrolEntry!!.id } else { 0 },
                 epochSecond = epochSecond,
                 volume = (volume.toDouble() * 100.0).toInt(),
                 totalPrice = (totalPrice.toDouble() * 100.0).toInt(),
-                description = description
+                description = description,
+                distanceTraveled = distanceTraveledResult
             )
             repository.insertPetrolEntry(petrolEntry)
         }

@@ -29,6 +29,7 @@
     <string name="add_petrol_entry_label_epoch_second">Datum</string>
     <string name="add_petrol_entry_label_volume">Volumen (L)</string>
     <string name="add_petrol_entry_label_total_price">Gesamtpreis (€)</string>
+    <string name="add_petrol_entry_label_distance_traveled">Entfernung (km)</string>
     <string name="add_petrol_entry_label_description">Beschreibung</string>
     <string name="add_petrol_entry_button_add">Hinzufügen</string>
     <string name="add_petrol_entry_button_edit">Speichern</string>

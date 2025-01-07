@@ -101,6 +101,7 @@ fun AddPetrolEntryView(
                 epochSecond = viewModel.epochSecond,
                 volume = viewModel.volume,
                 totalPrice = viewModel.totalPrice,
+                distanceTraveled = viewModel.distanceTraveled,
                 description = viewModel.description,
                 totalPriceValid = viewModel.totalPriceValid,
                 volumeValid = viewModel.volumeValid,
@@ -114,6 +115,9 @@ fun AddPetrolEntryView(
                 onTotalPriceChanged = {
                     viewModel.totalPrice = it
                     viewModel.isTotalPriceValid()
+                },
+                onDistanceTraveledChanged = {
+                    viewModel.distanceTraveled = it
                 },
                 onDescriptionChanged = {
                     viewModel.description = it
@@ -164,29 +168,33 @@ fun AddPetrolEntryView(
  * View displays the input section of the page through which the user can enter all information
  * required.
  *
- * @param epochSecond           Epoch second at which the petrol entry shall be done.
- * @param volume                String representation of the volume (in L) consumed by the user.
- * @param totalPrice            String representation of the total price (in EUR) charged.
- * @param description           Description of the petrol entry.
- * @param totalPriceValid       Whether the total price entered by the user is valid.
- * @param volumeValid           Whether the volume entered by the user is valid.
- * @param onEpochSecondChanged  Callback invoked when the epoch second is changed.
- * @param onVolumeChanged       Callback invoked when the volume is changed.
- * @param onTotalPriceChanged   Callback invoked when the total price is changed.
- * @param onDescriptionChanged  Callback invoked when the description is changed.
- * @param onShowDatePicker      Callback invoked when the modal date picker dialog shall be displayed.
+ * @param epochSecond               Epoch second at which the petrol entry shall be done.
+ * @param volume                    String representation of the volume (in L) consumed by the user.
+ * @param totalPrice                String representation of the total price (in EUR) charged.
+ * @param distanceTraveled          String representation of the distance traveled.
+ * @param description               Description of the petrol entry.
+ * @param totalPriceValid           Whether the total price entered by the user is valid.
+ * @param volumeValid               Whether the volume entered by the user is valid.
+ * @param onEpochSecondChanged      Callback invoked when the epoch second is changed.
+ * @param onVolumeChanged           Callback invoked when the volume is changed.
+ * @param onTotalPriceChanged       Callback invoked when the total price is changed.
+ * @param onDistanceTraveledChanged Callback invoked when the distance traveled is changed.
+ * @param onDescriptionChanged      Callback invoked when the description is changed.
+ * @param onShowDatePicker          Callback invoked when the modal date picker dialog shall be displayed.
  */
 @Composable
 fun InputSection(
     epochSecond: Long,
     volume: String,
     totalPrice: String,
+    distanceTraveled: String,
     description: String,
     totalPriceValid: Boolean,
     volumeValid: Boolean,
     onEpochSecondChanged: (Long) -> Unit,
     onVolumeChanged: (String) -> Unit,
     onTotalPriceChanged: (String) -> Unit,
+    onDistanceTraveledChanged: (String) -> Unit,
     onDescriptionChanged: (String) -> Unit,
     onShowDatePicker: () -> Unit
 ) {
@@ -324,6 +332,30 @@ fun InputSection(
                     )
                 }
             }
+        }
+
+
+        //Enter distance traveled:
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            TextFieldPrefixIcon(R.drawable.ic_distance)
+            OutlinedTextField(
+                value = distanceTraveled,
+                singleLine = true,
+                onValueChange = {
+                    onDistanceTraveledChanged(it)
+                },
+                label = {
+                    Text(
+                        text = stringResource(R.string.add_petrol_entry_label_distance_traveled)
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.space_vertical))
+            )
         }
 
 
