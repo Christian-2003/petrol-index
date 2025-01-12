@@ -1,15 +1,21 @@
 package de.christian2003.petrolindex.view.add_petrol_entry
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -33,8 +39,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.dimensionResource
@@ -43,6 +52,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.model.utils.LocaleFormatter
+import kotlinx.coroutines.launch
 
 
 /**
@@ -52,7 +62,7 @@ import de.christian2003.petrolindex.model.utils.LocaleFormatter
  * @param onNavigateBack    Callback to invoke to navigate back.
  * @param id                ID of the petrol entry to edit. Pass null to create a new entry.
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun AddPetrolEntryView(
     viewModel: AddPetrolEntryViewModel,
@@ -63,7 +73,9 @@ fun AddPetrolEntryView(
         viewModel.loadPetrolEntryToEdit(id)
     }
     Scaffold(
-        modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.surface),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.surface),
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -90,9 +102,10 @@ fun AddPetrolEntryView(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .imePadding()
                 .padding(innerPadding)
+                .consumeWindowInsets(innerPadding)
                 .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
+                .imePadding()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -182,6 +195,7 @@ fun AddPetrolEntryView(
  * @param onDescriptionChanged      Callback invoked when the description is changed.
  * @param onShowDatePicker          Callback invoked when the modal date picker dialog shall be displayed.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun InputSection(
     epochSecond: Long,
@@ -201,6 +215,9 @@ fun InputSection(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
+        val scope = rememberCoroutineScope()
+        val bringIntoViewRequester = remember { BringIntoViewRequester() }
+
         //Enter date:
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -276,6 +293,13 @@ fun InputSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = dimensionResource(R.dimen.space_vertical))
+                        .onFocusEvent {
+                            if (it.isFocused) {
+                                scope.launch {
+                                    bringIntoViewRequester.bringIntoView()
+                                }
+                            }
+                        }
                 )
                 if (!volumeValid) {
                     Text(
@@ -322,6 +346,13 @@ fun InputSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = dimensionResource(R.dimen.space_vertical))
+                        .onFocusEvent {
+                            if (it.isFocused) {
+                                scope.launch {
+                                    bringIntoViewRequester.bringIntoView()
+                                }
+                            }
+                        }
                 )
                 if (!totalPriceValid) {
                     Text(
@@ -355,6 +386,13 @@ fun InputSection(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.space_vertical))
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            scope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    }
             )
         }
 
@@ -378,6 +416,13 @@ fun InputSection(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.space_vertical))
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            scope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    }
             )
         }
     }
@@ -444,7 +489,7 @@ fun TopCard() {
                     vertical = dimensionResource(R.dimen.space_vertical))
         ) {
             Icon(
-                imageVector = Icons.Rounded.Info,
+                painter = painterResource(R.drawable.ic_info),
                 tint = MaterialTheme.colorScheme.onTertiaryContainer,
                 contentDescription = stringResource(R.string.add_petrol_entry_content_description_info),
                 modifier = Modifier
