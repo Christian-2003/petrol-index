@@ -2,7 +2,10 @@ package de.christian2003.petrolindex.view.petrol_entries
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,19 +21,26 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.database.PetrolEntry
 import de.christian2003.petrolindex.model.utils.LocaleFormatter
+import kotlinx.coroutines.launch
 
 
 /**
@@ -67,7 +77,7 @@ fun PetrolEntriesView(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            painter = painterResource(R.drawable.ic_back),
                             contentDescription = stringResource(R.string.petrol_entries_content_description_go_back),
                             tint = MaterialTheme.colorScheme.onBackground
                         )
@@ -201,7 +211,7 @@ fun PetrolEntryRow(
             }
         ) {
             Icon(
-                imageVector = Icons.Rounded.Delete,
+                painter = painterResource(R.drawable.ic_delete),
                 contentDescription = stringResource(R.string.petrol_entries_content_description_delete),
                 tint = MaterialTheme.colorScheme.onBackground
             )
@@ -217,45 +227,77 @@ fun PetrolEntryRow(
  * @param onConfirmDelete   Callback to confirm the deletion of the petrol entry.
  * @param onDismiss         Callback to close the dialog without deleting the petrol entry.
  */
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ConfirmDeleteDialog(
     petrolEntry: PetrolEntry,
     onConfirmDelete: (PetrolEntry) -> Unit,
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
-        icon = {
-            Icon(
-                imageVector = Icons.Rounded.Delete,
-                contentDescription = stringResource(R.string.petrol_entries_content_description_delete)
-            )
-        },
-        title = {
-            Text(text = stringResource(R.string.petrol_entries_delete_title))
-        },
-        text = {
-            Text(text = stringResource(R.string.petrol_entries_delete_info))
-        },
-        onDismissRequest = {
-            onDismiss()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmDelete(petrolEntry)
-                }
+    var sheetState = rememberModalBottomSheetState()
+    var scope = rememberCoroutineScope()
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(R.string.petrol_entries_delete_confirm))
+                Icon(
+                    modifier = Modifier.padding(end = dimensionResource(R.dimen.space_horizontal_between)),
+                    painter = painterResource(R.drawable.ic_delete),
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    contentDescription = stringResource(R.string.petrol_entries_content_description_delete)
+                )
+                Text(
+                    text = stringResource(R.string.petrol_entries_delete_title),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.headlineSmall
+                )
             }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismiss()
-                }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.space_vertical)),
+                text = stringResource(R.string.petrol_entries_delete_info),
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            FlowRow(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(bottom = dimensionResource(R.dimen.space_vertical)),
+                horizontalArrangement = Arrangement.End
             ) {
-                Text(text = stringResource(R.string.petrol_entries_delete_cancel))
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                        }.invokeOnCompletion {
+                            onDismiss()
+                        }
+                    }
+                ) {
+                    Text(text = stringResource(R.string.petrol_entries_delete_cancel))
+                }
+                TextButton(
+                    modifier = Modifier.padding(start = dimensionResource(R.dimen.space_horizontal_between)),
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                        }.invokeOnCompletion {
+                            onConfirmDelete(petrolEntry)
+                        }
+                    }
+                ) {
+                    Text(text = stringResource(R.string.petrol_entries_delete_confirm))
+                }
             }
         }
-    )
+    }
 }

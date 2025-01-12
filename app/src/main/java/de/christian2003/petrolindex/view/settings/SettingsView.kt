@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import de.christian2003.petrolindex.R
@@ -99,7 +100,7 @@ fun SettingsView(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            painter = painterResource(R.drawable.ic_back),
                             contentDescription = stringResource(R.string.settings_content_description_go_back),
                             tint = MaterialTheme.colorScheme.onSurface
                         )

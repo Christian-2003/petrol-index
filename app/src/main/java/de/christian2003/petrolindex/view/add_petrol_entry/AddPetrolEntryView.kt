@@ -79,7 +79,7 @@ fun AddPetrolEntryView(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            painter = painterResource(R.drawable.ic_back),
                             contentDescription = stringResource(R.string.add_petrol_entry_content_description_go_back),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
