@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,14 +32,16 @@ import de.christian2003.petrolindex.R
 /**
  * Composable displays the view containing all settings.
  *
- * @param viewModel         View model for the view.
- * @param onNavigateBack    Callback to invoke in order to navigate back.
+ * @param viewModel             View model for the view.
+ * @param onNavigateBack        Callback to invoke in order to navigate back.
+ * @param onNavigateToLicenses  Callback to invoke in order to navigate to the licenses view.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsView(
     viewModel: SettingsViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToLicenses: () -> Unit
 ) {
     val context = LocalContext.current
     val importMessageSuccess = stringResource(R.string.settings_data_import_success)
@@ -135,6 +135,17 @@ fun SettingsView(
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.setType("application/json")
                     restoreExportIntentLauncher.launch(intent)
+                }
+            )
+
+            SettingsTitle(
+                title = stringResource(R.string.settings_about)
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_about_licenses),
+                info = stringResource(R.string.settings_about_licenses_info),
+                onClick = {
+                    onNavigateToLicenses()
                 }
             )
         }

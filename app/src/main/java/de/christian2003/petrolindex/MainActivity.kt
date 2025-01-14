@@ -17,6 +17,8 @@ import de.christian2003.petrolindex.database.PetrolIndexRepository
 import de.christian2003.petrolindex.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryView
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryViewModel
+import de.christian2003.petrolindex.view.licenses.LicensesView
+import de.christian2003.petrolindex.view.licenses.LicensesViewModel
 import de.christian2003.petrolindex.view.main.MainView
 import de.christian2003.petrolindex.view.main.MainViewModel
 import de.christian2003.petrolindex.view.petrol_entries.PetrolEntriesView
@@ -195,6 +197,20 @@ fun PetrolIndex(
             composable("settings") {
                 SettingsView(
                     viewModel = settingsViewModel,
+                    onNavigateBack = {
+                        navController.navigateUp()
+                    },
+                    onNavigateToLicenses = {
+                        navController.navigate("settings/licenses")
+                    }
+                )
+            }
+            composable("settings/licenses") {
+                val licensesViewModel: LicensesViewModel = viewModel()
+                licensesViewModel.init()
+
+                LicensesView(
+                    viewModel = licensesViewModel,
                     onNavigateBack = {
                         navController.navigateUp()
                     }

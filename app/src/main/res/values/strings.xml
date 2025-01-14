@@ -52,5 +52,11 @@
     <string name="settings_data_import_info">Import data from external file</string>
     <string name="settings_data_import_error">Could not import data</string>
     <string name="settings_data_import_success">Successfully imported data</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_licenses">Used software</string>
+    <string name="settings_about_licenses_info">View software used by Petrol Index</string>
     <string name="settings_content_description_go_back">Go back</string>
+
+    <string name="licenses_title">Used Software</string>
+    <string name="licenses_content_description_go_back">Go back to settings</string>
 </resources>

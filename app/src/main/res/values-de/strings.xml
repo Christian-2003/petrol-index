@@ -45,12 +45,18 @@
     <string name="settings_title">Einstellungen</string>
     <string name="settings_data">Daten</string>
     <string name="settings_data_export">Daten exportieren</string>
-    <string name="settings_data_export_info">Daren in externe Datei exportieren</string>
+    <string name="settings_data_export_info">Daten in externe Datei exportieren</string>
     <string name="settings_data_export_error">Daten konnten nicht exportiert werden</string>
     <string name="settings_data_export_success">Daten wurden erfolgreich exportiert</string>
     <string name="settings_data_import">Daten importieren</string>
     <string name="settings_data_import_info">Daten aus externer Datei importieren</string>
     <string name="settings_data_import_error">Daten konnten nicht importiert werden</string>
     <string name="settings_data_import_success">Daten wurden erfolgreich importiert</string>
+    <string name="settings_about">Über</string>
+    <string name="settings_about_licenses">Verwendete Software</string>
+    <string name="settings_about_licenses_info">Von Petrol Index verwendete Software anzeigen</string>
     <string name="settings_content_description_go_back">Zurück</string>
+
+    <string name="licenses_title">Verwendete Software</string>
+    <string name="licenses_content_description_go_back">Zurück zu Einstellungen</string>
 </resources>

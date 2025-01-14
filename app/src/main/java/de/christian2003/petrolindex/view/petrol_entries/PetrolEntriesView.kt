@@ -234,8 +234,8 @@ fun ConfirmDeleteDialog(
     onConfirmDelete: (PetrolEntry) -> Unit,
     onDismiss: () -> Unit
 ) {
-    var sheetState = rememberModalBottomSheetState()
-    var scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
