@@ -10,6 +10,9 @@
     <string name="main_diagram_cumulated_volume_indicator">{arg} L</string>
     <string name="main_diagram_distance_title">Entfernung (km)</string>
     <string name="main_diagram_distance_indicator">{arg} km</string>
+    <string name="main_download_message">Eine neue Version der App ist verfügbar. Soll die neue Version jetzt heruntergeladen werden?</string>
+    <string name="main_download_cancel">Später</string>
+    <string name="main_download_confirm">Herunterladen</string>
     <string name="main_content_description_add_petrol_entry">Neuen Benzinverbrauch hinzufügen</string>
     <string name="main_content_description_view_database">Datenbank einsehen</string>
     <string name="main_content_description_settings">Einstellungen öffnen</string>
@@ -59,6 +62,12 @@
     <string name="settings_about">Über</string>
     <string name="settings_about_licenses">Verwendete Software</string>
     <string name="settings_about_licenses_info">Von Petrol Index verwendete Software anzeigen</string>
+    <string name="settings_about_github">Repository</string>
+    <string name="settings_about_github_info">App auf GitHub anzeigen</string>
+    <string name="settings_about_issues">Fehler melden</string>
+    <string name="settings_about_issues_info">Fehler auf GitHub melden</string>
+    <string name="settings_about_more">Weitere Infos</string>
+    <string name="settings_about_more_info">Öffne die App in den Systemeinstellungen</string>
     <string name="settings_content_description_go_back">Zurück</string>
 
     <string name="licenses_title">Verwendete Software</string>

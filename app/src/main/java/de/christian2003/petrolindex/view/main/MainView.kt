@@ -1,7 +1,12 @@
 package de.christian2003.petrolindex.view.main
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -20,26 +27,29 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import ir.ehsannarmani.compose_charts.LineChart
-import ir.ehsannarmani.compose_charts.models.DotProperties
-import ir.ehsannarmani.compose_charts.models.Line
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.database.PetrolEntry
+import ir.ehsannarmani.compose_charts.LineChart
+import ir.ehsannarmani.compose_charts.models.DotProperties
 import ir.ehsannarmani.compose_charts.models.DrawStyle
 import ir.ehsannarmani.compose_charts.models.GridProperties
 import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
 import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
+import ir.ehsannarmani.compose_charts.models.Line
 
 
 /**
@@ -120,6 +130,17 @@ fun MainView(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
         ) {
+            AnimatedVisibility(viewModel.isUpdateAvailable && !viewModel.isUpdateMessageDismissed) {
+                DownloadCard(
+                    onCancelClicked = {
+                        viewModel.isUpdateMessageDismissed = true
+                    },
+                    onConfirmClicked = {
+                        viewModel.isUpdateMessageDismissed = true
+                        viewModel.requestDownload()
+                    }
+                )
+            }
             DiagramPricePerLitre(
                 petrolEntries = petrolEntries
             )
@@ -238,6 +259,75 @@ fun DiagramDistance(
             indicatorLabel.replace("{arg}", indicator.toInt().toString())
         }
     )
+}
+
+
+/**
+ * Composable displays a card at the top of the view if a new app version is available to download.
+ *
+ * @param onCancelClicked   Callback invoked once the cancel-button is clicked.
+ * @param onConfirmClicked  Callback invoked once the confirm-button is clicked.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun DownloadCard(
+    onCancelClicked: () -> Unit,
+    onConfirmClicked: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = dimensionResource(R.dimen.space_vertical)),
+        shape = MaterialTheme.shapes.extraLarge
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                .padding(
+                    horizontal = dimensionResource(R.dimen.space_horizontal),
+                    vertical = dimensionResource(R.dimen.space_vertical)
+                )
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_warning),
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(end = dimensionResource(R.dimen.space_horizontal_between))
+                )
+                Text(
+                    text = stringResource(R.string.main_download_message),
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                )
+            }
+            FlowRow(
+                modifier = Modifier.align(Alignment.End).padding(top = dimensionResource(R.dimen.space_vertical_between)),
+                horizontalArrangement = Arrangement.End
+            ) {
+                TextButton(
+                    onClick = onCancelClicked,
+                    colors = ButtonDefaults.textButtonColors().copy(
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                ) {
+                    Text(stringResource(R.string.main_download_cancel))
+                }
+                TextButton(
+                    onClick = onConfirmClicked,
+                    colors = ButtonDefaults.textButtonColors().copy(
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                ) {
+                    Text(stringResource(R.string.main_download_confirm))
+                }
+            }
+        }
+    }
 }
 
 

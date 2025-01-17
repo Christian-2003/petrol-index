@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.charts)
     implementation(libs.gson)
+    implementation(libs.apkupdater.library)
 
     testImplementation(libs.junit)
 

@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.christian2003.petrolindex.database.PetrolIndexDatabase
 import de.christian2003.petrolindex.database.PetrolIndexRepository
+import de.christian2003.petrolindex.model.update.UpdateManager
 import de.christian2003.petrolindex.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryView
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryViewModel
@@ -36,12 +37,23 @@ import de.christian2003.petrolindex.view.settings.SettingsViewModel
 class MainActivity : ComponentActivity() {
 
     /**
+     * Attribute stores the update manager through which to detect and download new app updates.
+     */
+    private var updateManager: UpdateManager? = null
+
+
+    /**
      * Method is called when the main activity is (re)created.
      *
      * @param savedInstanceState    Previously saved state of the instance.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (updateManager == null) {
+            updateManager = UpdateManager()
+            updateManager!!.init(this)
+        }
+        Log.d("MainActivity", "MainActivity onCreate()")
         enableEdgeToEdge()
         setContent {
             PetrolIndex(
@@ -50,7 +62,8 @@ class MainActivity : ComponentActivity() {
                 },
                 readFromFile = {uri ->
                     readFromFile(uri)
-                }
+                },
+                updateManager = updateManager!!
             )
         }
     }
@@ -116,18 +129,20 @@ class MainActivity : ComponentActivity() {
  *
  * @param writeToFile   Callback to invoke to write data to a file.
  * @param readFromFile  Callback to invoke to read data from a file.
+ * @param updateManager Update manager through which to detect and download app updates.
  */
 @Composable
 fun PetrolIndex(
     writeToFile: (Uri, String) -> Boolean,
-    readFromFile: (Uri) -> String?
+    readFromFile: (Uri) -> String?,
+    updateManager: UpdateManager
 ) {
     val navController = rememberNavController()
     val database = PetrolIndexDatabase.getInstance(LocalContext.current)
     val repository = PetrolIndexRepository(database.petrolEntryDao)
 
     val mainViewModel: MainViewModel = viewModel()
-    mainViewModel.init(repository)
+    mainViewModel.init(repository, updateManager)
 
     val petrolEntriesViewModel: PetrolEntriesViewModel = viewModel()
     petrolEntriesViewModel.init(repository)

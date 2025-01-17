@@ -1,6 +1,8 @@
 package de.christian2003.petrolindex.view.settings
 
 import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -116,9 +118,8 @@ fun SettingsView(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            SettingsTitle(
-                title = stringResource(R.string.settings_data)
-            )
+            //Data:
+            SettingsTitle(stringResource(R.string.settings_data))
             SettingsItemButton(
                 setting = stringResource(R.string.settings_data_export),
                 info = stringResource(R.string.settings_data_export_info),
@@ -140,9 +141,8 @@ fun SettingsView(
                 }
             )
 
-            SettingsTitle(
-                title = stringResource(R.string.settings_about)
-            )
+            //About
+            SettingsTitle(stringResource(R.string.settings_about))
             SettingsItemButton(
                 setting = stringResource(R.string.settings_about_licenses),
                 info = stringResource(R.string.settings_about_licenses_info),
@@ -150,6 +150,35 @@ fun SettingsView(
                     onNavigateToLicenses()
                 },
                 endIcon = R.drawable.ic_next
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_about_github),
+                info = stringResource(R.string.settings_about_github_info),
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/smart-home"))
+                    context.startActivity(intent)
+                },
+                endIcon = R.drawable.ic_external
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_about_issues),
+                info = stringResource(R.string.settings_about_issues_info),
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/smart-home/issues"))
+                    context.startActivity(intent)
+                },
+                endIcon = R.drawable.ic_external
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_about_more),
+                info = stringResource(R.string.settings_about_more_info),
+                onClick = {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", context.packageName, null)
+                    intent.setData(uri)
+                    context.startActivity(intent)
+                },
+                endIcon = R.drawable.ic_external
             )
         }
     }

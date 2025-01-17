@@ -14,4 +14,5 @@ The app can store entries documenting the petrol consumption within a local data
 * Petrol entries can be edited.
 * Price per litre, cumulcated volume and cumulated price is calculated and displayed using charts.
 * List of petrol entries can be exported to JSON file.
-* Petrol entries can be restored from JSON entries.
+* Petrol entries can be restored from JSON file.
+* App detects updates on GitHub and informs user to download a new release.
