@@ -69,7 +69,6 @@ class UpdateManager {
                     }
                     else {
                         Log.d("Updates", "No update available")
-                        isUpdateAvailable = true
                     }
                 }
                 catch (e: Exception) {
