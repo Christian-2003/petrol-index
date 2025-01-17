@@ -271,6 +271,11 @@ fun InputSection(
                     onValueChange = {
                         onVolumeChanged(it)
                     },
+                    suffix = {
+                        Text(
+                            text = stringResource(R.string.add_petrol_entry_suffix_volume)
+                        )
+                    },
                     label = {
                         Text(
                             text = stringResource(R.string.add_petrol_entry_label_volume)
@@ -329,6 +334,11 @@ fun InputSection(
                             text = stringResource(R.string.add_petrol_entry_label_total_price)
                         )
                     },
+                    suffix = {
+                        Text(
+                            text = stringResource(R.string.add_petrol_entry_suffix_total_price)
+                        )
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     isError = !totalPriceValid,
                     trailingIcon = {
@@ -377,6 +387,11 @@ fun InputSection(
                 label = {
                     Text(
                         text = stringResource(R.string.add_petrol_entry_label_distance_traveled)
+                    )
+                },
+                suffix = {
+                    Text(
+                        text = stringResource(R.string.add_petrol_entry_suffix_distance_traveled)
                     )
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),

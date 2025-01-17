@@ -1,5 +1,6 @@
 package de.christian2003.petrolindex.view.petrol_entries
 
+import android.widget.GridLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -156,13 +157,8 @@ fun PetrolEntryRow(
 ) {
     val formattedDate = LocaleFormatter.epochSecondToFormattedDate(petrolEntry.epochSecond)
     val formattedPrice = LocaleFormatter.centsToFormattedCurrency(petrolEntry.totalPrice)
-    val formattedAmount = LocaleFormatter.millilitersToFormattedLiters(petrolEntry.volume)
+    val formattedVolume = LocaleFormatter.millilitersToFormattedLiters(petrolEntry.volume)
     val formattedPricePerLiter = LocaleFormatter.centsToFormattedCurrency(petrolEntry.getPricePerLiter())
-    val subline: String = if (petrolEntry.distanceTraveled == null) {
-        stringResource(R.string.petrol_entries_subline).replace("{totalPrice}", formattedPrice).replace("{volume}", formattedAmount)
-    } else {
-        stringResource(R.string.petrol_entries_subline_1).replace("{totalPrice}", formattedPrice).replace("{volume}", formattedAmount).replace("{distance}", petrolEntry.distanceTraveled.toString())
-    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -184,24 +180,33 @@ fun PetrolEntryRow(
                 text = stringResource(R.string.petrol_entries_date).replace("{arg}", formattedDate),
                 color = MaterialTheme.colorScheme.primary
             )
-            if (petrolEntry.description.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.petrol_entries_volume).replace("{arg}", formattedVolume),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = stringResource(R.string.petrol_entries_total_price).replace("{arg}", formattedPrice),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (petrolEntry.distanceTraveled != null) {
                 Text(
-                    text = petrolEntry.description
+                    text = stringResource(R.string.petrol_entries_distance).replace("{arg}", petrolEntry.distanceTraveled.toString()),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
-            Row (
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            Text(
+                text = stringResource(R.string.petrol_entries_price_per_liter).replace("{arg}", formattedPricePerLiter),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (petrolEntry.description.isNotEmpty()) {
                 Text(
-                    text = subline,
-                    style = MaterialTheme.typography.bodySmall,
+                    text = petrolEntry.description,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = stringResource(R.string.petrol_entries_price_per_liter).replace("{arg}", formattedPricePerLiter),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
         }

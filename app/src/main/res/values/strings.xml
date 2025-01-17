@@ -16,9 +16,10 @@
 
     <string name="petrol_entries_title">Petrol consumption</string>
     <string name="petrol_entries_date">{arg}</string>
-    <string name="petrol_entries_subline">{totalPrice} $ \u0020 {volume} L</string>
-    <string name="petrol_entries_subline_1">{totalPrice} $ \u0020 {volume} L \u0020 {distance} miles</string>
-    <string name="petrol_entries_price_per_liter">{arg} $/L</string>
+    <string name="petrol_entries_total_price">{arg} USD</string>
+    <string name="petrol_entries_volume">{arg} Gallons</string>
+    <string name="petrol_entries_distance">{arg} Miles</string>
+    <string name="petrol_entries_price_per_liter">{arg} USD / Mile</string>
     <string name="petrol_entries_delete_title">Confirm delete</string>
     <string name="petrol_entries_delete_info">Are you sure you want to delete the petrol entry?</string>
     <string name="petrol_entries_delete_confirm">Delete</string>
@@ -30,10 +31,13 @@
     <string name="add_petrol_entry_title_edit">Edit petrol intake</string>
     <string name="add_petrol_entry_info">Configure your petrol intake with this form in order to analyze your consumption</string>
     <string name="add_petrol_entry_label_epoch_second">Date</string>
-    <string name="add_petrol_entry_label_volume">Volume (L)*</string>
-    <string name="add_petrol_entry_label_total_price">Total price ($)*</string>
-    <string name="add_petrol_entry_label_distance_traveled">Distance traveled (miles)</string>
+    <string name="add_petrol_entry_label_volume">Volume*</string>
+    <string name="add_petrol_entry_label_total_price">Total price*</string>
+    <string name="add_petrol_entry_label_distance_traveled">Distance traveled</string>
     <string name="add_petrol_entry_label_description">Description</string>
+    <string name="add_petrol_entry_suffix_volume">Gallons</string>
+    <string name="add_petrol_entry_suffix_total_price">USD</string>
+    <string name="add_petrol_entry_suffix_distance_traveled">Miles</string>
     <string name="add_petrol_entry_button_add">Add</string>
     <string name="add_petrol_entry_button_edit">Save</string>
     <string name="add_petrol_entry_error_total_price">The total price is not valid</string>

@@ -16,9 +16,10 @@
 
     <string name="petrol_entries_title">Benzinverbräuche</string>
     <string name="petrol_entries_date">{arg}</string>
-    <string name="petrol_entries_subline">{totalPrice} € \u0020 {volume} L</string>
-    <string name="petrol_entries_subline_1">{totalPrice} € \u0020 {volume} L \u0020 {distance} km</string>
-    <string name="petrol_entries_price_per_liter">{arg} €/L</string>
+    <string name="petrol_entries_total_price">{arg} EUR</string>
+    <string name="petrol_entries_volume">{arg} Liter</string>
+    <string name="petrol_entries_distance">{arg} Kilometer</string>
+    <string name="petrol_entries_price_per_liter">{arg} EUR / Kilometer</string>
     <string name="petrol_entries_delete_title">Löschen bestätigen</string>
     <string name="petrol_entries_delete_info">Bist du dir sicher, dass du diesen Benzinverbrauch löschen möchtest?</string>
     <string name="petrol_entries_delete_confirm">Löschen</string>
@@ -30,10 +31,13 @@
     <string name="add_petrol_entry_title_edit">Benzinverbrauch bearbeiten</string>
     <string name="add_petrol_entry_info">Konfiguriere deinen Benzinverbrauch mit diesem Formular um deinen Benzinbedarf zu analysieren</string>
     <string name="add_petrol_entry_label_epoch_second">Datum</string>
-    <string name="add_petrol_entry_label_volume">Volumen (L)*</string>
-    <string name="add_petrol_entry_label_total_price">Gesamtpreis (€)*</string>
-    <string name="add_petrol_entry_label_distance_traveled">Entfernung (km)</string>
+    <string name="add_petrol_entry_label_volume">Volumen*</string>
+    <string name="add_petrol_entry_label_total_price">Gesamtpreis*</string>
+    <string name="add_petrol_entry_label_distance_traveled">Entfernung</string>
     <string name="add_petrol_entry_label_description">Beschreibung</string>
+    <string name="add_petrol_entry_suffix_volume">Liter</string>
+    <string name="add_petrol_entry_suffix_total_price">EUR</string>
+    <string name="add_petrol_entry_suffix_distance_traveled">Kilometer</string>
     <string name="add_petrol_entry_button_add">Hinzufügen</string>
     <string name="add_petrol_entry_button_edit">Speichern</string>
     <string name="add_petrol_entry_error_total_price">Der Gesamtrpreis ist ungültig</string>
