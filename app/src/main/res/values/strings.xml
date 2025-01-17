@@ -30,8 +30,8 @@
     <string name="add_petrol_entry_title_edit">Edit petrol intake</string>
     <string name="add_petrol_entry_info">Configure your petrol intake with this form in order to analyze your consumption</string>
     <string name="add_petrol_entry_label_epoch_second">Date</string>
-    <string name="add_petrol_entry_label_volume">Volume (L)</string>
-    <string name="add_petrol_entry_label_total_price">Total price ($)</string>
+    <string name="add_petrol_entry_label_volume">Volume (L)*</string>
+    <string name="add_petrol_entry_label_total_price">Total price ($)*</string>
     <string name="add_petrol_entry_label_distance_traveled">Distance traveled (miles)</string>
     <string name="add_petrol_entry_label_description">Description</string>
     <string name="add_petrol_entry_button_add">Add</string>

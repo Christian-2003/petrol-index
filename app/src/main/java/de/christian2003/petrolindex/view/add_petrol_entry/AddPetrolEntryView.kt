@@ -35,6 +35,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -140,7 +141,7 @@ fun AddPetrolEntryView(
                     viewModel.insert()
                     onNavigateBack()
                 },
-                enabled = viewModel.volumeValid && viewModel.totalPriceValid,
+                enabled = viewModel.volumeValid && viewModel.totalPriceValid && viewModel.volume.isNotEmpty() && viewModel.totalPrice.isNotEmpty(),
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.space_vertical))
             ) {
                 Text(

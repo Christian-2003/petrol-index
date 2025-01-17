@@ -155,14 +155,12 @@ class AddPetrolEntryViewModel: ViewModel() {
      * @return  Whether the total price entered is valid.
      */
     fun isTotalPriceValid(): Boolean {
-        if (totalPrice.isNotEmpty()) {
-            try {
-                totalPrice.toDouble()
-            }
-            catch (e: Exception) {
-                totalPriceValid = false
-                return false
-            }
+        try {
+            totalPrice.toDouble()
+        }
+        catch (e: Exception) {
+            totalPriceValid = false
+            return false
         }
         totalPriceValid = true
         return true
@@ -175,14 +173,12 @@ class AddPetrolEntryViewModel: ViewModel() {
      * @return  Whether the volume entered is valid.
      */
     fun isVolumeValid(): Boolean {
-        if (volume.isNotEmpty()) {
-            try {
-                volume.toDouble()
-            }
-            catch (e: Exception) {
-                volumeValid = false
-                return false
-            }
+        try {
+            volume.toDouble()
+        }
+        catch (e: Exception) {
+            volumeValid = false
+            return false
         }
         volumeValid = true
         return true

@@ -30,8 +30,8 @@
     <string name="add_petrol_entry_title_edit">Benzinverbrauch bearbeiten</string>
     <string name="add_petrol_entry_info">Konfiguriere deinen Benzinverbrauch mit diesem Formular um deinen Benzinbedarf zu analysieren</string>
     <string name="add_petrol_entry_label_epoch_second">Datum</string>
-    <string name="add_petrol_entry_label_volume">Volumen (L)</string>
-    <string name="add_petrol_entry_label_total_price">Gesamtpreis (€)</string>
+    <string name="add_petrol_entry_label_volume">Volumen (L)*</string>
+    <string name="add_petrol_entry_label_total_price">Gesamtpreis (€)*</string>
     <string name="add_petrol_entry_label_distance_traveled">Entfernung (km)</string>
     <string name="add_petrol_entry_label_description">Beschreibung</string>
     <string name="add_petrol_entry_button_add">Hinzufügen</string>
