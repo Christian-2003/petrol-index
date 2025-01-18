@@ -2,14 +2,18 @@
     <string name="app_name">Petrol Index</string>
 
     <string name="main_title">Petrol Index</string>
-    <string name="main_diagram_price_per_liter_title">Preis pro Liter nach Zeit</string>
-    <string name="main_diagram_price_per_liter_indicator">{arg} €/L</string>
-    <string name="main_diagram_cumulated_expenses_title">Kumulierte Ausgaben (€)</string>
-    <string name="main_diagram_cumulated_expenses_indicator">{arg} €</string>
-    <string name="main_diagram_cumulated_volume_title">Kumuliertes Volumen (L)</string>
-    <string name="main_diagram_cumulated_volume_indicator">{arg} L</string>
-    <string name="main_diagram_distance_title">Entfernung (km)</string>
-    <string name="main_diagram_distance_indicator">{arg} km</string>
+    <string name="main_diagram_price_per_liter_title">Preis pro Liter</string>
+    <string name="main_diagram_price_per_liter_indicator">{arg} EUR / Liter</string>
+    <string name="main_diagram_price_per_liter_unit">EUR / Liter</string>
+    <string name="main_diagram_cumulated_expenses_title">Kumulierte Ausgaben</string>
+    <string name="main_diagram_cumulated_expenses_indicator">{arg} EUR</string>
+    <string name="main_diagram_cumulated_expenses_unit">EUR</string>
+    <string name="main_diagram_cumulated_volume_title">Kumuliertes Volumen</string>
+    <string name="main_diagram_cumulated_volume_indicator">{arg} Liter</string>
+    <string name="main_diagram_cumulated_volume_unit">Liter</string>
+    <string name="main_diagram_distance_title">Entfernung</string>
+    <string name="main_diagram_distance_indicator">{arg} Kilometer</string>
+    <string name="main_diagram_distance_unit">Kilometer</string>
     <string name="main_download_message">Eine neue Version der App ist verfügbar. Soll die neue Version jetzt heruntergeladen werden?</string>
     <string name="main_download_cancel">Später</string>
     <string name="main_download_confirm">Herunterladen</string>

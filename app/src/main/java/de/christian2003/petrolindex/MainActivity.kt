@@ -7,17 +7,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import de.christian2003.petrolindex.database.PetrolIndexDatabase
 import de.christian2003.petrolindex.database.PetrolIndexRepository
+import de.christian2003.petrolindex.model.diagram.DiagramInfo
+import de.christian2003.petrolindex.model.diagram.DiagramType
 import de.christian2003.petrolindex.model.update.UpdateManager
 import de.christian2003.petrolindex.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryView
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryViewModel
+import de.christian2003.petrolindex.view.diagram.DiagramView
+import de.christian2003.petrolindex.view.diagram.DiagramViewModel
 import de.christian2003.petrolindex.view.licenses.LicensesView
 import de.christian2003.petrolindex.view.licenses.LicensesViewModel
 import de.christian2003.petrolindex.view.main.MainView
@@ -141,23 +147,15 @@ fun PetrolIndex(
     val database = PetrolIndexDatabase.getInstance(LocalContext.current)
     val repository = PetrolIndexRepository(database.petrolEntryDao)
 
-    val mainViewModel: MainViewModel = viewModel()
-    mainViewModel.init(repository, updateManager)
-
-    val petrolEntriesViewModel: PetrolEntriesViewModel = viewModel()
-    petrolEntriesViewModel.init(repository)
-
-    val addPetrolEntryViewModel: AddPetrolEntryViewModel = viewModel()
-
-    val settingsViewModel: SettingsViewModel = viewModel()
-    settingsViewModel.init(repository, writeToFile, readFromFile)
-
     PetrolIndexTheme {
         NavHost(
             navController = navController,
             startDestination = "main_view"
         ) {
             composable("main_view") {
+                val mainViewModel: MainViewModel = viewModel()
+                mainViewModel.init(repository, updateManager)
+
                 MainView(
                     viewModel = mainViewModel,
                     onNavigateToPetrolEntries = {
@@ -168,10 +166,16 @@ fun PetrolIndex(
                     },
                     onNavigateToSettings = {
                         navController.navigate("settings")
+                    },
+                    onNavigateToDiagram = { diagramInfo ->  
+                        navController.navigate("diagram/${diagramInfo.type.ordinal}")
                     }
                 )
             }
             composable("petrol_entries_view") {
+                val petrolEntriesViewModel: PetrolEntriesViewModel = viewModel()
+                petrolEntriesViewModel.init(repository)
+
                 PetrolEntriesView (
                     viewModel = petrolEntriesViewModel,
                     onNavigateBack = {
@@ -183,7 +187,9 @@ fun PetrolIndex(
                 )
             }
             composable("add_petrol_entry_view") {
+                val addPetrolEntryViewModel: AddPetrolEntryViewModel = viewModel()
                 addPetrolEntryViewModel.init(repository)
+
                 AddPetrolEntryView (
                     viewModel = addPetrolEntryViewModel,
                     onNavigateBack = {
@@ -193,12 +199,12 @@ fun PetrolIndex(
             }
             composable("add_petrol_entry_view/{id}") { backStackEntry ->
                 val id: Int? = try {
-                    //Do not use Bundle.getInt() since it can for some reason not cast to an integer... \(°.°)/
                     backStackEntry.arguments?.getString("id")!!.toInt()
                 } catch(e: Exception) {
                     null
                 }
                 if (id != null) {
+                    val addPetrolEntryViewModel: AddPetrolEntryViewModel = viewModel()
                     addPetrolEntryViewModel.init(repository)
                     AddPetrolEntryView (
                         viewModel = addPetrolEntryViewModel,
@@ -209,7 +215,28 @@ fun PetrolIndex(
                     )
                 }
             }
+            composable("diagram/{ordinal}") { backStackEntry ->
+                val ordinal: Int? = try {
+                    backStackEntry.arguments?.getString("ordinal")!!.toInt()
+                } catch(e: Exception) {
+                    null
+                }
+                if (ordinal != null) {
+                    val diagramViewModel: DiagramViewModel = viewModel()
+                    diagramViewModel.init(repository, DiagramType.entries[ordinal])
+
+                    DiagramView(
+                        viewModel = diagramViewModel,
+                        onNavigateBack = {
+                            navController.navigateUp()
+                        }
+                    )
+                }
+            }
             composable("settings") {
+                val settingsViewModel: SettingsViewModel = viewModel()
+                settingsViewModel.init(repository, writeToFile, readFromFile)
+
                 SettingsView(
                     viewModel = settingsViewModel,
                     onNavigateBack = {

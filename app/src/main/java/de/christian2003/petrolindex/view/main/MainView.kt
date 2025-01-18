@@ -2,6 +2,7 @@ package de.christian2003.petrolindex.view.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -31,11 +32,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,6 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.database.PetrolEntry
+import de.christian2003.petrolindex.model.diagram.DiagramInfo
+import de.christian2003.petrolindex.model.diagram.DiagramType
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.models.DotProperties
 import ir.ehsannarmani.compose_charts.models.DrawStyle
@@ -68,7 +73,8 @@ fun MainView(
     viewModel: MainViewModel,
     onNavigateToPetrolEntries: () -> Unit,
     onNavigateToAddPetrolEntry: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToDiagram: (DiagramInfo) -> Unit
 ) {
     val petrolEntries by viewModel.petrolEntries.collectAsState(initial = emptyList())
 
@@ -128,7 +134,6 @@ fun MainView(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
         ) {
             AnimatedVisibility(viewModel.isUpdateAvailable && !viewModel.isUpdateMessageDismissed) {
                 DownloadCard(
@@ -141,17 +146,73 @@ fun MainView(
                     }
                 )
             }
-            DiagramPricePerLitre(
-                petrolEntries = petrolEntries
+            Data(
+                petrolEntries = petrolEntries,
+                type = DiagramType.PRICE_PER_LITER,
+                onClick = { diagramInfo ->
+                    onNavigateToDiagram(diagramInfo)
+                }
             )
-            DiagramDistance(
-                petrolEntries = petrolEntries
+            Data(
+                petrolEntries = petrolEntries,
+                type = DiagramType.DISTANCE,
+                onClick = { diagramInfo ->
+                    onNavigateToDiagram(diagramInfo)
+                }
             )
-            DiagramCumulatedExpenses(
-                petrolEntries = petrolEntries
+            Data(
+                petrolEntries = petrolEntries,
+                type = DiagramType.CUMULATED_EXPENSES,
+                onClick = { diagramInfo ->
+                    onNavigateToDiagram(diagramInfo)
+                }
             )
-            DiagramCumulatedVolume(
-                petrolEntries = petrolEntries
+            Data(
+                petrolEntries = petrolEntries,
+                type = DiagramType.CUMULATED_VOLUME,
+                onClick = { diagramInfo ->
+                    onNavigateToDiagram(diagramInfo)
+                }
+            )
+        }
+    }
+}
+
+
+@Composable
+fun Data(
+    petrolEntries: List<PetrolEntry>,
+    type: DiagramType,
+    onClick: (DiagramInfo) -> Unit
+) {
+    val diagramInfo = DiagramInfo.createInstance(petrolEntries, LocalContext.current, MaterialTheme.colorScheme, type)
+
+    val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
+    val totalValueFormatted = diagramInfo.getFormattedTotalValue(locale)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(diagramInfo.data.isNotEmpty()) {
+                onClick(diagramInfo)
+            }
+            .padding(
+                vertical = dimensionResource(R.dimen.space_vertical_between),
+                horizontal = dimensionResource(R.dimen.space_horizontal)
+            )
+    ) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = diagramInfo.title,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = diagramInfo.labelIndicator.replace("{arg}", totalValueFormatted),
+                color = diagramInfo.color,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

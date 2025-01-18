@@ -2,14 +2,18 @@
     <string name="app_name">Petrol Index</string>
 
     <string name="main_title">Petrol Index</string>
-    <string name="main_diagram_price_per_liter_title">Price per litre over time</string>
-    <string name="main_diagram_price_per_liter_indicator">{arg} $/L</string>
-    <string name="main_diagram_cumulated_expenses_title">Cumulated expenses ($)</string>
-    <string name="main_diagram_cumulated_expenses_indicator">{arg} $</string>
-    <string name="main_diagram_cumulated_volume_title">Cumulated volume (L)</string>
-    <string name="main_diagram_cumulated_volume_indicator">{arg} L</string>
-    <string name="main_diagram_distance_title">Distance traveled (miles)</string>
-    <string name="main_diagram_distance_indicator">{arg} miles</string>
+    <string name="main_diagram_price_per_liter_title">Price per gallon</string>
+    <string name="main_diagram_price_per_liter_indicator">{arg} USD / Gallon</string>
+    <string name="main_diagram_price_per_liter_unit">USD / Mile</string>
+    <string name="main_diagram_cumulated_expenses_title">Cumulated expenses</string>
+    <string name="main_diagram_cumulated_expenses_indicator">{arg} USD</string>
+    <string name="main_diagram_cumulated_expenses_unit">USD</string>
+    <string name="main_diagram_cumulated_volume_title">Cumulated volume</string>
+    <string name="main_diagram_cumulated_volume_indicator">{arg} Gallon</string>
+    <string name="main_diagram_cumulated_volume_unit">Gallons</string>
+    <string name="main_diagram_distance_title">Distance traveled</string>
+    <string name="main_diagram_distance_indicator">{arg} Miles</string>
+    <string name="main_diagram_distance_unit">Miles</string>
     <string name="main_download_message">A new version of Petrol Index is available to download. Do you want to download the new version now?</string>
     <string name="main_download_cancel">Later</string>
     <string name="main_download_confirm">Download</string>
