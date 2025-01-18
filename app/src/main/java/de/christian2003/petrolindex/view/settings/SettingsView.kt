@@ -36,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import de.christian2003.petrolindex.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
 
 /**

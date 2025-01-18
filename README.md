@@ -11,6 +11,7 @@ Have you ever been interested in knowing how much petrol you consume? Fear no mo
     <img src="docs/img/preview_1.png" height="390">
     <img src="docs/img/preview_2.png" height="390">
     <img src="docs/img/preview_3.png" height="390">
+    <img src="docs/img/preview_4.png" height="390">
 </div>
 
 ###### Table of Contents

@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.0.1 (2025-01-18)
+###### Release Highlights
+Emergency update to fix incorrect update detection.
+
+###### Features
+* Bugfix makes app detect updates correctly.
+
+<br/>
+
 ## 1.0.0 (2025-01-18)
 ###### Release Highlights
 The app can store entries documenting the petrol consumption within a local database. The entries can be exported and imported to / from JSON files. Some data of the petrol consumption is analyzes using diagrams and charts.

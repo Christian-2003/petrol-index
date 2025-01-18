@@ -22,7 +22,7 @@ class UpdateManager {
     /**
      * Attribute stores the URL to the newest release.
      */
-    private val url = "https://github.com/Christian-2003/smart-home/releases/latest"
+    private val url = "https://github.com/Christian-2003/petrol-index/releases/latest"
 
     /**
      * Attribute stores whether the update manager is currently scanning for updates.
@@ -60,11 +60,10 @@ class UpdateManager {
             val coroutineScope = CoroutineScope(Dispatchers.IO)
             coroutineScope.launch {
                 try {
+                    isScanningForUpdates = true
                     updater = ApkUpdater(activity, url)
                     updater.threeNumbers = true
-                    isScanningForUpdates = true
-                    val updateAvailable = updater.isNewUpdateAvailable()
-                    if (updateAvailable == true) {
+                    if (updater.isNewUpdateAvailable() == true) {
                         isUpdateAvailable = true
                         Log.d("Updates", "New update available")
                     }
