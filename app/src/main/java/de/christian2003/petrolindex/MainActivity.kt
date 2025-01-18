@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         if (updateManager == null) {
             updateManager = UpdateManager()
-            updateManager!!.init(MainActivity@this)
+            updateManager!!.init(this)
         }
         Log.d("MainActivity", "MainActivity onCreate()")
         enableEdgeToEdge()

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -32,29 +31,18 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.database.PetrolEntry
 import de.christian2003.petrolindex.model.diagram.DiagramInfo
 import de.christian2003.petrolindex.model.diagram.DiagramType
-import ir.ehsannarmani.compose_charts.LineChart
-import ir.ehsannarmani.compose_charts.models.DotProperties
-import ir.ehsannarmani.compose_charts.models.DrawStyle
-import ir.ehsannarmani.compose_charts.models.GridProperties
-import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
-import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
-import ir.ehsannarmani.compose_charts.models.Line
 
 
 /**
@@ -66,6 +54,8 @@ import ir.ehsannarmani.compose_charts.models.Line
  * @param onNavigateToAddPetrolEntry    Callback to invoke in order to navigate to the view through
  *                                      which to add a new petrol entry.
  * @param onNavigateToSettings          Callback to invoke in order to navigate to the app settings.
+ * @param onNavigateToDiagram           Callback invoked in order to navigate to the page displaying
+ *                                      a diagram.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -179,6 +169,13 @@ fun MainView(
 }
 
 
+/**
+ * Composable displays a short version of the data for a single diagram.
+ *
+ * @param petrolEntries Petrol entries of the data to display.
+ * @param type          Type of the diagram for which to display the short version of the data.
+ * @param onClick       Callback invoked once the data is clicked.
+ */
 @Composable
 fun Data(
     petrolEntries: List<PetrolEntry>,

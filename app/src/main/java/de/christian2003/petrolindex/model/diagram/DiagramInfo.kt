@@ -105,7 +105,7 @@ class DiagramInfo(
                     petrolEntries.forEach {
                         averagePricePerLiter += it.getPricePerLiter()
                     }
-                    averagePricePerLiter = (averagePricePerLiter / petrolEntries.size).toDouble() / 100.0
+                    averagePricePerLiter = (averagePricePerLiter / petrolEntries.size) / 100.0
                     DiagramInfo(
                         data = petrolEntries.asReversed().map { it.getPricePerLiter().toDouble() / 100.0 },
                         title = context.getString(R.string.main_diagram_price_per_liter_title),
