@@ -14,7 +14,7 @@ android {
         minSdk = 34
         targetSdk = 34
         versionCode = 8
-        versionName = "1.0.1"
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.compose.charts)
     implementation(libs.gson)
     implementation(libs.apkupdater.library)
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit)
 

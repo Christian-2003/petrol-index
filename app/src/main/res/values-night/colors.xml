@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <color name="splash_background">#FFF9FAEF</color> <!-- surfaceLight -->
-    <color name="splash_foreground">#FF4D662A</color> <!-- primaryLight -->
-    <color name="splash_tint">#FF1A1C16</color> <!-- onSurfaceLight -->
+    <color name="splash_background">#FF12140E</color> <!-- surfaceDark -->
+    <color name="splash_foreground">#FFB3D089</color> <!-- primaryDark -->
+    <color name="splash_tint">#FFE2E3D8</color> <!-- onSurfaceDark -->
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

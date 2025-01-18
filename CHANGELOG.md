@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.0.2 (XXXX-XX-XX)
+###### Release Highlights
+n/a
+
+###### Features
+* Added custom animated splash screen.
+
+<br/>
+
 ## 1.0.1 (2025-01-18)
 ###### Release Highlights
 Emergency update to fix incorrect update detection.

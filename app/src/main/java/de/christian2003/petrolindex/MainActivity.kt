@@ -6,8 +6,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +33,8 @@ import de.christian2003.petrolindex.view.petrol_entries.PetrolEntriesView
 import de.christian2003.petrolindex.view.petrol_entries.PetrolEntriesViewModel
 import de.christian2003.petrolindex.view.settings.SettingsView
 import de.christian2003.petrolindex.view.settings.SettingsViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /**
@@ -52,11 +58,23 @@ class MainActivity : ComponentActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Update manager
         if (updateManager == null) {
             updateManager = UpdateManager()
             updateManager!!.init(this)
         }
-        Log.d("MainActivity", "MainActivity onCreate()")
+
+        //Splash screen:
+        val splashScreen = installSplashScreen()
+        var keepSplashScreen = true
+        splashScreen.setKeepOnScreenCondition { keepSplashScreen }
+        lifecycleScope.launch {
+            delay(resources.getInteger(R.integer.splash_duration).toLong())
+            keepSplashScreen = false
+        }
+
+        //App content:
         enableEdgeToEdge()
         setContent {
             PetrolIndex(
