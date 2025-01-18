@@ -7,16 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import de.christian2003.petrolindex.database.PetrolIndexDatabase
 import de.christian2003.petrolindex.database.PetrolIndexRepository
-import de.christian2003.petrolindex.model.diagram.DiagramInfo
 import de.christian2003.petrolindex.model.diagram.DiagramType
 import de.christian2003.petrolindex.model.update.UpdateManager
 import de.christian2003.petrolindex.ui.theme.PetrolIndexTheme
@@ -57,7 +54,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         if (updateManager == null) {
             updateManager = UpdateManager()
-            updateManager!!.init(this)
+            updateManager!!.init(MainActivity@this)
         }
         Log.d("MainActivity", "MainActivity onCreate()")
         enableEdgeToEdge()

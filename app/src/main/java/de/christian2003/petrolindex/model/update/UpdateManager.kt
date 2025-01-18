@@ -37,7 +37,7 @@ class UpdateManager {
     /**
      * Attribute stores whether a download for the new app release has been started.
      */
-    private var isDownloading = false;
+    private var isDownloading = false
 
     /**
      * Attribute stores the APK updater instance.
@@ -56,14 +56,15 @@ class UpdateManager {
      * @param activity  Activity required to check for updates.
      */
     fun init(activity: Activity) {
-        updater = ApkUpdater(activity, url)
         if (!isScanningForUpdates && !isFinishedScanningForUpdates) {
-            isScanningForUpdates = true
             val coroutineScope = CoroutineScope(Dispatchers.IO)
             coroutineScope.launch {
                 try {
+                    updater = ApkUpdater(activity, url)
                     updater.threeNumbers = true
-                    if (updater.isNewUpdateAvailable() == true) {
+                    isScanningForUpdates = true
+                    val updateAvailable = updater.isNewUpdateAvailable()
+                    if (updateAvailable == true) {
                         isUpdateAvailable = true
                         Log.d("Updates", "New update available")
                     }
@@ -75,8 +76,8 @@ class UpdateManager {
                     Log.e("Updates", "Cannot scan for updates: ${e.message}")
                 }
                 finally {
-                    isScanningForUpdates = false
                     isFinishedScanningForUpdates = true
+                    isScanningForUpdates = false
                 }
             }
         }
@@ -96,7 +97,7 @@ class UpdateManager {
                     updater.requestDownload()
                 }
                 catch (e: Exception) {
-                    Log.e("Updates", "Cannot download new version: ${e.message}")
+                    Log.e("Updates", "Cannot download new update: ${e.message}")
                 }
             }
         }

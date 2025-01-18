@@ -54,6 +54,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
      */
     fun init(repository: PetrolIndexRepository, updateManager: UpdateManager) {
         this.repository = repository
+        this.updateManager = updateManager
         petrolEntries = repository.allPetrolEntries
 
         isUpdateAvailable = updateManager.isUpdateAvailable
