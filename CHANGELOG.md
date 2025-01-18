@@ -2,7 +2,7 @@
 
 # Changelog
 
-## 1.0.0 (XXXX-XX-XX)
+## 1.0.0 (2025-01-18)
 ###### Release Highlights
 The app can store entries documenting the petrol consumption within a local database. The entries can be exported and imported to / from JSON files. Some data of the petrol consumption is analyzes using diagrams and charts.
 
@@ -15,4 +15,4 @@ The app can store entries documenting the petrol consumption within a local data
 * Price per litre, cumulcated volume and cumulated price is calculated and displayed using charts.
 * List of petrol entries can be exported to JSON file.
 * Petrol entries can be restored from JSON file.
-* App detects updates on GitHub and informs user to download a new release.
+* App detects updates on GitHub and informs the user to download a new release.
