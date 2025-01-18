@@ -8,10 +8,13 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -119,7 +122,7 @@ fun SettingsView(
                 .verticalScroll(rememberScrollState())
         ) {
             //Data:
-            SettingsTitle(stringResource(R.string.settings_data))
+            SettingsTitle(stringResource(R.string.settings_data), false)
             SettingsItemButton(
                 setting = stringResource(R.string.settings_data_export),
                 info = stringResource(R.string.settings_data_export_info),
@@ -192,8 +195,17 @@ fun SettingsView(
  */
 @Composable
 fun SettingsTitle(
-    title: String
+    title: String,
+    divider: Boolean = true
 ) {
+    if (divider) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(MaterialTheme.colorScheme.outlineVariant)
+        )
+    }
     Text(
         modifier = Modifier.padding(
             start = dimensionResource(R.dimen.space_horizontal),

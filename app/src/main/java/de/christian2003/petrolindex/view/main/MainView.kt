@@ -220,110 +220,6 @@ fun Data(
 
 
 /**
- * Composable displays the diagram displaying the price per litre.
- *
- * @param petrolEntries Petrol entries whose price per litre to display.
- */
-@Composable
-fun DiagramPricePerLitre(
-    petrolEntries: List<PetrolEntry>
-) {
-    val prices: List<Double> = petrolEntries.asReversed().map { it.getPricePerLiter().toDouble() / 100.0 }
-    val indicatorLabel = stringResource(R.string.main_diagram_price_per_liter_indicator)
-    val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
-    Diagram(
-        color = MaterialTheme.colorScheme.primary,
-        items = prices,
-        title = stringResource(R.string.main_diagram_price_per_liter_title),
-        indicatorBuilder = { indicator ->
-            indicatorLabel.replace("{arg}", String.format(locale, "%.2f", indicator))
-        }
-    )
-}
-
-
-/**
- * Composable displays the diagram displaying the cumulated expenses.
- *
- * @param petrolEntries Petrol entries whose cumulated expenses to display.
- */
-@Composable
-fun DiagramCumulatedExpenses(
-    petrolEntries: List<PetrolEntry>
-) {
-    var sum: Int = 0
-    val prices: List<Double> = petrolEntries.asReversed().map {
-        sum += it.totalPrice
-        sum.toDouble() / 100.0
-    }
-    val indicatorLabel = stringResource(R.string.main_diagram_cumulated_expenses_indicator)
-    val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
-    Diagram(
-        color = MaterialTheme.colorScheme.tertiary,
-        items = prices,
-        title = stringResource(R.string.main_diagram_cumulated_expenses_title),
-        indicatorBuilder = { indicator ->
-            indicatorLabel.replace("{arg}", String.format(locale, "%.2f", indicator))
-        }
-    )
-}
-
-
-/**
- * Composable displays the diagram displaying the cumulated volume.
- *
- * @param petrolEntries Petrol entries whose cumulated volume to display.
- */
-@Composable
-fun DiagramCumulatedVolume(
-    petrolEntries: List<PetrolEntry>
-) {
-    var sum: Int = 0
-    val prices: List<Double> = petrolEntries.asReversed().map {
-        sum += it.volume
-        sum.toDouble() / 100.0
-    }
-    val indicatorLabel = stringResource(R.string.main_diagram_cumulated_volume_indicator)
-    val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
-    Diagram(
-        color = MaterialTheme.colorScheme.tertiary,
-        items = prices,
-        title = stringResource(R.string.main_diagram_cumulated_volume_title),
-        indicatorBuilder = { indicator ->
-            indicatorLabel.replace("{arg}", String.format(locale, "%.2f", indicator))
-        }
-    )
-}
-
-
-/**
- * Composable displays the diagram displaying the distance traveled.
- *
- * @param petrolEntries Petrol entries whose distance traveled to display.
- */
-@Composable
-fun DiagramDistance(
-    petrolEntries: List<PetrolEntry>
-) {
-    val distances: MutableList<Double> = mutableListOf()
-    petrolEntries.asReversed().forEach { petrolEntry ->
-        if (petrolEntry.distanceTraveled != null) {
-            distances.add(petrolEntry.distanceTraveled.toDouble())
-        }
-    }
-    val indicatorLabel = stringResource(R.string.main_diagram_distance_indicator)
-    Diagram(
-        color = MaterialTheme.colorScheme.secondary,
-        items = distances.toList(),
-        title = stringResource(R.string.main_diagram_distance_title),
-        indicatorBuilder = { indicator ->
-            indicatorLabel.replace("{arg}", indicator.toInt().toString())
-        }
-    )
-}
-
-
-/**
  * Composable displays a card at the top of the view if a new app version is available to download.
  *
  * @param onCancelClicked   Callback invoked once the cancel-button is clicked.
@@ -338,7 +234,11 @@ fun DownloadCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = dimensionResource(R.dimen.space_vertical)),
+            .padding(
+                start = dimensionResource(R.dimen.space_horizontal),
+                end = dimensionResource(R.dimen.space_horizontal),
+                bottom = dimensionResource(R.dimen.space_vertical)
+            ),
         shape = MaterialTheme.shapes.extraLarge
     ) {
         Column(
@@ -388,70 +288,5 @@ fun DownloadCard(
                 }
             }
         }
-    }
-}
-
-
-/**
- * Composable displays a line chart diagram for the items specified. If the passed list of items
- * is has less than 2 items, nothing will be displayed.
- *
- * @param items             List of data points to display within the line.
- * @param color             Color for the diagram.
- * @param title             Title for the diagram.
- * @param indicatorBuilder  Builder to generate the indicator labels on the y-axis.
- */
-@Composable
-fun Diagram(
-    items: List<Double>,
-    color: Color,
-    title: String,
-    indicatorBuilder: (Double) -> String
-) {
-    if (items.size >= 2) {
-        Text(
-            text = title,
-            color = color
-        )
-        LineChart(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.diagram_height))
-                .padding(bottom = dimensionResource(R.dimen.space_vertical)),
-            data = listOf(
-                Line(
-                    label = title,
-                    values = items,
-                    color = SolidColor(color),
-                    curvedEdges = false,
-                    dotProperties = DotProperties(
-                        enabled = true,
-                        color = SolidColor(color),
-                        strokeWidth = 2.dp,
-                        radius = 2.dp
-                    ),
-                    firstGradientFillColor = color.copy(alpha = .5f),
-                    secondGradientFillColor = Color.Transparent,
-                    drawStyle = DrawStyle.Stroke(2.dp)
-                )
-            ),
-            labelHelperProperties = LabelHelperProperties(
-                enabled = false
-            ),
-            indicatorProperties = HorizontalIndicatorProperties(
-                enabled = true,
-                textStyle = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.onSurface),
-                contentBuilder = indicatorBuilder
-            ),
-            gridProperties = GridProperties(
-                xAxisProperties = GridProperties.AxisProperties(
-                    enabled = true,
-                    color = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant)
-                ),
-                yAxisProperties = GridProperties.AxisProperties(
-                    enabled = false
-                )
-            )
-        )
     }
 }
