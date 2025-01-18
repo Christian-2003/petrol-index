@@ -34,6 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import de.christian2003.petrolindex.R
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 
 /**
@@ -55,6 +58,7 @@ fun SettingsView(
     val importMessageError = stringResource(R.string.settings_data_import_error)
     val exportMessageSuccess = stringResource(R.string.settings_data_export_success)
     val exportMessageError = stringResource(R.string.settings_data_export_error)
+    val exportFilename = stringResource(R.string.export_file_name)
     //Activity result launcher to select a file for the export:
     val createExportIntentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.data != null && result.data!!.data != null) {
@@ -127,9 +131,12 @@ fun SettingsView(
                 setting = stringResource(R.string.settings_data_export),
                 info = stringResource(R.string.settings_data_export_info),
                 onClick = {
+                    val formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    val filename = exportFilename.replace("{arg}", formattedDate)
                     val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.setType("application/json")
+                    intent.putExtra(Intent.EXTRA_TITLE, filename)
                     createExportIntentLauncher.launch(intent)
                 }
             )

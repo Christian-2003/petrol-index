@@ -13,8 +13,8 @@ android {
         applicationId = "de.christian2003.petrolindex"
         minSdk = 34
         targetSdk = 34
-        versionCode = 6
-        versionName = "1.0.0-pre5"
+        versionCode = 7
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

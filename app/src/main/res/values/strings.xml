@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Petrol Index</string>
+    <string name="export_file_name" translatable="false">petrol_index_{arg}.json</string>
 
     <string name="main_title">Petrol Index</string>
     <string name="main_diagram_price_per_liter_title">Price per gallon</string>
