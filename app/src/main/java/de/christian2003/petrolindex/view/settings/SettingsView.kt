@@ -164,7 +164,7 @@ fun SettingsView(
                 setting = stringResource(R.string.settings_about_github),
                 info = stringResource(R.string.settings_about_github_info),
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/smart-home"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index"))
                     context.startActivity(intent)
                 },
                 endIcon = R.drawable.ic_external
@@ -173,7 +173,7 @@ fun SettingsView(
                 setting = stringResource(R.string.settings_about_issues),
                 info = stringResource(R.string.settings_about_issues_info),
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/smart-home/issues"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index/issues"))
                     context.startActivity(intent)
                 },
                 endIcon = R.drawable.ic_external

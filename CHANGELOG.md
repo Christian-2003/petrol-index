@@ -8,6 +8,7 @@ n/a
 
 ###### Features
 * Added custom animated splash screen.
+* Fixed bug which linked to incorrect GitHub repository.
 
 <br/>
 
