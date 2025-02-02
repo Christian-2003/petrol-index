@@ -32,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -210,231 +209,186 @@ fun InputSection(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        val scope = rememberCoroutineScope()
-        val bringIntoViewRequester = remember { BringIntoViewRequester() }
-
         //Enter date:
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            TextFieldPrefixIcon(R.drawable.ic_calendar)
-            OutlinedTextField(
-                value = LocaleFormatter.epochSecondToFormattedDate(epochSecond),
-                singleLine = true,
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_calendar),
-                        contentDescription = stringResource(R.string.add_petrol_entry_content_description_calendar),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                onValueChange = {
-                    onEpochSecondChanged(it.toLong())
-                },
-                label = {
-                    Text(
-                        text = stringResource(R.string.add_petrol_entry_label_epoch_second)
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = dimensionResource(R.dimen.space_vertical))
-                    .pointerInput(epochSecond) {
-                        awaitEachGesture {
-                            // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                            // in the Initial pass to observe events before the text field consumes them
-                            // in the Main pass.
-                            awaitFirstDown(pass = PointerEventPass.Initial)
-                            val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                            if (upEvent != null) {
-                                onShowDatePicker()
-                            }
-                        }
+        TextInput(
+            value = LocaleFormatter.epochSecondToFormattedDate(epochSecond),
+            onValueChanged = {
+                onEpochSecondChanged(it.toLong())
+            },
+            label = stringResource(R.string.add_petrol_entry_label_epoch_second),
+            prefixIcon = R.drawable.ic_calendar,
+            trailingIcon = R.drawable.ic_calendar,
+            modifier = Modifier.pointerInput(epochSecond) {
+                awaitEachGesture {
+                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
+                    // in the Initial pass to observe events before the text field consumes them
+                    // in the Main pass.
+                    awaitFirstDown(pass = PointerEventPass.Initial)
+                    val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                    if (upEvent != null) {
+                        onShowDatePicker()
                     }
-            )
-        }
-
+                }
+            }
+        )
 
         //Enter volume:
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            TextFieldPrefixIcon(R.drawable.ic_petrol)
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                OutlinedTextField(
-                    value = "" + volume,
-                    singleLine = true,
-                    onValueChange = {
-                        onVolumeChanged(it)
-                    },
-                    suffix = {
-                        Text(
-                            text = stringResource(R.string.add_petrol_entry_suffix_volume)
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.add_petrol_entry_label_volume)
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    isError = !volumeValid,
-                    trailingIcon = {
-                        if (!volumeValid) {
-                            Icon(
-                                imageVector = Icons.Filled.Info,
-                                tint = MaterialTheme.colorScheme.error,
-                                contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = dimensionResource(R.dimen.space_vertical))
-                        .onFocusEvent {
-                            if (it.isFocused) {
-                                scope.launch {
-                                    bringIntoViewRequester.bringIntoView()
-                                }
-                            }
-                        }
-                )
-                if (!volumeValid) {
-                    Text(
-                        text = stringResource(R.string.add_petrol_entry_error_volume),
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(top = 4.dp, start = 16.dp)
-                    )
-                }
-            }
-        }
-
+        val volumeError: String? = if (!volumeValid) { stringResource(R.string.add_petrol_entry_error_volume) } else { null }
+        TextInput(
+            value = volume,
+            onValueChanged = {
+                onVolumeChanged(it)
+            },
+            label = stringResource(R.string.add_petrol_entry_label_volume),
+            prefixIcon = R.drawable.ic_petrol,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            suffixLabel = stringResource(R.string.add_petrol_entry_suffix_volume),
+            errorMessage = volumeError
+        )
 
         //Enter total price:
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            TextFieldPrefixIcon(R.drawable.ic_price)
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                OutlinedTextField(
-                    value = "" + totalPrice,
-                    singleLine = true,
-                    onValueChange = {
-                        onTotalPriceChanged(it)
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.add_petrol_entry_label_total_price)
-                        )
-                    },
-                    suffix = {
-                        Text(
-                            text = stringResource(R.string.add_petrol_entry_suffix_total_price)
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    isError = !totalPriceValid,
-                    trailingIcon = {
-                        if (!totalPriceValid) {
-                            Icon(
-                                imageVector = Icons.Filled.Info,
-                                tint = MaterialTheme.colorScheme.error,
-                                contentDescription = "Error"
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = dimensionResource(R.dimen.space_vertical))
-                        .onFocusEvent {
-                            if (it.isFocused) {
-                                scope.launch {
-                                    bringIntoViewRequester.bringIntoView()
-                                }
-                            }
-                        }
-                )
-                if (!totalPriceValid) {
-                    Text(
-                        text = stringResource(R.string.add_petrol_entry_error_total_price),
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(top = 4.dp, start = 16.dp)
-                    )
-                }
-            }
-        }
-
+        val totalPriceError: String? = if (!totalPriceValid) { stringResource(R.string.add_petrol_entry_error_total_price) } else { null }
+        TextInput(
+            value = totalPrice,
+            onValueChanged = {
+                onTotalPriceChanged(it)
+            },
+            label = stringResource(R.string.add_petrol_entry_label_total_price),
+            prefixIcon = R.drawable.ic_price,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            suffixLabel = stringResource(R.string.add_petrol_entry_suffix_total_price),
+            errorMessage = totalPriceError
+        )
 
         //Enter distance traveled:
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            TextFieldPrefixIcon(R.drawable.ic_distance)
-            OutlinedTextField(
-                value = distanceTraveled,
-                singleLine = true,
-                onValueChange = {
-                    onDistanceTraveledChanged(it)
-                },
-                label = {
-                    Text(
-                        text = stringResource(R.string.add_petrol_entry_label_distance_traveled)
-                    )
-                },
-                suffix = {
-                    Text(
-                        text = stringResource(R.string.add_petrol_entry_suffix_distance_traveled)
-                    )
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.space_vertical))
-                    .onFocusEvent {
-                        if (it.isFocused) {
-                            scope.launch {
-                                bringIntoViewRequester.bringIntoView()
-                            }
-                        }
-                    }
-            )
-        }
-
+        TextInput(
+            value = distanceTraveled,
+            onValueChanged = {
+                onDistanceTraveledChanged(it)
+            },
+            label = stringResource(R.string.add_petrol_entry_label_distance_traveled),
+            prefixIcon = R.drawable.ic_distance,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            suffixLabel = stringResource(R.string.add_petrol_entry_suffix_distance_traveled)
+        )
 
         //Enter description:
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            TextFieldPrefixIcon(R.drawable.ic_description)
-            OutlinedTextField(
-                value = description,
-                singleLine = true,
-                onValueChange = {
-                    onDescriptionChanged(it)
-                },
-                label = {
-                    Text(
-                        text = stringResource(R.string.add_petrol_entry_label_description)
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.space_vertical))
-                    .onFocusEvent {
-                        if (it.isFocused) {
-                            scope.launch {
-                                bringIntoViewRequester.bringIntoView()
-                            }
-                        }
-                    }
+        TextInput(
+            value = description,
+            onValueChanged = {
+                onDescriptionChanged(it)
+            },
+            label = stringResource(R.string.add_petrol_entry_label_description),
+            prefixIcon = R.drawable.ic_description
+        )
+    }
+}
+
+
+/**
+ * Composable displays a versatile text input.
+ *
+ * @param value             Value for the text field.
+ * @param onValueChanged    Callback invoked once the value changes.
+ * @param label             Label text to display.
+ * @param prefixIcon        Drawable resource for the prefix icon.
+ * @param modifier          Modifier for the text field.
+ * @param keyboardOptions   Keyboard options.
+ * @param suffixLabel       Text to display for the suffix label.
+ * @param trailingIcon      Drawable resource for the trailing icon.
+ * @param errorMessage      Error message to display.
+ */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun TextInput(
+    value: String,
+    onValueChanged: (String) -> Unit,
+    label: String,
+    prefixIcon: Int,
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    suffixLabel: String? = null,
+    trailingIcon: Int? = null,
+    errorMessage: String? = null
+) {
+    val scope = rememberCoroutineScope()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+
+    //Text displayed as suffix:
+    val suffixView: (@Composable () -> Unit)? = if (suffixLabel != null) {
+        @Composable {
+            Text(
+                text = suffixLabel,
+                color = if (errorMessage == null) { MaterialTheme.colorScheme.onSurfaceVariant } else { MaterialTheme.colorScheme.error }
             )
         }
+    } else {
+        null
+    }
+
+    //Trailing icon displayed if an error occurs:
+    val trailingIconView: (@Composable () -> Unit)? = if (errorMessage != null) {
+        @Composable {
+            Icon(
+                imageVector = Icons.Filled.Info,
+                tint = MaterialTheme.colorScheme.error,
+                contentDescription = errorMessage
+            )
+        }
+    } else if (trailingIcon != null) {
+        @Composable {
+            Icon(
+                painter = painterResource(trailingIcon),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                contentDescription = ""
+            )
+        }
+    } else {
+        null
+    }
+
+    //Supporting text displayed if an error occurs:
+    val supportingTextView: (@Composable () -> Unit)? = if (errorMessage != null) {
+        @Composable {
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    } else {
+        null
+    }
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        TextFieldPrefixIcon(prefixIcon)
+        OutlinedTextField(
+            value = value,
+            singleLine = true,
+            onValueChange = onValueChanged,
+            label = {
+                Text(
+                    text = label
+                )
+            },
+            keyboardOptions = keyboardOptions,
+            suffix = suffixView,
+            isError = errorMessage != null,
+            trailingIcon = trailingIconView,
+            supportingText = supportingTextView,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(R.dimen.space_vertical))
+                .onFocusEvent {
+                    if (it.isFocused) {
+                        scope.launch {
+                            bringIntoViewRequester.bringIntoView()
+                        }
+                    }
+                }
+        )
     }
 }
 

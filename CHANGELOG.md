@@ -9,6 +9,8 @@ n/a
 ###### Features
 * Added custom animated splash screen.
 * Fixed bug which linked to incorrect GitHub repository.
+* Fixed typo in German app language.
+* Trailing icon indicating an error in the text inputs within `AddPetrolEntryView` no longer occupies space when no error occurs.
 
 <br/>
 

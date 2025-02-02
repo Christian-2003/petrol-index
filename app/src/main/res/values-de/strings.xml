@@ -47,7 +47,7 @@
     <string name="add_petrol_entry_suffix_distance_traveled">Kilometer</string>
     <string name="add_petrol_entry_button_add">Hinzufügen</string>
     <string name="add_petrol_entry_button_edit">Speichern</string>
-    <string name="add_petrol_entry_error_total_price">Der Gesamtrpreis ist ungültig</string>
+    <string name="add_petrol_entry_error_total_price">Der Gesamtpreis ist ungültig</string>
     <string name="add_petrol_entry_error_volume">Das Volumen ist ungültig</string>
     <string name="add_petrol_entry_content_description_go_back">Zurück</string>
     <string name="add_petrol_entry_content_description_info">Info</string>
