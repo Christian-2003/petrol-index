@@ -330,7 +330,7 @@ fun TextInput(
     val trailingIconView: (@Composable () -> Unit)? = if (errorMessage != null) {
         @Composable {
             Icon(
-                imageVector = Icons.Filled.Info,
+                painter = painterResource(R.drawable.ic_warning),
                 tint = MaterialTheme.colorScheme.error,
                 contentDescription = errorMessage
             )
