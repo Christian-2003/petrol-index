@@ -13,7 +13,7 @@ android {
         applicationId = "de.christian2003.petrolindex"
         minSdk = 34
         targetSdk = 34
-        versionCode = 8
+        versionCode = 9
         versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

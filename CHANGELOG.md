@@ -2,9 +2,9 @@
 
 # Changelog
 
-## 1.0.2 (XXXX-XX-XX)
+## 1.0.2 (2025-03-06)
 ###### Release Highlights
-n/a
+Bugfixes and visual enhancements to enhance usability.
 
 ###### Features
 * Added custom animated splash screen.
