@@ -11,6 +11,8 @@ n/a
 * Fixed bug which linked to incorrect GitHub repository.
 * Fixed typo in German app language.
 * Trailing icon indicating an error in the text inputs within `AddPetrolEntryView` no longer occupies space when no error occurs.
+* Change appearance of settings to match the new style of Password Vault.
+* Change colors of cards (in `MainView` and `AddPetrolEntryView`) to be less prominent.
 
 <br/>
 

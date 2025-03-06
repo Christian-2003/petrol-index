@@ -159,7 +159,7 @@ fun PetrolEntryRow(
                 onPetrolEntrySelected(petrolEntry.id)
             }
             .padding(
-                vertical = dimensionResource(R.dimen.space_vertical),
+                vertical = dimensionResource(R.dimen.space_vertical_between),
                 horizontal = dimensionResource(R.dimen.space_horizontal)
             ),
         verticalAlignment = Alignment.CenterVertically

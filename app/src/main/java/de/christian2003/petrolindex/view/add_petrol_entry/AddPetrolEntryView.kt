@@ -447,21 +447,21 @@ fun TopCard() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .padding(
                     horizontal = dimensionResource(R.dimen.space_horizontal),
                     vertical = dimensionResource(R.dimen.space_vertical))
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_info),
-                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentDescription = stringResource(R.string.add_petrol_entry_content_description_info),
                 modifier = Modifier
                     .padding(end = dimensionResource(R.dimen.space_horizontal_between))
             )
             Text(
                 text = stringResource(R.string.add_petrol_entry_info),
-                color = MaterialTheme.colorScheme.onTertiaryContainer
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

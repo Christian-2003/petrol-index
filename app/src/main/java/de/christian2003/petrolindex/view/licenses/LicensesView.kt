@@ -145,7 +145,7 @@ fun LicensesListRow(
                 onLicenseClicked(license)
             }
             .padding(
-                vertical = dimensionResource(R.dimen.space_vertical),
+                vertical = dimensionResource(R.dimen.space_vertical_between),
                 horizontal = dimensionResource(R.dimen.space_horizontal)
             ),
         verticalAlignment = Alignment.CenterVertically

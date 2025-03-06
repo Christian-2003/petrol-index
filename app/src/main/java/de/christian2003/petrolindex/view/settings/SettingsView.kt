@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -28,11 +29,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import de.christian2003.petrolindex.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -137,7 +141,8 @@ fun SettingsView(
                     intent.setType("application/json")
                     intent.putExtra(Intent.EXTRA_TITLE, filename)
                     createExportIntentLauncher.launch(intent)
-                }
+                },
+                prefixIcon = painterResource(R.drawable.ic_export)
             )
             SettingsItemButton(
                 setting = stringResource(R.string.settings_data_import),
@@ -147,7 +152,8 @@ fun SettingsView(
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.setType("application/json")
                     restoreExportIntentLauncher.launch(intent)
-                }
+                },
+                prefixIcon = painterResource(R.drawable.ic_import)
             )
 
             //About
@@ -158,7 +164,8 @@ fun SettingsView(
                 onClick = {
                     onNavigateToLicenses()
                 },
-                endIcon = R.drawable.ic_next
+                endIcon = painterResource(R.drawable.ic_next),
+                prefixIcon = painterResource(R.drawable.ic_license)
             )
             SettingsItemButton(
                 setting = stringResource(R.string.settings_about_github),
@@ -167,7 +174,8 @@ fun SettingsView(
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index"))
                     context.startActivity(intent)
                 },
-                endIcon = R.drawable.ic_external
+                endIcon = painterResource(R.drawable.ic_external),
+                prefixIcon = painterResource(R.drawable.ic_github)
             )
             SettingsItemButton(
                 setting = stringResource(R.string.settings_about_issues),
@@ -176,7 +184,8 @@ fun SettingsView(
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index/issues"))
                     context.startActivity(intent)
                 },
-                endIcon = R.drawable.ic_external
+                endIcon = painterResource(R.drawable.ic_external),
+                prefixIcon = painterResource(R.drawable.ic_bug)
             )
             SettingsItemButton(
                 setting = stringResource(R.string.settings_about_more),
@@ -187,8 +196,11 @@ fun SettingsView(
                     intent.setData(uri)
                     context.startActivity(intent)
                 },
-                endIcon = R.drawable.ic_external
+                endIcon = painterResource(R.drawable.ic_external),
+                prefixIcon = painterResource(R.drawable.ic_android)
             )
+
+            VersionInfo()
         }
     }
 }
@@ -214,7 +226,7 @@ fun SettingsTitle(
     }
     Text(
         modifier = Modifier.padding(
-            start = dimensionResource(R.dimen.space_horizontal),
+            start = dimensionResource(R.dimen.space_horizontal) + dimensionResource(R.dimen.image_xs) + dimensionResource(R.dimen.space_horizontal_between),
             top = dimensionResource(R.dimen.space_vertical),
             end = dimensionResource(R.dimen.space_horizontal),
             bottom = dimensionResource(R.dimen.space_vertical_between)),
@@ -238,7 +250,8 @@ fun SettingsItemButton(
     setting: String,
     info: String,
     onClick: () -> Unit,
-    endIcon: Int? = null
+    endIcon: Painter? = null,
+    prefixIcon: Painter? = null
 ) {
     Row(
         modifier = Modifier
@@ -252,27 +265,80 @@ fun SettingsItemButton(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (prefixIcon != null) {
+            Icon(
+                painter = prefixIcon,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(end = dimensionResource(R.dimen.space_horizontal_between))
+                    .size(dimensionResource(R.dimen.image_xs))
+            )
+        }
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = setting,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = setting,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                if (endIcon != null) {
+                    Icon(
+                        painter = endIcon,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(start = dimensionResource(R.dimen.space_horizontal_small))
+                            .size(dimensionResource(R.dimen.image_xxs))
+                    )
+                }
+            }
             Text(
                 text = info,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
-        if (endIcon != null) {
-            Icon(
-                painter = painterResource(endIcon),
-                tint = MaterialTheme.colorScheme.onSurface,
-                contentDescription = ""
-            )
-        }
     }
 
+}
+
+
+@Composable
+fun VersionInfo() {
+    val context = LocalContext.current
+    val versionName: String = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = dimensionResource(R.dimen.space_horizontal),
+                vertical = dimensionResource(R.dimen.space_vertical)
+            )
+    ) {
+        Text(
+            text = stringResource(R.string.settings_info_version).replace("{arg}", versionName),
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Text(
+            text = stringResource(R.string.settings_info_copyright).replace("{arg}", LocalDateTime.now().year.toString()),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Icon(
+            painter = painterResource(R.drawable.ic_splash_branding),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            contentDescription = ""
+        )
+    }
 }

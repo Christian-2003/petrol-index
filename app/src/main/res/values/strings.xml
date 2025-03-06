@@ -73,6 +73,8 @@
     <string name="settings_about_issues_info">Report bugs on GitHub</string>
     <string name="settings_about_more">More info</string>
     <string name="settings_about_more_info">View app in system settings</string>
+    <string name="settings_info_version">Version {arg}</string>
+    <string name="settings_info_copyright">© 2024-{arg} Christian-2003</string>
     <string name="settings_content_description_go_back">Go back</string>
 
     <string name="licenses_title">Used Software</string>

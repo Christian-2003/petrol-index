@@ -72,6 +72,8 @@
     <string name="settings_about_issues_info">Fehler auf GitHub melden</string>
     <string name="settings_about_more">Weitere Infos</string>
     <string name="settings_about_more_info">Öffne die App in den Systemeinstellungen</string>
+    <string name="settings_info_version">Version {arg}</string>
+    <string name="settings_info_copyright">© 2024-{arg} Christian-2003</string>
     <string name="settings_content_description_go_back">Zurück</string>
 
     <string name="licenses_title">Verwendete Software</string>

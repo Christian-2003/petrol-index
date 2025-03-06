@@ -86,7 +86,7 @@ fun MainView(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.List,
+                            painter = painterResource(R.drawable.ic_data),
                             contentDescription = stringResource(R.string.main_content_description_view_database),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
@@ -97,7 +97,7 @@ fun MainView(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Settings,
+                            painter = painterResource(R.drawable.ic_settings),
                             contentDescription = stringResource(R.string.main_content_description_settings),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
@@ -241,7 +241,7 @@ fun DownloadCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .padding(
                     horizontal = dimensionResource(R.dimen.space_horizontal),
                     vertical = dimensionResource(R.dimen.space_vertical)
@@ -253,14 +253,14 @@ fun DownloadCard(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_warning),
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     contentDescription = "",
                     modifier = Modifier
                         .padding(end = dimensionResource(R.dimen.space_horizontal_between))
                 )
                 Text(
                     text = stringResource(R.string.main_download_message),
-                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             FlowRow(
@@ -270,7 +270,7 @@ fun DownloadCard(
                 TextButton(
                     onClick = onCancelClicked,
                     colors = ButtonDefaults.textButtonColors().copy(
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                        contentColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
                     Text(stringResource(R.string.main_download_cancel))
@@ -278,7 +278,7 @@ fun DownloadCard(
                 TextButton(
                     onClick = onConfirmClicked,
                     colors = ButtonDefaults.textButtonColors().copy(
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                        contentColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
                     Text(stringResource(R.string.main_download_confirm))
