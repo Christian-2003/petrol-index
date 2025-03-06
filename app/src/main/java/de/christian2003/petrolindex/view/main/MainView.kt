@@ -217,7 +217,9 @@ fun Data(
                         painter = painterResource(R.drawable.ic_next),
                         tint = MaterialTheme.colorScheme.onSurface,
                         contentDescription = "",
-                        modifier = Modifier.size(dimensionResource(R.dimen.image_xxs))
+                        modifier = Modifier
+                            .padding(start = dimensionResource(R.dimen.space_horizontal_small))
+                            .size(dimensionResource(R.dimen.image_xxs))
                     )
                 }
             }

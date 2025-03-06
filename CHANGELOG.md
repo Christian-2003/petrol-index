@@ -14,6 +14,7 @@ n/a
 * Change appearance of settings to match the new style of Password Vault.
 * Change colors of cards (in `MainView` and `AddPetrolEntryView`) to be less prominent.
 * Change style of data display on `MainView` to indicate whether it is clickable or not.
+* Dispay delete button with red color to better indicate this action.
 
 <br/>
 
