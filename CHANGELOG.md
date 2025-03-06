@@ -13,6 +13,7 @@ n/a
 * Trailing icon indicating an error in the text inputs within `AddPetrolEntryView` no longer occupies space when no error occurs.
 * Change appearance of settings to match the new style of Password Vault.
 * Change colors of cards (in `MainView` and `AddPetrolEntryView`) to be less prominent.
+* Change style of data display on `MainView` to indicate whether it is clickable or not.
 
 <br/>
 

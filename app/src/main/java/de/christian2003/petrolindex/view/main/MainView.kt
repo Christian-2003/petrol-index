@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -187,10 +188,12 @@ fun Data(
     val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
     val totalValueFormatted = diagramInfo.getFormattedTotalValue(locale)
 
+    val clickable: Boolean = diagramInfo.data.isNotEmpty()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(diagramInfo.data.isNotEmpty()) {
+            .clickable(clickable) {
                 onClick(diagramInfo)
             }
             .padding(
@@ -201,14 +204,26 @@ fun Data(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = diagramInfo.title,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = diagramInfo.title,
+                    color = if (clickable) { MaterialTheme.colorScheme.onSurface } else { MaterialTheme.colorScheme.onSurface.copy(0.5f) },
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                if (clickable) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_next),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        contentDescription = "",
+                        modifier = Modifier.size(dimensionResource(R.dimen.image_xxs))
+                    )
+                }
+            }
             Text(
                 text = diagramInfo.labelIndicator.replace("{arg}", totalValueFormatted),
-                color = diagramInfo.color,
+                color = if (clickable) { diagramInfo.color } else { diagramInfo.color.copy(0.5f) },
                 style = MaterialTheme.typography.bodyMedium
             )
         }
