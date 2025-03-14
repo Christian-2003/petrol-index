@@ -49,7 +49,7 @@ Currently, I ([Christian-2003](https://github.com/Christian-2003)) am the only d
 <br/>
 
 ## License
-The project is licensed under the terms and conditions of the MIT license. You can view a copy of the license [here](https://github.com/Christian-2003/password-vault/blob/master/LICENSE.txt).
+The project is licensed under the terms and conditions of the MIT license. You can view a copy of the license [here](LICENSE.txt).
 
 <br/>
 
