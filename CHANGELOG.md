@@ -10,7 +10,7 @@ n./a.
 
 ## 1.0.2 (2025-03-06)
 ###### Release Highlights
-* n./a.
+* Add custom app icon for debugging releases to better distinguish them from release builds.
 
 <br/>
 
