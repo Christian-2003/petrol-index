@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    kotlin("plugin.serialization") version "1.9.22"
+    alias(libs.plugins.compose.compiler)
+    kotlin("plugin.serialization") version "2.1.21"
 }
 
 android {
@@ -36,22 +37,30 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "19"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+android.applicationVariants.all {
+    outputs.all {
+        val appName = "petrol-index"
+        val versionName = versionName
+        (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName = "$appName-v$versionName.apk"
     }
 }
 
