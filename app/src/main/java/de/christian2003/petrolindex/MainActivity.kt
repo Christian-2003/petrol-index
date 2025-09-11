@@ -6,10 +6,8 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,7 +18,7 @@ import de.christian2003.petrolindex.database.PetrolIndexDatabase
 import de.christian2003.petrolindex.database.PetrolIndexRepository
 import de.christian2003.petrolindex.model.diagram.DiagramType
 import de.christian2003.petrolindex.model.update.UpdateManager
-import de.christian2003.petrolindex.ui.theme.PetrolIndexTheme
+import de.christian2003.petrolindex.plugin.presentation.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryView
 import de.christian2003.petrolindex.view.add_petrol_entry.AddPetrolEntryViewModel
 import de.christian2003.petrolindex.view.diagram.DiagramView

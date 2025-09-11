@@ -1,4 +1,4 @@
-package de.christian2003.petrolindex.ui.theme
+package de.christian2003.petrolindex.plugin.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
