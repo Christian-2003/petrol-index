@@ -5,7 +5,7 @@
     android:duration="@integer/splash_duration"
     android:propertyName="translateX"
     android:interpolator="@android:anim/anticipate_overshoot_interpolator"
-    android:valueFrom="-12"
-    android:valueTo="6">
+    android:valueFrom="-480"
+    android:valueTo="240">
 
 </objectAnimator>
