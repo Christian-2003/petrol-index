@@ -1,13 +1,11 @@
 package de.christian2003.petrolindex.plugin.presentation.view.consumptions
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,22 +15,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDeleteDialog
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.EmptyPlaceholder
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
 import kotlin.uuid.Uuid
 
 
 /**
- * Composable displays the view which shows the user all petrol entries from the database.
+ * Composable displays a list of all consumptions.
  *
  * @param viewModel         View model for the screen.
  * @param onNavigateUp      Callback to navigate up the navigation stack.
@@ -124,95 +120,27 @@ fun ConsumptionsList(
         )
     }
     else {
+        val groupedConsumptions = consumptions.groupBy { consumption ->
+            consumption.consumptionDate.withDayOfYear(1)
+        }
         LazyColumn {
-            items(consumptions) { consumption ->
-                ConsumptionsListRow (
-                    consumption = consumption,
-                    onDelete = onDeleteConsumption,
-                    onEdit = onEditConsumption
-                )
+            groupedConsumptions.forEach { (year, yearConsumptions) ->
+                item {
+                    Column {
+                        HorizontalDivider()
+                        Headline(
+                            title = year.year.toString()
+                        )
+                    }
+                }
+                items(yearConsumptions) { consumption ->
+                    ConsumptionListItem(
+                        consumption = consumption,
+                        onDelete = onDeleteConsumption,
+                        onEdit = onEditConsumption
+                    )
+                }
             }
-        }
-    }
-}
-
-
-/**
- * Composable displays a single consumption.
- *
- * @param consumption   Consumption to display.
- * @param onDelete      Callback to delete the consumption.
- * @param onEdit        Callback to edit the consumption.
- */
-@Composable
-fun ConsumptionsListRow(
-    consumption: Consumption,
-    onDelete: (Consumption) -> Unit,
-    onEdit: (Consumption) -> Unit
-) {
-    val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onEdit(consumption)
-            }
-            .padding(
-                vertical = dimensionResource(R.dimen.space_vertical_between),
-                horizontal = dimensionResource(R.dimen.space_horizontal)
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = dimensionResource(R.dimen.space_horizontal_between))
-        ) {
-            Text(
-                text = consumption.consumptionDate.format(dateTimeFormatter),
-                color = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = stringResource(R.string.format_volume, consumption.volume.toDouble() / 1000.0),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = stringResource(R.string.format_totalPrice, consumption.totalPrice.toDouble() / 100.0),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            if (consumption.distanceTraveled != null) {
-                Text(
-                    text = stringResource(R.string.format_distanceTraveled, consumption.distanceTraveled!!.toDouble() / 1000.0),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            Text(
-                text = stringResource(R.string.format_pricePerLiter, consumption.calculatePricePerLiter().toDouble() / 100.0),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            if (consumption.description.isNotEmpty()) {
-                Text(
-                    text = consumption.description,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-        }
-        IconButton(
-            onClick = {
-                onDelete(consumption)
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_delete),
-                contentDescription = stringResource(R.string.petrol_entries_content_description_delete),
-                tint = MaterialTheme.colorScheme.onBackground
-            )
         }
     }
 }

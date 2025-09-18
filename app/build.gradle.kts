@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "de.christian2003.petrolindex"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "de.christian2003.petrolindex"
-        minSdk = 34
-        targetSdk = 34
+        minSdk = 35
+        targetSdk = 35
         versionCode = 10
         versionName = "1.0.3-pre1"
 

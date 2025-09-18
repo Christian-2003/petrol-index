@@ -54,7 +54,7 @@ fun EmptyPlaceholder(
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.headlineSmall, //Todo: Change to 'headlineSmallEmphasized' after switching to expressive API
+                style = MaterialTheme.typography.headlineSmallEmphasized,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()

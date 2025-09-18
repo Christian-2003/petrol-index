@@ -310,7 +310,7 @@ fun SettingsItemButton(
 @Composable
 fun VersionInfo() {
     val context = LocalContext.current
-    val versionName: String = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+    val versionName: String = context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: ""
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
