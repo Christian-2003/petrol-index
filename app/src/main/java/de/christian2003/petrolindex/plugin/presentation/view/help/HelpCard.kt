@@ -13,7 +13,9 @@ enum class HelpCard(
     private val sharedPreferencesKey: String
 ) {
 
-    CONSUMPTION("help_consumption");
+    CONSUMPTION("help_consumption"),
+
+    HELP_LIST("help_list");
 
 
     /**

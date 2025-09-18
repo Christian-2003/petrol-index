@@ -24,8 +24,14 @@
     <string name="consumption_distanceTraveled_suffix">Miles</string>
     <string name="consumption_description_label">Notes</string>
 
+    <string name="help_title">Help messages</string>
+    <string name="help_help">Reactivate help messages that you have dismissed previously.</string>
+    <string name="help_reactivate">Click to reactivate</string>
+    <string name="help_visibleLabel">Visible</string>
+    <string name="help_dismissedLabel">Dismissed</string>
     <string-array name="help_shortNames">
         <item>Create or edit consumptions</item>
+        <item>List of help messages</item>
     </string-array>
 
     <string name="button_delete">Delete</string>

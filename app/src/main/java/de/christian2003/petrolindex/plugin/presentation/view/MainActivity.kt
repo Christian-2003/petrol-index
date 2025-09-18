@@ -34,6 +34,8 @@ import de.christian2003.petrolindex.plugin.presentation.view.main.MainView
 import de.christian2003.petrolindex.plugin.presentation.view.main.MainViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.consumptions.ConsumptionsScreen
 import de.christian2003.petrolindex.plugin.presentation.view.consumptions.ConsumptionsViewModel
+import de.christian2003.petrolindex.plugin.presentation.view.help.HelpScreen
+import de.christian2003.petrolindex.plugin.presentation.view.help.HelpViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsView
 import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsViewModel
 import kotlinx.coroutines.delay
@@ -250,6 +252,21 @@ fun PetrolIndex(
                     },
                     onNavigateToLicenses = {
                         navController.navigate("licenses")
+                    },
+                    onNavigateToHelp = {
+                        navController.navigate("help")
+                    }
+                )
+            }
+
+            composable("help") {
+                val viewModel: HelpViewModel = viewModel()
+                viewModel.init()
+
+                HelpScreen(
+                    viewModel = viewModel,
+                    onNavigateUp = {
+                        navController.navigateUp()
                     }
                 )
             }

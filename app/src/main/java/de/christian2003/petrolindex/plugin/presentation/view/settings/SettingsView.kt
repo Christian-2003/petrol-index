@@ -10,19 +10,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,14 +32,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import coil.compose.rememberAsyncImagePainter
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import androidx.core.net.toUri
 
 
 /**
@@ -54,13 +47,14 @@ import java.time.format.DateTimeFormatter
  * @param viewModel             View model for the view.
  * @param onNavigateBack        Callback to invoke in order to navigate back.
  * @param onNavigateToLicenses  Callback to invoke in order to navigate to the licenses view.
+ * @param onNavigateToHelp      Callback invoked to navigate to the help screen.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsView(
     viewModel: SettingsViewModel,
     onNavigateBack: () -> Unit,
-    onNavigateToLicenses: () -> Unit
+    onNavigateToLicenses: () -> Unit,
+    onNavigateToHelp: () -> Unit
 ) {
     val context = LocalContext.current
     val importMessageSuccess = stringResource(R.string.settings_data_importSuccess)
@@ -168,6 +162,19 @@ fun SettingsView(
             )
             HorizontalDivider()
 
+            //Help
+            Headline(
+                title = stringResource(R.string.settings_help),
+                indentToPrefixIcon = true
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_help_helpMessagesTitle),
+                info = stringResource(R.string.settings_help_helpMessagesInfo),
+                onClick = onNavigateToHelp,
+                endIcon = painterResource(R.drawable.ic_next),
+                prefixIcon = painterResource(R.drawable.ic_help)
+            )
+
             //About
             Headline(
                 title = stringResource(R.string.settings_about),
@@ -176,9 +183,7 @@ fun SettingsView(
             SettingsItemButton(
                 setting = stringResource(R.string.settings_about_licensesTitle),
                 info = stringResource(R.string.settings_about_licensesInfo),
-                onClick = {
-                    onNavigateToLicenses()
-                },
+                onClick = onNavigateToLicenses,
                 endIcon = painterResource(R.drawable.ic_next),
                 prefixIcon = painterResource(R.drawable.ic_license)
             )
@@ -186,7 +191,7 @@ fun SettingsView(
                 setting = stringResource(R.string.settings_about_githubTitle),
                 info = stringResource(R.string.settings_about_githubInfo),
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index"))
+                    val intent = Intent(Intent.ACTION_VIEW, "https://github.com/Christian-2003/petrol-index".toUri())
                     context.startActivity(intent)
                 },
                 endIcon = painterResource(R.drawable.ic_external),
@@ -196,7 +201,7 @@ fun SettingsView(
                 setting = stringResource(R.string.settings_about_issuesTitle),
                 info = stringResource(R.string.settings_about_issuesInfo),
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index/issues"))
+                    val intent = Intent(Intent.ACTION_VIEW, "https://github.com/Christian-2003/petrol-index/issues".toUri())
                     context.startActivity(intent)
                 },
                 endIcon = painterResource(R.drawable.ic_external),

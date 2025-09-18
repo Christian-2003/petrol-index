@@ -23,8 +23,14 @@
     <string name="consumption_distanceTraveled_suffix">Kilometer</string>
     <string name="consumption_description_label">Notizen</string>
 
+    <string name="help_title">Hinweisnachrichten</string>
+    <string name="help_help">Reaktiviere Hinweisnachrichten, die du zuvor ausgeblendet hast.</string>
+    <string name="help_reactivate">Klicken zum einblenden</string>
+    <string name="help_visibleLabel">Sichtbar</string>
+    <string name="help_dismissedLabel">Ausgeblendet</string>
     <string-array name="help_shortNames">
         <item>Verbäuche erstellen oder bearbeiten</item>
+        <item>Liste der Hinweisnachrichten</item>
     </string-array>
 
     <string name="button_delete">Löschen</string>
