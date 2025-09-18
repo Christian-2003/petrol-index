@@ -206,7 +206,7 @@ fun LicenseDialog(
                     modifier = Modifier.padding(end = dimensionResource(R.dimen.space_horizontal_between)),
                     painter = painterResource(R.drawable.ic_license),
                     tint = MaterialTheme.colorScheme.onSurface,
-                    contentDescription = stringResource(R.string.petrol_entries_content_description_delete)
+                    contentDescription = ""
                 )
                 Text(
                     text = licenseName,

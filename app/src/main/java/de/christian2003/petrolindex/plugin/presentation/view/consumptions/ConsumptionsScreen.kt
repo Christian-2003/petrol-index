@@ -59,7 +59,7 @@ fun ConsumptionsScreen(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_back),
-                            contentDescription = stringResource(R.string.petrol_entries_content_description_go_back),
+                            contentDescription = "",
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
@@ -85,7 +85,7 @@ fun ConsumptionsScreen(
         val consumptionToDelete: Consumption? = viewModel.consumptionToDelete
         if (consumptionToDelete != null) {
             ConfirmDeleteDialog(
-                text = stringResource(R.string.petrol_entries_delete_info),
+                text = stringResource(R.string.consumptions_deleteText),
                 onDismiss = {
                     viewModel.consumptionToDelete = null
                 },
@@ -106,7 +106,7 @@ fun ConsumptionsScreen(
  * @param onEditConsumption     Callback to edit a consumption.
  */
 @Composable
-fun ConsumptionsList(
+private fun ConsumptionsList(
     consumptions: List<Consumption>,
     onDeleteConsumption: (Consumption) -> Unit,
     onEditConsumption: (Consumption) -> Unit

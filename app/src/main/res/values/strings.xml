@@ -10,15 +10,35 @@
     <string name="consumptions_title">Your consumptions</string>
     <string name="consumptions_emptyPlaceholder_title">No consumptions</string>
     <string name="consumptions_emptyPlaceholder_subtitle">Created consumptions will show up here</string>
+    <string name="consumptions_deleteText">Are you sure you want to delete the petrol entry?</string>
+
+    <string name="consumption_titleCreate">Create consumption</string>
+    <string name="consumption_titleEdit">Edit consumption</string>
+    <string name="consumption_help">Edit the volume of petrol you consumed and enter the price you paid.</string>
+    <string name="consumption_consumptionDate_label">Date</string>
+    <string name="consumption_volume_label">Volume*</string>
+    <string name="consumption_volume_suffix">Gallons</string>
+    <string name="consumption_totalPrice_label">Total price*</string>
+    <string name="consumption_totalPrice_suffix">USD</string>
+    <string name="consumption_distanceTraveled_label">Distance traveled</string>
+    <string name="consumption_distanceTraveled_suffix">Miles</string>
+    <string name="consumption_description_label">Notes</string>
+
+    <string-array name="help_shortNames">
+        <item>Create or edit consumptions</item>
+    </string-array>
 
     <string name="button_delete">Delete</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_confirm">Confirm</string>
+    <string name="button_dismissHelp">Hide</string>
+    <string name="button_save">Save</string>
 
     <string name="error_emptyText">This field cannot be empty</string>
     <string name="error_volumeError">The volume is invalid</string>
     <string name="error_totalPriceError">The total price is invalid</string>
     <string name="error_distanceError">The distance is invalid</string>
+
 
 
 
@@ -41,38 +61,6 @@
     <string name="main_content_description_add_petrol_entry">Add new petrol entry</string>
     <string name="main_content_description_view_database">View database</string>
     <string name="main_content_description_settings">Open Settings</string>
-
-    <string name="petrol_entries_title">Petrol consumption</string>
-    <string name="petrol_entries_date">{arg}</string>
-    <string name="petrol_entries_total_price">{arg} USD</string>
-    <string name="petrol_entries_volume">{arg} Gallons</string>
-    <string name="petrol_entries_distance">{arg} Miles</string>
-    <string name="petrol_entries_price_per_liter">{arg} USD / Mile</string>
-    <string name="petrol_entries_delete_title">Confirm delete</string>
-    <string name="petrol_entries_delete_info">Are you sure you want to delete the petrol entry?</string>
-    <string name="petrol_entries_delete_confirm">Delete</string>
-    <string name="petrol_entries_delete_cancel">Cancel</string>
-    <string name="petrol_entries_content_description_go_back">Go back</string>
-    <string name="petrol_entries_content_description_delete">Delete petrol entry</string>
-
-    <string name="add_petrol_entry_title_add">Add petrol intake</string>
-    <string name="add_petrol_entry_title_edit">Edit petrol intake</string>
-    <string name="add_petrol_entry_info">Configure your petrol intake with this form in order to analyze your consumption</string>
-    <string name="add_petrol_entry_label_epoch_second">Date</string>
-    <string name="add_petrol_entry_label_volume">Volume*</string>
-    <string name="add_petrol_entry_label_total_price">Total price*</string>
-    <string name="add_petrol_entry_label_distance_traveled">Distance traveled</string>
-    <string name="add_petrol_entry_label_description">Description</string>
-    <string name="add_petrol_entry_suffix_volume">Gallons</string>
-    <string name="add_petrol_entry_suffix_total_price">USD</string>
-    <string name="add_petrol_entry_suffix_distance_traveled">Miles</string>
-    <string name="add_petrol_entry_button_add">Add</string>
-    <string name="add_petrol_entry_button_edit">Save</string>
-    <string name="add_petrol_entry_error_total_price">The total price is not valid</string>
-    <string name="add_petrol_entry_error_volume">The volume is not valid</string>
-    <string name="add_petrol_entry_content_description_go_back">Go back</string>
-    <string name="add_petrol_entry_content_description_info">Info</string>
-    <string name="add_petrol_entry_content_description_calendar">Select date</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_data">Data</string>

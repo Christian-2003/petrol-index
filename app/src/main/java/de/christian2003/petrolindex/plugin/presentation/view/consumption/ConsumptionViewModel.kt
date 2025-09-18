@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import kotlin.uuid.Uuid
 import de.christian2003.petrolindex.R
+import de.christian2003.petrolindex.plugin.presentation.view.help.HelpCard
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
@@ -104,11 +105,16 @@ class ConsumptionViewModel(application: Application): AndroidViewModel(applicati
      */
     var totalPriceErrorMessage: String? by mutableStateOf(null)
 
-
     /**
      * Error message for the text field through which to enter the distance traveled.
      */
     var distanceTraveledErrorMessage: String? by mutableStateOf(null)
+
+    /**
+     * Indicates whether the help card is visible.
+     */
+    var isHelpCardVisible: Boolean by mutableStateOf(false)
+        private set
 
     /**
      * Indicates whether all data is valid.
@@ -155,6 +161,7 @@ class ConsumptionViewModel(application: Application): AndroidViewModel(applicati
         this.updateConsumptionUseCase = updateConsumptionUseCase
         this.createConsumptionUseCase = createConsumptionUseCase
         this.getConsumptionUseCase = getConsumptionUseCase
+        isHelpCardVisible = HelpCard.CONSUMPTION.getVisible(getApplication<Application>().baseContext)
         isInitialized = true
         if (id != null) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -284,6 +291,15 @@ class ConsumptionViewModel(application: Application): AndroidViewModel(applicati
         catch (_: Exception) {
             distanceTraveledErrorMessage = getApplication<Application>().getString(R.string.error_totalPriceError)
         }
+    }
+
+
+    /**
+     * Dismisses the help card.
+     */
+    fun dismissHelpCard() {
+        isHelpCardVisible = false
+        HelpCard.CONSUMPTION.setVisible(getApplication<Application>().baseContext, false)
     }
 
 }
