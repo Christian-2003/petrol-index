@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import de.christian2003.petrolindex.R
-import de.christian2003.petrolindex.database.PetrolEntry
+import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
 import java.util.Locale
 
 
@@ -93,7 +93,7 @@ class DiagramInfo(
          * @param type              Type of the diagram info to create.
          */
         fun createInstance(
-            petrolEntries: List<PetrolEntry>,
+            petrolEntries: List<ConsumptionEntity>,
             context: Context,
             colorScheme: ColorScheme,
             type: DiagramType

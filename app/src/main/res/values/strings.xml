@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">Petrol Index</string>
+    <string name="confirm_delete">Confirm deletion</string>
+    <string name="format_totalPrice">$ %1$s</string>
+    <string name="format_volume">%1$s gal</string>
+    <string name="format_pricePerLiter">%1$s $/gal</string>
+    <string name="format_distanceTraveled">%1$s mi</string>
     <string name="export_file_name" translatable="false">petrol_index_{arg}.json</string>
+
+    <string name="consumptions_title">Your consumptions</string>
+    <string name="consumptions_emptyPlaceholder_title">No consumptions</string>
+    <string name="consumptions_emptyPlaceholder_subtitle">Created consumptions will show up here</string>
+
+    <string name="button_delete">Delete</string>
+    <string name="button_cancel">Cancel</string>
 
     <string name="main_title">Petrol Index</string>
     <string name="main_diagram_price_per_liter_title">Price per gallon</string>
@@ -79,4 +91,5 @@
 
     <string name="licenses_title">Used Software</string>
     <string name="licenses_content_description_go_back">Go back to settings</string>
+
 </resources>

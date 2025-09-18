@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">Petrol Index</string>
+    <string name="confirm_delete">Löschen bestätigen</string>
+    <string name="format_totalPrice">%1$s €</string>
+    <string name="format_volume">%1$s L</string>
+    <string name="format_pricePerLiter">%1$s €/L</string>
+    <string name="format_distanceTraveled">%1$s Km</string>
+
+    <string name="consumptions_title">Deine Verbräuche</string>
+    <string name="consumptions_emptyPlaceholder_title">Keine Verbräuche</string>
+    <string name="consumptions_emptyPlaceholder_subtitle">Erstellte Verbräuche erscheinen hier</string>
+
+    <string name="button_delete">Löschen</string>
+    <string name="button_cancel">Abbrechen</string>
 
     <string name="main_title">Petrol Index</string>
     <string name="main_diagram_price_per_liter_title">Preis pro Liter</string>
