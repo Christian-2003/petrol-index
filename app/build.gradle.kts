@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.apkupdater.library)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
 

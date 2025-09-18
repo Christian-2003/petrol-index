@@ -1,11 +1,13 @@
 package de.christian2003.petrolindex.plugin.presentation.view.settings
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,11 +23,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +40,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import coil.compose.rememberAsyncImagePainter
 import de.christian2003.petrolindex.R
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -56,12 +63,12 @@ fun SettingsView(
     onNavigateToLicenses: () -> Unit
 ) {
     val context = LocalContext.current
-    val importMessageSuccess = stringResource(R.string.settings_data_import_success)
-    val importMessageError = stringResource(R.string.settings_data_import_error)
-    val exportMessageSuccess = stringResource(R.string.settings_data_export_success)
-    val exportMessageError = stringResource(R.string.settings_data_export_error)
+    val importMessageSuccess = stringResource(R.string.settings_data_importSuccess)
+    val importMessageError = stringResource(R.string.settings_data_importError)
+    val exportMessageSuccess = stringResource(R.string.settings_data_exportSuccess)
+    val exportMessageError = stringResource(R.string.settings_data_exportError)
     val exportFilename = stringResource(R.string.export_file_name)
-    //Activity result launcher to select a file for the export:
+
     val createExportIntentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.data != null && result.data!!.data != null) {
             viewModel.exportDataToJsonFile(
@@ -77,7 +84,7 @@ fun SettingsView(
             )
         }
     }
-    //Activity result launcher to select a file from which to restore data:
+
     val restoreExportIntentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.data != null && result.data!!.data != null) {
             viewModel.restoreDataFromJsonFile(
@@ -94,11 +101,9 @@ fun SettingsView(
         }
     }
 
-
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
                 title = {
                     Text(
@@ -127,11 +132,18 @@ fun SettingsView(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
+            //General:
+            GeneralSection()
+            HorizontalDivider()
+
             //Data:
-            SettingsTitle(stringResource(R.string.settings_data), false)
+            Headline(
+                title = stringResource(R.string.settings_data),
+                indentToPrefixIcon = true
+            )
             SettingsItemButton(
-                setting = stringResource(R.string.settings_data_export),
-                info = stringResource(R.string.settings_data_export_info),
+                setting = stringResource(R.string.settings_data_exportTitle),
+                info = stringResource(R.string.settings_data_exportInfo),
                 onClick = {
                     val formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                     val filename = exportFilename.replace("{arg}", formattedDate)
@@ -144,8 +156,8 @@ fun SettingsView(
                 prefixIcon = painterResource(R.drawable.ic_export)
             )
             SettingsItemButton(
-                setting = stringResource(R.string.settings_data_import),
-                info = stringResource(R.string.settings_data_import_info),
+                setting = stringResource(R.string.settings_data_importTitle),
+                info = stringResource(R.string.settings_data_importInfo),
                 onClick = {
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -154,12 +166,16 @@ fun SettingsView(
                 },
                 prefixIcon = painterResource(R.drawable.ic_import)
             )
+            HorizontalDivider()
 
             //About
-            SettingsTitle(stringResource(R.string.settings_about))
+            Headline(
+                title = stringResource(R.string.settings_about),
+                indentToPrefixIcon = true
+            )
             SettingsItemButton(
-                setting = stringResource(R.string.settings_about_licenses),
-                info = stringResource(R.string.settings_about_licenses_info),
+                setting = stringResource(R.string.settings_about_licensesTitle),
+                info = stringResource(R.string.settings_about_licensesInfo),
                 onClick = {
                     onNavigateToLicenses()
                 },
@@ -167,8 +183,8 @@ fun SettingsView(
                 prefixIcon = painterResource(R.drawable.ic_license)
             )
             SettingsItemButton(
-                setting = stringResource(R.string.settings_about_github),
-                info = stringResource(R.string.settings_about_github_info),
+                setting = stringResource(R.string.settings_about_githubTitle),
+                info = stringResource(R.string.settings_about_githubInfo),
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index"))
                     context.startActivity(intent)
@@ -177,8 +193,8 @@ fun SettingsView(
                 prefixIcon = painterResource(R.drawable.ic_github)
             )
             SettingsItemButton(
-                setting = stringResource(R.string.settings_about_issues),
-                info = stringResource(R.string.settings_about_issues_info),
+                setting = stringResource(R.string.settings_about_issuesTitle),
+                info = stringResource(R.string.settings_about_issuesInfo),
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Christian-2003/petrol-index/issues"))
                     context.startActivity(intent)
@@ -187,8 +203,8 @@ fun SettingsView(
                 prefixIcon = painterResource(R.drawable.ic_bug)
             )
             SettingsItemButton(
-                setting = stringResource(R.string.settings_about_more),
-                info = stringResource(R.string.settings_about_more_info),
+                setting = stringResource(R.string.settings_about_moreTitle),
+                info = stringResource(R.string.settings_about_moreInfo),
                 onClick = {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     val uri = Uri.fromParts("package", context.packageName, null)
@@ -198,42 +214,8 @@ fun SettingsView(
                 endIcon = painterResource(R.drawable.ic_external),
                 prefixIcon = painterResource(R.drawable.ic_android)
             )
-
-            VersionInfo()
         }
     }
-}
-
-
-/**
- * Composable displays a title for a group of related settings.
- *
- * @param title Title to display.
- */
-@Composable
-fun SettingsTitle(
-    title: String,
-    divider: Boolean = true
-) {
-    if (divider) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(MaterialTheme.colorScheme.outlineVariant)
-        )
-    }
-    Text(
-        modifier = Modifier.padding(
-            start = dimensionResource(R.dimen.space_horizontal) + dimensionResource(R.dimen.image_xs) + dimensionResource(R.dimen.space_horizontal_between),
-            top = dimensionResource(R.dimen.space_vertical),
-            end = dimensionResource(R.dimen.space_horizontal),
-            bottom = dimensionResource(R.dimen.space_vertical_between)),
-        text = title,
-        color = MaterialTheme.colorScheme.primary,
-        style = MaterialTheme.typography.bodyLarge,
-        fontWeight = FontWeight.Bold
-    )
 }
 
 
@@ -259,8 +241,8 @@ fun SettingsItemButton(
                 onClick()
             }
             .padding(
-                vertical = dimensionResource(R.dimen.space_vertical_between),
-                horizontal = dimensionResource(R.dimen.space_horizontal)
+                vertical = dimensionResource(R.dimen.padding_vertical),
+                horizontal = dimensionResource(R.dimen.margin_horizontal)
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -270,7 +252,7 @@ fun SettingsItemButton(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentDescription = "",
                 modifier = Modifier
-                    .padding(end = dimensionResource(R.dimen.space_horizontal_between))
+                    .padding(end = dimensionResource(R.dimen.padding_horizontal))
                     .size(dimensionResource(R.dimen.image_xs))
             )
         }
@@ -291,7 +273,7 @@ fun SettingsItemButton(
                         tint = MaterialTheme.colorScheme.onSurface,
                         contentDescription = "",
                         modifier = Modifier
-                            .padding(start = dimensionResource(R.dimen.space_horizontal_small))
+                            .padding(start = dimensionResource(R.dimen.padding_horizontal) / 2)
                             .size(dimensionResource(R.dimen.image_xxs))
                     )
                 }
@@ -303,41 +285,52 @@ fun SettingsItemButton(
             )
         }
     }
-
 }
 
 
+/**
+ * Displays the general information which contains info about the app.
+ */
 @Composable
-fun VersionInfo() {
-    val context = LocalContext.current
-    val versionName: String = context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: ""
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+private fun GeneralSection() {
+    val context: Context = LocalContext.current
+    val version: String? = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                horizontal = dimensionResource(R.dimen.space_horizontal),
-                vertical = dimensionResource(R.dimen.space_vertical)
+                horizontal = dimensionResource(R.dimen.margin_horizontal),
+                vertical = dimensionResource(R.dimen.padding_vertical)
             )
     ) {
-        Text(
-            text = stringResource(R.string.settings_info_version).replace("{arg}", versionName),
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
+        Image(
+            painter = rememberAsyncImagePainter(R.mipmap.ic_launcher),
+            contentDescription = "",
+            modifier = Modifier.size(dimensionResource(R.dimen.image_l))
         )
-        Text(
-            text = stringResource(R.string.settings_info_copyright).replace("{arg}", LocalDateTime.now().year.toString()),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Icon(
-            painter = painterResource(R.drawable.ic_splash_branding),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            contentDescription = ""
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = dimensionResource(R.dimen.padding_horizontal))
+        ) {
+            Text(
+                text = stringResource(R.string.app_name),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyLargeEmphasized
+            )
+            if (version != null) {
+                Text(
+                    text = version,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+            Text(
+                text = stringResource(R.string.settings_about_copyright, LocalDate.now().year.toString()),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_vertical))
+            )
+        }
     }
 }
