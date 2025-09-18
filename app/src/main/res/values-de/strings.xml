@@ -12,6 +12,14 @@
 
     <string name="button_delete">Löschen</string>
     <string name="button_cancel">Abbrechen</string>
+    <string name="button_confirm">Bestätigen</string>
+
+    <string name="error_emptyText">Dieses Feld darf nicht leer sein</string>
+    <string name="error_volumeError">Das Volumen ist ungültig</string>
+    <string name="error_totalPriceError">Der Preis ist ungültig</string>
+    <string name="error_distanceError">Die Entfernung ist ungültig</string>
+
+
 
     <string name="main_title">Petrol Index</string>
     <string name="main_diagram_price_per_liter_title">Preis pro Liter</string>

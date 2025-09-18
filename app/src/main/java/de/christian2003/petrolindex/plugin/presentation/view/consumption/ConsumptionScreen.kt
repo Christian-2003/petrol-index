@@ -99,16 +99,17 @@ fun ConsumptionScreen(
                 totalPrice = viewModel.totalPrice,
                 distanceTraveled = viewModel.distanceTraveled,
                 description = viewModel.description,
-                totalPriceValid = viewModel.isTotalPriceValid.value,
-                volumeValid = viewModel.isVolumeValid.value,
+                volumeErrorMessage = viewModel.volumeErrorMessage,
+                totalPriceErrorMessage = viewModel.totalPriceErrorMessage,
+                distanceTraveledErrorMessage = viewModel.distanceTraveledErrorMessage,
                 onVolumeChange = {
-                    viewModel.volume = it
+                    viewModel.updateVolume(it)
                 },
                 onTotalPriceChange = {
-                    viewModel.totalPrice = it
+                    viewModel.updateTotalPrice(it)
                 },
                 onDistanceTraveledChange = {
-                    viewModel.distanceTraveled = it
+                    viewModel.updateDistanceTraveled(it)
                 },
                 onDescriptionChange = {
                     viewModel.description = it
@@ -122,7 +123,7 @@ fun ConsumptionScreen(
                     viewModel.save()
                     onNavigateUp()
                 },
-                enabled = viewModel.isVolumeValid.value && viewModel.isTotalPriceValid.value,
+                enabled = viewModel.isDataValid.value,
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.space_vertical))
             ) {
                 Text(
@@ -159,18 +160,21 @@ fun ConsumptionScreen(
  * View displays the input section of the page through which the user can enter all information
  * required.
  *
- * @param consumptionDate           Date at which the petrol entry shall be done.
- * @param volume                    String representation of the volume (in L) consumed by the user.
- * @param totalPrice                String representation of the total price (in EUR) charged.
- * @param distanceTraveled          String representation of the distance traveled.
- * @param description               Description of the petrol entry.
- * @param totalPriceValid           Whether the total price entered by the user is valid.
- * @param volumeValid               Whether the volume entered by the user is valid.
- * @param onVolumeChange            Callback invoked when the volume is changed.
- * @param onTotalPriceChange        Callback invoked when the total price is changed.
- * @param onDistanceTraveledChange  Callback invoked when the distance traveled is changed.
- * @param onDescriptionChange       Callback invoked when the description is changed.
- * @param onShowDatePicker          Callback invoked when the modal date picker dialog shall be displayed.
+ * @param consumptionDate               Date at which the petrol entry shall be done.
+ * @param volume                        String representation of the volume (in L) consumed by the
+ *                                      user.
+ * @param totalPrice                    String representation of the total price (in EUR) charged.
+ * @param distanceTraveled              String representation of the distance traveled.
+ * @param description                   Description of the petrol entry.
+ * @param volumeErrorMessage            Error message if the volume entered is invalid.
+ * @param totalPriceErrorMessage        Error message if the total price entered is invalid.
+ * @param distanceTraveledErrorMessage  Error message if the distance traveled entered is invalid.
+ * @param onVolumeChange                Callback invoked when the volume is changed.
+ * @param onTotalPriceChange            Callback invoked when the total price is changed.
+ * @param onDistanceTraveledChange      Callback invoked when the distance traveled is changed.
+ * @param onDescriptionChange           Callback invoked when the description is changed.
+ * @param onShowDatePicker              Callback invoked when the modal date picker dialog shall be
+ *                                      displayed.
  */
 @Composable
 fun InputSection(
@@ -179,8 +183,9 @@ fun InputSection(
     totalPrice: String,
     distanceTraveled: String?,
     description: String,
-    totalPriceValid: Boolean,
-    volumeValid: Boolean,
+    volumeErrorMessage: String?,
+    totalPriceErrorMessage: String?,
+    distanceTraveledErrorMessage: String?,
     onVolumeChange: (String) -> Unit,
     onTotalPriceChange: (String) -> Unit,
     onDistanceTraveledChange: (String) -> Unit,
@@ -197,7 +202,6 @@ fun InputSection(
             onValueChange = { /* Value cannot change through text field (only through modifier pointer) */ },
             label = stringResource(R.string.add_petrol_entry_label_epoch_second),
             prefixIcon = painterResource(R.drawable.ic_calendar),
-            trailingIcon = painterResource(R.drawable.ic_calendar),
             modifier = Modifier.pointerInput(consumptionDate) {
                 awaitEachGesture {
                     // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
@@ -213,7 +217,6 @@ fun InputSection(
         )
 
         //Enter volume:
-        val volumeError: String? = if (!volumeValid) { stringResource(R.string.add_petrol_entry_error_volume) } else { null }
         TextInput(
             value = volume,
             onValueChange = {
@@ -223,11 +226,11 @@ fun InputSection(
             prefixIcon = painterResource(R.drawable.ic_petrol),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             suffixLabel = stringResource(R.string.add_petrol_entry_suffix_volume),
-            errorMessage = volumeError
+            errorMessage = volumeErrorMessage,
+            visualTransformation = NumberFormatTransformation()
         )
 
         //Enter total price:
-        val totalPriceError: String? = if (!totalPriceValid) { stringResource(R.string.add_petrol_entry_error_total_price) } else { null }
         TextInput(
             value = totalPrice,
             onValueChange = {
@@ -237,7 +240,8 @@ fun InputSection(
             prefixIcon = painterResource(R.drawable.ic_price),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             suffixLabel = stringResource(R.string.add_petrol_entry_suffix_total_price),
-            errorMessage = totalPriceError
+            errorMessage = totalPriceErrorMessage,
+            visualTransformation = NumberFormatTransformation()
         )
 
         //Enter distance traveled:
@@ -249,7 +253,9 @@ fun InputSection(
             label = stringResource(R.string.add_petrol_entry_label_distance_traveled),
             prefixIcon = painterResource(R.drawable.ic_distance),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-            suffixLabel = stringResource(R.string.add_petrol_entry_suffix_distance_traveled)
+            suffixLabel = stringResource(R.string.add_petrol_entry_suffix_distance_traveled),
+            errorMessage = distanceTraveledErrorMessage,
+            visualTransformation = NumberFormatTransformation()
         )
 
         //Enter description:
@@ -294,12 +300,12 @@ fun DatePickerModal(
                 onDateSelected(datePickerState.selectedDateMillis)
                 onDismiss()
             }) {
-                Text("OK")
+                Text(stringResource(R.string.button_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.button_cancel))
             }
         }
     ) {

@@ -113,7 +113,7 @@ fun ConsumptionListItem(
                     )
                     if (consumption.distanceTraveled != null) {
                         FormattedText(
-                            text = stringResource(R.string.format_distanceTraveled, currencyFormatter.format(consumption.distanceTraveled!!)),
+                            text = stringResource(R.string.format_distanceTraveled, consumption.distanceTraveled!!),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             prefixIcon = painterResource(R.drawable.ic_distance)

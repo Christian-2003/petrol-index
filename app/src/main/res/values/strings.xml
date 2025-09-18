@@ -13,6 +13,14 @@
 
     <string name="button_delete">Delete</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_confirm">Confirm</string>
+
+    <string name="error_emptyText">This field cannot be empty</string>
+    <string name="error_volumeError">The volume is invalid</string>
+    <string name="error_totalPriceError">The total price is invalid</string>
+    <string name="error_distanceError">The distance is invalid</string>
+
+
 
     <string name="main_title">Petrol Index</string>
     <string name="main_diagram_price_per_liter_title">Price per gallon</string>
