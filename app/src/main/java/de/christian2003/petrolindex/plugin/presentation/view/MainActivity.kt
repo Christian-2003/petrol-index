@@ -26,6 +26,7 @@ import de.christian2003.petrolindex.application.usecases.UpdateConsumptionUseCas
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexDatabase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
 import de.christian2003.petrolindex.model.update.UpdateManager
+import de.christian2003.petrolindex.plugin.infrastructure.backup.AppInfoProvider
 import de.christian2003.petrolindex.plugin.infrastructure.backup.CreateAndRestoreJsonBackupUseCase
 import de.christian2003.petrolindex.plugin.presentation.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.plugin.presentation.view.consumption.ConsumptionScreen
@@ -181,7 +182,10 @@ fun PetrolIndex(
             composable("settings") {
                 val jsonBackupUseCase = CreateAndRestoreJsonBackupUseCase(
                     repository = repository,
-                    context = context
+                    appInfoProvider = object: AppInfoProvider {
+                        override fun getAppName(): String { return context.packageManager.getPackageInfo(context.packageName, 0).versionName!! }
+                        override fun getAppVersion(): String { return context.applicationInfo.loadLabel(context.packageManager).toString() }
+                    }
                 )
                 val viewModel: SettingsViewModel = viewModel()
                 viewModel.init(

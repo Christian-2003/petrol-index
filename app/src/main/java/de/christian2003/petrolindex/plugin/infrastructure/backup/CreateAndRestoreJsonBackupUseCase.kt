@@ -1,6 +1,5 @@
 package de.christian2003.petrolindex.plugin.infrastructure.backup
 
-import android.content.Context
 import android.util.Log
 import de.christian2003.petrolindex.application.backup.BackupRepository
 import de.christian2003.petrolindex.application.backup.CreateBackupUseCase
@@ -20,12 +19,12 @@ import java.time.LocalDateTime
 /**
  * Implementation of the backup use case that generates a JSON backup.
  *
- * @param repository    Repository used to access the data.
- * @param context       Android context.
+ * @param repository        Repository used to access the data.
+ * @param appInfoProvider   Provider for app information that are used in the backup.
  */
 class CreateAndRestoreJsonBackupUseCase(
     private val repository: BackupRepository,
-    private val context: Context
+    private val appInfoProvider: AppInfoProvider
 ): CreateBackupUseCase, RestoreBackupUseCase {
 
     /**
@@ -52,8 +51,8 @@ class CreateAndRestoreJsonBackupUseCase(
             val backupModel = BackupRootDto(
                 metadata = BackupMetadataDto(
                     created = LocalDateTime.now(),
-                    appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionName!!,
-                    appName = context.applicationInfo.loadLabel(context.packageManager).toString(),
+                    appVersion = appInfoProvider.getAppVersion(),
+                    appName = appInfoProvider.getAppName(),
                     backupVersion = 2
                 ),
                 consumptions = consumptionDtos
@@ -89,18 +88,15 @@ class CreateAndRestoreJsonBackupUseCase(
                     consumptionMapper.toDomain(consumption)
                 }
                 repository.restoreBackup(consumptions, restoreStrategy)
-                Log.d("JSON Backup", "Restored V2 backup")
                 return true
             } catch (_: Exception) {
-                Log.d("JSON Backup", "Cannot restore V2 backup")
                 return false
             }
         }
         else {
             val v1BackupModel: List<PetrolEntryDto>? = try {
                 Json.decodeFromString<List<PetrolEntryDto>>(serializedData)
-            } catch (e: Exception) {
-                Log.d("JSON Backup", e.message ?: "No message provided")
+            } catch (_: Exception) {
                 null
             }
 
@@ -110,12 +106,10 @@ class CreateAndRestoreJsonBackupUseCase(
                     consumptionMapper.toDomain(petrolEntry)
                 }
                 repository.restoreBackup(consumptions, restoreStrategy)
-                Log.d("JSON Backup", "Restored V1 backup")
                 return true
             }
 
             //Unknown backup:
-            Log.d("JSON Backup", "Unknown backup")
             return false
         }
     }
