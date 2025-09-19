@@ -22,13 +22,25 @@ import kotlinx.coroutines.withContext
  */
 class SettingsViewModel(application: Application): AndroidViewModel(application) {
 
+    /**
+     * Use case to create backups.
+     */
     private lateinit var createBackupUseCase: CreateBackupUseCase
 
+    /**
+     * Use case to restore backups.
+     */
     private lateinit var restoreBackupUseCase: RestoreBackupUseCase
 
+    /**
+     * Whether the view model has been initialized.
+     */
     private var isInitialized: Boolean = false
 
-    var importUri: Uri? by mutableStateOf(null)
+    /**
+     * URI of the backup file from which to restore the backup.
+     */
+    var restoreUri: Uri? by mutableStateOf(null)
 
 
     /**
@@ -92,6 +104,13 @@ class SettingsViewModel(application: Application): AndroidViewModel(application)
     }
 
 
+    /**
+     * Writes contents to a file and returns whether the file contents were written successfully.
+     *
+     * @param uri       URI of the file to write.
+     * @param content   Content to write to the file.
+     * @return          Whether the file contents were written successfully.
+     */
     private fun writeToFile(uri: Uri, content: String): Boolean {
         val context: Context = getApplication<Application>().applicationContext
         try {
@@ -108,6 +127,13 @@ class SettingsViewModel(application: Application): AndroidViewModel(application)
     }
 
 
+    /**
+     * Reads contents from a file and returns them as string. If the file contents cannot be read,
+     * null is returned.
+     *
+     * @param uri   URI of the file to read.
+     * @return      File content or null.
+     */
     private fun readFromFile(uri: Uri): String? {
         val context: Context = getApplication<Application>().applicationContext
         var content: String? = null

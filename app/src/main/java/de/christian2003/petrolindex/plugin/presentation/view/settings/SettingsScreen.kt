@@ -81,7 +81,7 @@ fun SettingsScreen(
 
     val restoreExportIntentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.data != null && result.data!!.data != null) {
-            viewModel.importUri = result.data!!.data!!
+            viewModel.restoreUri = result.data!!.data!!
         }
     }
 
@@ -212,14 +212,14 @@ fun SettingsScreen(
             )
         }
 
-        if (viewModel.importUri != null) {
+        if (viewModel.restoreUri != null) {
             RestoreBackupDialog(
                 onDismiss = {
-                    viewModel.importUri = null
+                    viewModel.restoreUri = null
                 },
                 onConfirm = { restoreStrategy ->
                     viewModel.restoreBackup(
-                        viewModel.importUri,
+                        viewModel.restoreUri,
                         restoreStrategy = restoreStrategy,
                         onFinished = { success ->
                             if (success) {
@@ -230,7 +230,7 @@ fun SettingsScreen(
                             }
                         }
                     )
-                    viewModel.importUri = null
+                    viewModel.restoreUri = null
                 }
             )
         }
