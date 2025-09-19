@@ -91,15 +91,14 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.coroutines)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.charts)
-    implementation(libs.gson)
     implementation(libs.apkupdater.library)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
