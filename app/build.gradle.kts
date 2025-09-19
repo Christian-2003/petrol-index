@@ -3,8 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.androidx.room)
     kotlin("plugin.serialization") version "2.1.21"
 }
+
 
 android {
     namespace = "de.christian2003.petrolindex"
@@ -36,25 +38,39 @@ android {
             applicationIdSuffix = ".debug"
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_19
         targetCompatibility = JavaVersion.VERSION_19
     }
+
     kotlinOptions {
         jvmTarget = "19"
     }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
 }
+
 
 kotlin {
     compilerOptions {
@@ -68,6 +84,7 @@ kotlin {
     }
 }
 
+
 android.applicationVariants.all {
     outputs.all {
         val appName = "petrol-index"
@@ -75,6 +92,7 @@ android.applicationVariants.all {
         (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName = "$appName-v$versionName.apk"
     }
 }
+
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -107,6 +125,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.ui.test)
     androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.androidx.room.testing)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
