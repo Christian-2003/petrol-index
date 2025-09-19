@@ -2,7 +2,6 @@ package de.christian2003.petrolindex.application.usecases
 
 import de.christian2003.petrolindex.application.repository.ConsumptionRepository
 import de.christian2003.petrolindex.domain.model.Consumption
-import de.christian2003.petrolindex.plugin.presentation.view.consumption.ConsumptionScreen
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

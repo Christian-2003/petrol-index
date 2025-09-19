@@ -1,6 +1,5 @@
 package de.christian2003.petrolindex.application.usecases
 
-import android.service.autofill.UserData
 import de.christian2003.petrolindex.application.repository.ConsumptionRepository
 import de.christian2003.petrolindex.domain.model.Consumption
 import kotlinx.coroutines.flow.Flow
