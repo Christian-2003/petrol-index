@@ -38,6 +38,7 @@
     <string name="button_confirm">Bestätigen</string>
     <string name="button_dismissHelp">Ausblenden</string>
     <string name="button_save">Speichern</string>
+    <string name="button_import">Importieren</string>
 
     <string name="error_emptyText">Dieses Feld darf nicht leer sein</string>
     <string name="error_volumeError">Das Volumen ist ungültig</string>
@@ -92,6 +93,19 @@
     <string name="settings_info_version">Version {arg}</string>
     <string name="settings_info_copyright">© 2024-{arg} Christian-2003</string>
     <string name="settings_content_description_go_back">Zurück</string>
+
+    <string name="restore_title">Option auswählen</string>
+    <string name="restore_text">Wähle aus, was mit deinen aktuellen Daten geschehen soll</string>
+    <string-array name="restore_restoreStrategy_titles">
+        <item>Aktuelle Daten löschen</item>
+        <item>Aktuelle Daten ersetzen</item>
+        <item>Duplikate überspringen</item>
+    </string-array>
+    <string-array name="restore_restoreStrategy_texts">
+        <item>Löscht alle aktuellen Daten, bevor neue Daten importiert werden</item>
+        <item>Beim Importieren werden Duplikate ersetzt</item>
+        <item>Duplikate werden nicht importiert</item>
+    </string-array>
 
     <string name="licenses_title">Verwendete Software</string>
     <string name="licenses_content_description_go_back">Zurück zu Einstellungen</string>

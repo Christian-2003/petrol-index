@@ -1,5 +1,7 @@
 package de.christian2003.petrolindex.plugin.infrastructure.db
 
+import de.christian2003.petrolindex.application.backup.BackupRepository
+import de.christian2003.petrolindex.application.backup.RestoreStrategy
 import de.christian2003.petrolindex.application.repository.ConsumptionRepository
 import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.infrastructure.db.dao.ConsumptionDao
@@ -17,7 +19,7 @@ import kotlin.uuid.Uuid
  */
 class PetrolIndexRepository(
     private val consumptionDao: ConsumptionDao
-): ConsumptionRepository {
+): ConsumptionRepository, BackupRepository {
 
     /**
      * Mapper maps the domain model 'Consumption' to the database entity.
@@ -103,6 +105,35 @@ class PetrolIndexRepository(
      */
     override suspend fun deleteAllConsumptions() {
         consumptionDao.deleteAll()
+    }
+
+
+    /**
+     * Restores the backup data passed as argument based on the specified restore strategy.
+     *
+     * @param consumptions      List of consumptions to restore.
+     * @param restoreStrategy   Strategy for restoring the data.
+     */
+    override suspend fun restoreBackup(
+        consumptions: List<Consumption>,
+        restoreStrategy: RestoreStrategy
+    ) {
+        val consumptionEntities: List<ConsumptionEntity> = consumptions.map {
+            consumption -> consumptionMapper.toEntity(consumption)
+        }
+
+        when (restoreStrategy) {
+            RestoreStrategy.DELETE_EXISTING_DATA -> {
+                consumptionDao.deleteAll()
+                consumptionDao.insertAllAndIgnoreConflicts(consumptionEntities)
+            }
+            RestoreStrategy.REPLACE_EXISTING_DATA -> {
+                consumptionDao.upsertAll(consumptionEntities)
+            }
+            RestoreStrategy.IGNORE_EXISTING_DATA -> {
+                consumptionDao.insertAllAndIgnoreConflicts(consumptionEntities)
+            }
+        }
     }
 
 }

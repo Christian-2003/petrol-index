@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
 import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.Uuid
@@ -60,6 +61,25 @@ interface ConsumptionDao {
      */
     @Delete
     suspend fun delete(consumption: ConsumptionEntity)
+
+
+    /**
+     * Upserts all consumptions passed as argument.
+     *
+     * @param consumptions  List of consumptions to upsert.
+     */
+    @Upsert
+    suspend fun upsertAll(consumptions: List<ConsumptionEntity>)
+
+
+    /**
+     * Inserts the list of passed consumptions into the database. All conflicts are ignored and not
+     * inserted.
+     *
+     * @param consumptions  Consumptions to insert.
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAllAndIgnoreConflicts(consumptions: List<ConsumptionEntity>)
 
 
     /**

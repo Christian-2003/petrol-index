@@ -1,5 +1,6 @@
 package de.christian2003.petrolindex.plugin.presentation.view
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,7 @@ import de.christian2003.petrolindex.application.usecases.UpdateConsumptionUseCas
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexDatabase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
 import de.christian2003.petrolindex.model.update.UpdateManager
+import de.christian2003.petrolindex.plugin.infrastructure.backup.CreateAndRestoreJsonBackupUseCase
 import de.christian2003.petrolindex.plugin.presentation.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.plugin.presentation.view.consumption.ConsumptionScreen
 import de.christian2003.petrolindex.plugin.presentation.view.consumption.ConsumptionViewModel
@@ -36,7 +38,7 @@ import de.christian2003.petrolindex.plugin.presentation.view.consumptions.Consum
 import de.christian2003.petrolindex.plugin.presentation.view.consumptions.ConsumptionsViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.help.HelpScreen
 import de.christian2003.petrolindex.plugin.presentation.view.help.HelpViewModel
-import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsView
+import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsScreen
 import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,9 +49,6 @@ import kotlin.uuid.toKotlinUuid
 
 /**
  * Class implements the main activity of the app.
- *
- * @author  Christian-2003
- * @since   1.0.0
  */
 class MainActivity : ComponentActivity() {
 
@@ -86,68 +85,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PetrolIndex(
-                writeToFile = { uri, content ->
-                    writeToFile(uri, content)
-                },
-                readFromFile = {uri ->
-                    readFromFile(uri)
-                },
                 updateManager = updateManager!!
             )
         }
-    }
-
-
-    /**
-     * Method writes the content string specified to the file whose URI is passed as argument.
-     * Afterwards, a boolean indicating whether the file operation was successful is returned.
-     * This method blocks the calling dispatcher.
-     *
-     * @param uri       URI of the file to which to write the content.
-     * @param content   Content to write to the file specified.
-     * @return          Whether the file operation was successful.
-     */
-    private fun writeToFile(uri: Uri, content: String): Boolean {
-        try {
-            contentResolver.openOutputStream(uri)?.use { stream ->
-                stream.write(content.toByteArray())
-                stream.flush()
-            }
-        }
-        catch (e: Exception) {
-            Log.e("WriteToFile", e.stackTraceToString())
-            return false
-        }
-        return true
-    }
-
-
-    /**
-     * Method reads the file whose URI is passed as argument. The content of the file is returned
-     * as string afterwards. If the file cannot be read, null is returned. This method blocks the
-     * calling dispatcher.
-     *
-     * @param uri   URI of the file to read.
-     * @return      Content of the file as string.
-     */
-    private fun readFromFile(uri: Uri): String? {
-        var content: String? = null
-        try {
-            contentResolver.openInputStream(uri)?.use { stream ->
-                val buffer = ByteArray(1024)
-                val stringBuilder = StringBuilder()
-                var bytesRead: Int
-                while (stream.read(buffer).also { bytesRead = it } != -1) {
-                    stringBuilder.append(String(buffer, 0, bytesRead))
-                }
-                content = stringBuilder.toString()
-            }
-        }
-        catch (e: Exception) {
-            Log.e("ReadFromFile", e.stackTraceToString())
-            content = null
-        }
-        return content
     }
 
 }
@@ -156,18 +96,15 @@ class MainActivity : ComponentActivity() {
 /**
  * Composable displays the entire application.
  *
- * @param writeToFile   Callback to invoke to write data to a file.
- * @param readFromFile  Callback to invoke to read data from a file.
  * @param updateManager Update manager through which to detect and download app updates.
  */
 @Composable
 fun PetrolIndex(
-    writeToFile: (Uri, String) -> Boolean,
-    readFromFile: (Uri) -> String?,
     updateManager: UpdateManager
 ) {
+    val context: Context = LocalContext.current
     val navController = rememberNavController()
-    val database = PetrolIndexDatabase.getInstance(LocalContext.current)
+    val database = PetrolIndexDatabase.getInstance(context)
     val repository = PetrolIndexRepository(database.petrolEntryDao)
 
     PetrolIndexTheme {
@@ -242,12 +179,19 @@ fun PetrolIndex(
             }
 
             composable("settings") {
+                val jsonBackupUseCase = CreateAndRestoreJsonBackupUseCase(
+                    repository = repository,
+                    context = context
+                )
                 val viewModel: SettingsViewModel = viewModel()
-                viewModel.init(repository, writeToFile, readFromFile)
+                viewModel.init(
+                    createBackupUseCase = jsonBackupUseCase,
+                    restoreBackupUseCase = jsonBackupUseCase
+                )
 
-                SettingsView(
+                SettingsScreen(
                     viewModel = viewModel,
-                    onNavigateBack = {
+                    onNavigateUp = {
                         navController.navigateUp()
                     },
                     onNavigateToLicenses = {

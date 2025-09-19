@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
 import de.christian2003.petrolindex.domain.model.Consumption
-import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
-import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch

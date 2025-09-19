@@ -1,6 +1,5 @@
 package de.christian2003.petrolindex.application.usecases
 
-import android.accessibilityservice.GestureDescription
 import de.christian2003.petrolindex.application.repository.ConsumptionRepository
 import de.christian2003.petrolindex.domain.model.Consumption
 import java.time.LocalDate

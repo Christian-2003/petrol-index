@@ -39,6 +39,7 @@
     <string name="button_confirm">Confirm</string>
     <string name="button_dismissHelp">Hide</string>
     <string name="button_save">Save</string>
+    <string name="button_import">Import</string>
 
     <string name="error_emptyText">This field cannot be empty</string>
     <string name="error_volumeError">The volume is invalid</string>
@@ -94,6 +95,19 @@
     <string name="settings_info_version">Version {arg}</string>
     <string name="settings_info_copyright">© 2024-{arg} Christian-2003</string>
     <string name="settings_content_description_go_back">Go back</string>
+
+    <string name="restore_title">Select option</string>
+    <string name="restore_text">Select what should happen with existing data</string>
+    <string-array name="restore_restoreStrategy_titles">
+        <item>Delete existing data</item>
+        <item>Replace existing data</item>
+        <item>Skip duplicates</item>
+    </string-array>
+    <string-array name="restore_restoreStrategy_texts">
+        <item>Deletes all current data before importing new data</item>
+        <item>Replaces duplicates while importing new data</item>
+        <item>Duplicates are not imported</item>
+    </string-array>
 
     <string name="licenses_title">Used Software</string>
     <string name="licenses_content_description_go_back">Go back to settings</string>

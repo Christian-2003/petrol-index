@@ -45,14 +45,14 @@ import androidx.core.net.toUri
  * Composable displays the view containing all settings.
  *
  * @param viewModel             View model for the view.
- * @param onNavigateBack        Callback to invoke in order to navigate back.
+ * @param onNavigateUp          Callback invoked to navigate up the navigation stack.
  * @param onNavigateToLicenses  Callback to invoke in order to navigate to the licenses view.
  * @param onNavigateToHelp      Callback invoked to navigate to the help screen.
  */
 @Composable
-fun SettingsView(
+fun SettingsScreen(
     viewModel: SettingsViewModel,
-    onNavigateBack: () -> Unit,
+    onNavigateUp: () -> Unit,
     onNavigateToLicenses: () -> Unit,
     onNavigateToHelp: () -> Unit
 ) {
@@ -65,7 +65,7 @@ fun SettingsView(
 
     val createExportIntentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.data != null && result.data!!.data != null) {
-            viewModel.exportDataToJsonFile(
+            viewModel.createBackup(
                 uri = result.data!!.data!!,
                 onFinished = { r ->
                     if (r) {
@@ -81,17 +81,7 @@ fun SettingsView(
 
     val restoreExportIntentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.data != null && result.data!!.data != null) {
-            viewModel.restoreDataFromJsonFile(
-                uri = result.data!!.data!!,
-                onFinished = { r ->
-                    if (r) {
-                        Toast.makeText(context, importMessageSuccess, Toast.LENGTH_SHORT).show()
-                    }
-                    else {
-                        Toast.makeText(context, importMessageError, Toast.LENGTH_LONG).show()
-                    }
-                }
-            )
+            viewModel.importUri = result.data!!.data!!
         }
     }
 
@@ -108,7 +98,7 @@ fun SettingsView(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            onNavigateBack()
+                            onNavigateUp()
                         }
                     ) {
                         Icon(
@@ -174,6 +164,7 @@ fun SettingsView(
                 endIcon = painterResource(R.drawable.ic_next),
                 prefixIcon = painterResource(R.drawable.ic_help)
             )
+            HorizontalDivider()
 
             //About
             Headline(
@@ -218,6 +209,29 @@ fun SettingsView(
                 },
                 endIcon = painterResource(R.drawable.ic_external),
                 prefixIcon = painterResource(R.drawable.ic_android)
+            )
+        }
+
+        if (viewModel.importUri != null) {
+            RestoreBackupDialog(
+                onDismiss = {
+                    viewModel.importUri = null
+                },
+                onConfirm = { restoreStrategy ->
+                    viewModel.restoreBackup(
+                        viewModel.importUri,
+                        restoreStrategy = restoreStrategy,
+                        onFinished = { success ->
+                            if (success) {
+                                Toast.makeText(context, importMessageSuccess, Toast.LENGTH_SHORT).show()
+                            }
+                            else {
+                                Toast.makeText(context, importMessageError, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    )
+                    viewModel.importUri = null
+                }
             )
         }
     }
