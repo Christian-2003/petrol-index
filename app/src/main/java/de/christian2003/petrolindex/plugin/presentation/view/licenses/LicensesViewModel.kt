@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import de.christian2003.petrolindex.R
-import de.christian2003.petrolindex.model.licenses.License
+import de.christian2003.petrolindex.plugin.presentation.view.licenses.License
 import kotlinx.coroutines.launch
 import java.io.InputStream
 

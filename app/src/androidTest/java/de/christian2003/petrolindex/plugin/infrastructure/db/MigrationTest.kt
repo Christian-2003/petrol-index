@@ -22,7 +22,7 @@ class MigrationTest {
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
         instrumentation = InstrumentationRegistry.getInstrumentation(),
-        assetsFolder = PetrolIndexDatabase::class.java.canonicalName,
+        assetsFolder = PetrolIndexDatabase::class.java.canonicalName!!,
         openFactory = FrameworkSQLiteOpenHelperFactory()
     )
 

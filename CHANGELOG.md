@@ -4,13 +4,30 @@
 
 ## 1.0.3 (XXXX-XX-XX)
 ###### Release Highlights
-n./a.
+Major refactoring of the codebase to increase maintainability.
 
 ###### Features
+* Add custom app icon for debugging releases to better distinguish them from release builds.
+* Change app icon to include a small shadow.
+* Major refactoring of the entire codebase to include domain driven design and clean architecture.
+* Petrol entries are now represented through the domain model `Consumption`.
+* Add application layer use cases to facilitate CRUD actions.
+* Move entire view to presentation package within the plugin layer.
+* Visual changes to the entire view.
+* Add help cards that can be dismissed.
+* Database entities are now completely decoupled from the domain model and backup DTOs.
+* Switch from Gson to Kotlin-Serialization library to facilitate JSON backups.
+* Changes to JSON that is used for backups.
+* Add unit tests for domain layer.
+* Add unit tests for application layer.
+* Add unit tests for plugin layer.
+* Add instrumented tests for database migration.
+
+<br/>
 
 ## 1.0.2 (2025-03-06)
 ###### Release Highlights
-* Add custom app icon for debugging releases to better distinguish them from release builds.
+Bugfixes and visual enhancements to enhance usability.
 
 <br/>
 

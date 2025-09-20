@@ -2,7 +2,6 @@ package de.christian2003.petrolindex.plugin.presentation.view.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
@@ -28,16 +26,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.core.os.LocaleListCompat
 import de.christian2003.petrolindex.R
-import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
-import de.christian2003.petrolindex.model.diagram.DiagramInfo
-import de.christian2003.petrolindex.model.diagram.DiagramType
 
 
 /**
@@ -49,8 +41,6 @@ import de.christian2003.petrolindex.model.diagram.DiagramType
  * @param onNavigateToAddPetrolEntry    Callback to invoke in order to navigate to the view through
  *                                      which to add a new petrol entry.
  * @param onNavigateToSettings          Callback to invoke in order to navigate to the app settings.
- * @param onNavigateToDiagram           Callback invoked in order to navigate to the page displaying
- *                                      a diagram.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,8 +48,7 @@ fun MainView(
     viewModel: MainViewModel,
     onNavigateToPetrolEntries: () -> Unit,
     onNavigateToAddPetrolEntry: () -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToDiagram: (DiagramInfo) -> Unit
+    onNavigateToSettings: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -129,69 +118,6 @@ fun MainView(
                     }
                 )
             }
-        }
-    }
-}
-
-
-/**
- * Composable displays a short version of the data for a single diagram.
- *
- * @param petrolEntries Petrol entries of the data to display.
- * @param type          Type of the diagram for which to display the short version of the data.
- * @param onClick       Callback invoked once the data is clicked.
- */
-@Composable
-fun Data(
-    petrolEntries: List<ConsumptionEntity>,
-    type: DiagramType,
-    onClick: (DiagramInfo) -> Unit
-) {
-    val diagramInfo = DiagramInfo.createInstance(petrolEntries, LocalContext.current, MaterialTheme.colorScheme, type)
-
-    val locale = LocalConfiguration.current.locales.get(0) ?: LocaleListCompat.getDefault().get(0)!!
-    val totalValueFormatted = diagramInfo.getFormattedTotalValue(locale)
-
-    val clickable: Boolean = diagramInfo.data.isNotEmpty()
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(clickable) {
-                onClick(diagramInfo)
-            }
-            .padding(
-                vertical = dimensionResource(R.dimen.space_vertical_between),
-                horizontal = dimensionResource(R.dimen.space_horizontal)
-            )
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = diagramInfo.title,
-                    color = if (clickable) { MaterialTheme.colorScheme.onSurface } else { MaterialTheme.colorScheme.onSurface.copy(0.5f) },
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                if (clickable) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_next),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(start = dimensionResource(R.dimen.space_horizontal_small))
-                            .size(dimensionResource(R.dimen.image_xxs))
-                    )
-                }
-            }
-            Text(
-                text = diagramInfo.labelIndicator.replace("{arg}", totalValueFormatted),
-                color = if (clickable) { diagramInfo.color } else { diagramInfo.color.copy(0.5f) },
-                style = MaterialTheme.typography.bodyMedium
-            )
         }
     }
 }
