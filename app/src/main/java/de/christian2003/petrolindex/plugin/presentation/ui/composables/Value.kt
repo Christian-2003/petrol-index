@@ -17,16 +17,21 @@ import de.christian2003.petrolindex.R
 /**
  * Displays a value in a pill.
  *
- * @param formattedValue    Formatted value to display.
+ * @param formattedValue        Formatted value to display.
+ * @param valueTextResourceId   ID of the string-resource containing the placeholder text in which to
+ *                              replace the formatted value.
+ * @param textColor             Color for the text.
+ * @param backgroundColor       Color for the background
  */
 @Composable
 fun Value(
     formattedValue: String,
+    valueTextResourceId: Int = R.string.format_pricePerLiter,
     textColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
     Text(
-        text = stringResource(R.string.format_pricePerLiter, formattedValue),
+        text = stringResource(valueTextResourceId, formattedValue),
         style = MaterialTheme.typography.bodyMedium,
         color = textColor,
         fontWeight = FontWeight.Bold,

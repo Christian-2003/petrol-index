@@ -1,14 +1,20 @@
 package de.christian2003.petrolindex.domain.analysis
 
+import kotlinx.coroutines.CoroutineStart
+import java.time.LocalDate
+
 
 /**
  * Value object models a diagram that is created by the analysis.
  *
+ * @param start     Date of the first diagram value. Consecutive values have to be determined on
+ *                  demand using the analysis precision.
  * @param values    Values of the diagram.
  * @param min       Min value from the diagram.
  * @param max       Max value from the diagram.
  */
 data class AnalysisDiagram(
+    val start: LocalDate,
     val values: List<Double>,
     val min: Double,
     val max: Double
@@ -26,8 +32,12 @@ data class AnalysisDiagram(
 
     /**
      * Builder for the diagram.
+     *
+     * @param start Date of the first diagram value.
      */
-    class Builder() {
+    class Builder(
+        private val start: LocalDate
+    ) {
 
         /**
          * Values for the diagram that is being built.
@@ -60,6 +70,7 @@ data class AnalysisDiagram(
                 max = values.max()
             }
             return AnalysisDiagram(
+                start = start,
                 values = values,
                 min = min,
                 max = max

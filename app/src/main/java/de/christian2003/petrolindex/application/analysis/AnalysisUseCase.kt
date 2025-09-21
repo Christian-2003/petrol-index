@@ -54,17 +54,17 @@ class AnalysisUseCase(
             volume = AnalysisResultCluster(
                 sumDiagram = dataPointsToDiagram(interpolatedVolumes, 100.0),
                 cumulatedDiagram = dataPointsToDiagram(interpolatedCumulatedVolumes, 100.0),
-                totalSum = dataPointsToTotalSum(dataLines.volumes).toDouble(),
-                totalAverage = dataPointsToTotalAverage(dataLines.volumes, dataLines.volumesCount).toDouble(),
-                precisionAverage = dataPointsToPrecisionAverage(dataLines.volumes).toDouble(),
+                totalSum = dataPointsToTotalSum(dataLines.volumes).toDouble() / 100.0,
+                totalAverage = dataPointsToTotalAverage(dataLines.volumes, dataLines.volumesCount).toDouble() / 100.0,
+                precisionAverage = dataPointsToPrecisionAverage(dataLines.volumes).toDouble() / 100.0,
                 type = AnalysisResultClusterType.VOLUME
             ),
             totalPrice = AnalysisResultCluster(
                 sumDiagram = dataPointsToDiagram(interpolatedTotalPrices, 100.0),
                 cumulatedDiagram = dataPointsToDiagram(interpolatedCumulatedTotalPrices, 100.0),
-                totalSum = dataPointsToTotalSum(dataLines.totalPrices).toDouble(),
-                totalAverage = dataPointsToTotalAverage(dataLines.totalPrices, dataLines.totalPricesCount).toDouble(),
-                precisionAverage = dataPointsToPrecisionAverage(dataLines.totalPrices).toDouble(),
+                totalSum = dataPointsToTotalSum(dataLines.totalPrices).toDouble() / 100.0,
+                totalAverage = dataPointsToTotalAverage(dataLines.totalPrices, dataLines.totalPricesCount).toDouble() / 100.0,
+                precisionAverage = dataPointsToPrecisionAverage(dataLines.totalPrices).toDouble() / 100.0,
                 type = AnalysisResultClusterType.TOTAL_PRICE
             ),
             distanceTraveled = AnalysisResultCluster(
@@ -91,7 +91,13 @@ class AnalysisUseCase(
 
 
     private fun dataPointsToDiagram(dataPoints: List<AnalysisDataPoint>, divisor: Double): AnalysisDiagram {
-        val builder = AnalysisDiagram.Builder()
+        val start: LocalDate = if (dataPoints.isEmpty()) {
+            LocalDate.now()
+        } else {
+            dataPoints[0].date
+        }
+
+        val builder = AnalysisDiagram.Builder(start)
 
         dataPoints.forEach { dataPoint ->
             builder.addValue(dataPoint.value.toDouble() / divisor)

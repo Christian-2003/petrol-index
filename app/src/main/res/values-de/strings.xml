@@ -33,7 +33,7 @@
     <string name="analysis_clusterTotalPrice_title">Ausgaben</string>
     <string name="analysis_clusterTotalPrice_totalSum">Gesamtausgaben</string>
     <string name="analysis_clusterTotalPrice_totalAverage">Durchschnitt pro Verbrauch</string>
-    <string name="analysis_clusterTotalPrice_precisionAverage">Ausgaben pro %1$s</string>
+    <string name="analysis_clusterTotalPrice_precisionAverage">Durchschnitt pro %1$s</string>
     <string name="analysis_clusterTotalPrice_valuesTitle">Ausgaben pro %1$s</string>
     <string name="analysis_clusterTotalPrice_cumulatedTitle">Kumulierte Ausgaben</string>
     <string name="analysis_clusterDistanceTraveled_title">Entfernung</string>
@@ -42,6 +42,8 @@
     <string name="analysis_clusterDistanceTraveled_precisionAverage">Durchschnitt pro %1$s</string>
     <string name="analysis_clusterDistanceTraveled_valuesTitle">Entfernung pro %1$s</string>
     <string name="analysis_clusterDistanceTraveled_cumulatedTitle">Kumulierte Entfernung</string>
+    <string name="analysis_cluster_emptyPlaceholder_title">Keine Daten</string>
+    <string name="analysis_cluster_emptyPlaceholder_subtitle">Wir haben nicht genug Daten um ein Diagramm anzuzeigen</string>
     <string name="analysis_precision_month">Monat</string>
     <string name="analysis_precision_quarter">Quartal</string>
     <string name="analysis_precision_year">Jahr</string>

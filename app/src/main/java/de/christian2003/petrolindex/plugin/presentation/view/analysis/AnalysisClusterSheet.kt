@@ -65,6 +65,11 @@ fun ClusterSheet(
         AnalysisResultClusterType.TOTAL_PRICE -> MaterialTheme.colorScheme.secondary
         AnalysisResultClusterType.DISTANCE_TRAVELED -> MaterialTheme.colorScheme.tertiary
     }
+    val valueTextResourceId: Int = when(cluster.type) {
+        AnalysisResultClusterType.VOLUME -> R.string.format_volume
+        AnalysisResultClusterType.TOTAL_PRICE -> R.string.format_totalPrice
+        AnalysisResultClusterType.DISTANCE_TRAVELED -> R.string.format_distanceTraveled
+    }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -118,6 +123,7 @@ fun ClusterSheet(
                         AnalysisResultClusterType.TOTAL_PRICE -> stringResource(R.string.analysis_clusterTotalPrice_totalSum)
                         AnalysisResultClusterType.DISTANCE_TRAVELED -> stringResource(R.string.analysis_clusterDistanceTraveled_totalSum)
                     },
+                    valueTextResourceId = valueTextResourceId,
                     formattedValue = currencyFormatter.format(cluster.totalSum),
                     foregroundColor = foregroundColor,
                     backgroundColor = backgroundColor,
@@ -134,6 +140,7 @@ fun ClusterSheet(
                             AnalysisResultClusterType.TOTAL_PRICE -> stringResource(R.string.analysis_clusterTotalPrice_totalAverage)
                             AnalysisResultClusterType.DISTANCE_TRAVELED -> stringResource(R.string.analysis_clusterDistanceTraveled_totalAverage)
                         },
+                        valueTextResourceId = valueTextResourceId,
                         formattedValue = currencyFormatter.format(cluster.totalAverage),
                         foregroundColor = foregroundColor,
                         backgroundColor = backgroundColor,
@@ -154,6 +161,7 @@ fun ClusterSheet(
                                 AnalysisPrecision.YEAR -> stringResource(R.string.analysis_precision_year)
                             }
                         ),
+                        valueTextResourceId = valueTextResourceId,
                         formattedValue = currencyFormatter.format(cluster.precisionAverage),
                         foregroundColor = foregroundColor,
                         backgroundColor = backgroundColor,
@@ -174,8 +182,12 @@ fun ClusterSheet(
                         }
                     ),
                     diagram = cluster.sumDiagram,
+                    precision = precision,
                     curvedEdges = true,
                     color = diagramColor,
+                    indicatorBuilder = {
+                        currencyFormatter.format(it)
+                    },
                     modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
                 )
                 LineDiagram(
@@ -185,8 +197,12 @@ fun ClusterSheet(
                         AnalysisResultClusterType.DISTANCE_TRAVELED -> R.string.analysis_clusterDistanceTraveled_cumulatedTitle
                     }),
                     diagram = cluster.cumulatedDiagram,
+                    precision = precision,
                     curvedEdges = false,
                     color = diagramColor,
+                    indicatorBuilder = {
+                        currencyFormatter.format(it)
+                    },
                     modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
                 )
             }
@@ -198,6 +214,7 @@ fun ClusterSheet(
 @Composable
 fun LargeValue(
     title: String,
+    valueTextResourceId: Int,
     formattedValue: String,
     foregroundColor: Color,
     backgroundColor: Color,
@@ -228,6 +245,7 @@ fun LargeValue(
         )
         Value(
             formattedValue = formattedValue,
+            valueTextResourceId = valueTextResourceId,
             textColor = foregroundColor,
             backgroundColor = backgroundColor
         )
@@ -238,6 +256,7 @@ fun LargeValue(
 @Composable
 fun SmallValue(
     title: String,
+    valueTextResourceId: Int,
     formattedValue: String,
     foregroundColor: Color,
     backgroundColor: Color,
@@ -267,6 +286,7 @@ fun SmallValue(
         )
         Value(
             formattedValue = formattedValue,
+            valueTextResourceId = valueTextResourceId,
             textColor = foregroundColor,
             backgroundColor = backgroundColor
         )
