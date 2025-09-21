@@ -24,6 +24,49 @@
     <string name="consumption_distanceTraveled_suffix">Miles</string>
     <string name="consumption_description_label">Notes</string>
 
+    <string name="analysis_title">Analysis</string>
+    <string name="analysis_clusterVolume_title">Volume</string>
+    <string name="analysis_clusterVolume_totalSum">Total volume</string>
+    <string name="analysis_clusterVolume_totalAverage">Average volume per consumption</string>
+    <string name="analysis_clusterVolume_precisionAverage">%1$s average volume</string>
+    <string name="analysis_clusterVolume_valuesTitle">%1$s consumptions</string>
+    <string name="analysis_clusterVolume_cumulatedTitle">Cumulated consumptions</string>
+    <string name="analysis_clusterTotalPrice_totalSum">Total price</string>
+    <string name="analysis_clusterTotalPrice_totalAverage">Average price per consumption</string>
+    <string name="analysis_clusterTotalPrice_precisionAverage">%1$s average price</string>
+    <string name="analysis_clusterTotalPrice_title">Total price</string>
+    <string name="analysis_clusterTotalPrice_valuesTitle">%1$s total prices</string>
+    <string name="analysis_clusterTotalPrice_cumulatedTitle">Cumulated total prices</string>
+    <string name="analysis_clusterDistanceTraveled_totalSum">Total distance traveled</string>
+    <string name="analysis_clusterDistanceTraveled_totalAverage">Average distance traveled per consumption</string>
+    <string name="analysis_clusterDistanceTraveled_precisionAverage">%1$s average distance traveled</string>
+    <string name="analysis_clusterDistanceTraveled_title">Distance traveled</string>
+    <string name="analysis_clusterDistanceTraveled_valuesTitle">%1$s distance traveled</string>
+    <string name="analysis_clusterDistanceTraveled_cumulatedTitle">Cumulated distance traveled</string>
+    <string name="analysis_precision_month">Monthly</string>
+    <string name="analysis_precision_quarter">Quarterly</string>
+    <string name="analysis_precision_year">Yearly</string>
+    <string-array name="analysis_monthNames">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string-array name="analysis_quarterNames">
+        <item>Q1</item>
+        <item>Q2</item>
+        <item>Q3</item>
+        <item>Q4</item>
+    </string-array>
+
     <string name="help_title">Help messages</string>
     <string name="help_help">Reactivate help messages that you have dismissed previously.</string>
     <string name="help_reactivate">Click to reactivate</string>

@@ -12,6 +12,7 @@ import java.time.LocalDate
  * @param volumeCount           Count of the volumes that were summarized.
  * @param totalPriceCount       Count of the total prices that were summarized.
  * @param distanceTraveledCount Count of the distance traveled that were summarized.
+ * @param pricePerLiterAverage  Average price per liter.
  */
 data class AnalysisDataSummary(
     val date: LocalDate,
@@ -20,5 +21,6 @@ data class AnalysisDataSummary(
     val distanceTraveledSum: Int,
     val volumeCount: Int,
     val totalPriceCount: Int,
-    val distanceTraveledCount: Int
+    val distanceTraveledCount: Int,
+    val pricePerLiterAverage: Int
 )

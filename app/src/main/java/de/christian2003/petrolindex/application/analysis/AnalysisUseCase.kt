@@ -7,11 +7,14 @@ import de.christian2003.petrolindex.application.repository.AnalysisRepository
 import de.christian2003.petrolindex.domain.analysis.AnalysisPrecision
 import de.christian2003.petrolindex.domain.analysis.AnalysisResult
 import de.christian2003.petrolindex.domain.analysis.AnalysisResultMetadata
-import de.christian2003.petrolindex.domain.analysis.Diagram
+import de.christian2003.petrolindex.domain.analysis.AnalysisDiagram
+import de.christian2003.petrolindex.domain.analysis.AnalysisResultCluster
+import de.christian2003.petrolindex.domain.analysis.AnalysisResultClusterType
 import de.christian2003.petrolindex.domain.model.Consumption
 import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.LocalDateTime
+import kotlin.math.roundToInt
 
 
 class AnalysisUseCase(
@@ -41,24 +44,45 @@ class AnalysisUseCase(
         val interpolatedVolumes: List<AnalysisDataPoint> = dataInterpolator.interpolate(dataLines.volumes, true)
         val interpolatedTotalPrices: List<AnalysisDataPoint> = dataInterpolator.interpolate(dataLines.totalPrices, true)
         val interpolatedDistancesTraveled: List<AnalysisDataPoint> = dataInterpolator.interpolate(dataLines.distancesTraveled, true)
-        val interpolatedCumulatedVolumes: List<AnalysisDataPoint> = dataInterpolator.interpolate(cumulatedVolumes, true)
-        val interpolatedCumulatedTotalPrices: List<AnalysisDataPoint> = dataInterpolator.interpolate(cumulatedTotalPrices, true)
-        val interpolatedCumulatedDistancesTraveled: List<AnalysisDataPoint> = dataInterpolator.interpolate(cumulatedDistancesTraveled, true)
+        val pricePerLiter: List<AnalysisDataPoint> = dataInterpolator.interpolate(dataLines.pricePerLiter, false)
+        val interpolatedCumulatedVolumes: List<AnalysisDataPoint> = dataInterpolator.interpolate(cumulatedVolumes, false)
+        val interpolatedCumulatedTotalPrices: List<AnalysisDataPoint> = dataInterpolator.interpolate(cumulatedTotalPrices, false)
+        val interpolatedCumulatedDistancesTraveled: List<AnalysisDataPoint> = dataInterpolator.interpolate(cumulatedDistancesTraveled, false)
 
         //Generate analysis result:
         val analysisResult = AnalysisResult(
-            volumeDiagram = dataPointsToDiagram(interpolatedVolumes, 100.0),
-            totalPriceDiagram = dataPointsToDiagram(interpolatedTotalPrices, 100.0),
-            distanceTraveledDiagram = dataPointsToDiagram(interpolatedDistancesTraveled, 1.0),
-            cumulatedVolumeDiagram = dataPointsToDiagram(interpolatedCumulatedVolumes, 100.0),
-            cumulatedTotalPriceDiagram = dataPointsToDiagram(interpolatedCumulatedTotalPrices, 100.0),
-            cumulatedDistanceTraveledDiagram = dataPointsToDiagram(interpolatedCumulatedDistancesTraveled, 1.0),
+            volume = AnalysisResultCluster(
+                sumDiagram = dataPointsToDiagram(interpolatedVolumes, 100.0),
+                cumulatedDiagram = dataPointsToDiagram(interpolatedCumulatedVolumes, 100.0),
+                totalSum = dataPointsToTotalSum(dataLines.volumes).toDouble(),
+                totalAverage = dataPointsToTotalAverage(dataLines.volumes, dataLines.volumesCount).toDouble(),
+                precisionAverage = dataPointsToPrecisionAverage(dataLines.volumes).toDouble(),
+                type = AnalysisResultClusterType.VOLUME
+            ),
+            totalPrice = AnalysisResultCluster(
+                sumDiagram = dataPointsToDiagram(interpolatedTotalPrices, 100.0),
+                cumulatedDiagram = dataPointsToDiagram(interpolatedCumulatedTotalPrices, 100.0),
+                totalSum = dataPointsToTotalSum(dataLines.totalPrices).toDouble(),
+                totalAverage = dataPointsToTotalAverage(dataLines.totalPrices, dataLines.totalPricesCount).toDouble(),
+                precisionAverage = dataPointsToPrecisionAverage(dataLines.totalPrices).toDouble(),
+                type = AnalysisResultClusterType.TOTAL_PRICE
+            ),
+            distanceTraveled = AnalysisResultCluster(
+                sumDiagram = dataPointsToDiagram(interpolatedDistancesTraveled, 1.0),
+                cumulatedDiagram = dataPointsToDiagram(interpolatedCumulatedDistancesTraveled, 1.0),
+                totalSum = dataPointsToTotalSum(dataLines.distancesTraveled).toDouble(),
+                totalAverage = dataPointsToTotalAverage(dataLines.distancesTraveled, dataLines.distancesTraveledCount).toDouble(),
+                precisionAverage = dataPointsToPrecisionAverage(dataLines.distancesTraveled).toDouble(),
+                type = AnalysisResultClusterType.DISTANCE_TRAVELED
+            ),
+            pricePerLiterDiagram = dataPointsToDiagram(pricePerLiter, 100.0),
             metadata = AnalysisResultMetadata(
                 start = start,
                 end = end,
                 createdAt = LocalDateTime.now(),
                 analyzedConsumptionCount = consumptions.size,
-                analysisTimeMillis = 1000
+                analysisTimeMillis = 1000,
+                precision = precision
             )
         )
 
@@ -66,15 +90,51 @@ class AnalysisUseCase(
     }
 
 
-
-    private fun dataPointsToDiagram(dataPoints: List<AnalysisDataPoint>, divisor: Double): Diagram {
-        val builder = Diagram.Builder()
+    private fun dataPointsToDiagram(dataPoints: List<AnalysisDataPoint>, divisor: Double): AnalysisDiagram {
+        val builder = AnalysisDiagram.Builder()
 
         dataPoints.forEach { dataPoint ->
             builder.addValue(dataPoint.value.toDouble() / divisor)
         }
 
         return builder.build()
+    }
+
+
+    /**
+     * Calculates the average for the data points.
+     *
+     * @param dataPoints    List of data points.
+     * @param count         Total count of consumptions to regard.
+     */
+    fun dataPointsToTotalAverage(dataPoints: List<AnalysisDataPoint>, count: Int): Int {
+        if (count <= 0) {
+            return 0
+        }
+        var sum = 0
+        dataPoints.forEach { dataPoint ->
+            sum += dataPoint.value
+        }
+        return sum / count
+    }
+
+    fun dataPointsToTotalSum(dataPoints: List<AnalysisDataPoint>): Int {
+        var sum = 0
+        dataPoints.forEach { dataPoint ->
+            sum += dataPoint.value
+        }
+        return sum
+    }
+
+    fun dataPointsToPrecisionAverage(dataPoints: List<AnalysisDataPoint>): Int {
+        if (dataPoints.isEmpty()) {
+            return 0
+        }
+        var sum = 0
+        dataPoints.forEach { dataPoint ->
+            sum += dataPoint.value
+        }
+        return (sum.toDouble() / dataPoints.size).roundToInt()
     }
 
 }

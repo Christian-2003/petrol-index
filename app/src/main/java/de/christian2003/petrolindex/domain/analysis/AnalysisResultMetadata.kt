@@ -14,70 +14,23 @@ import java.time.format.DateTimeFormatter
  * @param analyzedConsumptionCount  Number of consumptions that are analyzed.
  * @param analysisTimeMillis        Time (in milliseconds) that the analysis ran.
  */
-class AnalysisResultMetadata(
-    start: LocalDate,
-    end: LocalDate,
-    createdAt: LocalDateTime,
-    analyzedConsumptionCount: Int,
-    analysisTimeMillis: Long,
+data class AnalysisResultMetadata(
+    val start: LocalDate,
+    val end: LocalDate,
+    val createdAt: LocalDateTime,
+    val analyzedConsumptionCount: Int,
+    val analysisTimeMillis: Long,
+    val precision: AnalysisPrecision
 ) {
-
-    /**
-     * Start day of the time period for which the consumption is analyzed. This must be before the
-     * end day.
-     */
-    var start: LocalDate = start
-        private set(value) {
-            require(start.isBefore(end)) { "Start day must be before end day" }
-            field = value
-        }
-
-    /**
-     * End day of the time period for which the consumption is analyzed. This must be before the
-     * start day.
-     */
-    var end: LocalDate = end
-        private set(value) {
-            require(end.isAfter(start)) { "End day must be after start day" }
-            field = value
-        }
-
-    /**
-     * Date time at which the analysis is finished.
-     */
-    var createdAt: LocalDateTime = createdAt
-        private set(value) {
-            field = value
-        }
-
-    /**
-     * Number of consumptions that are analyzed. This cannot be negative.
-     */
-    var analyzedConsumptionCount: Int = analyzedConsumptionCount
-        private set(value) {
-            require(value >= 0) { "Analyzed consumption count cannot be less than 0" }
-            field = value
-        }
-
-    /**
-     * Time (in milliseconds) that the analysis ran. This cannot be negative.
-     */
-    var analysisTimeMillis: Long = analysisTimeMillis
-        private set(value) {
-            require(value >= 0) { "Analyzed time millis cannot be less than 0" }
-            field = value
-        }
-
 
     /**
      * Initializes the metadata instance.
      */
     init {
-        this.start = start
-        this.end = end
-        this.createdAt = createdAt
-        this.analyzedConsumptionCount = analyzedConsumptionCount
-        this.analysisTimeMillis = analysisTimeMillis
+        require(!start.isAfter(end)) { "Start day must be before end day" }
+        require(!end.isBefore(start)) { "End day must be after start day" }
+        require(analyzedConsumptionCount >= 0) { "Analyzed consumption count cannot be less than 0" }
+        require(analysisTimeMillis >= 0) { "Analyzed time millis cannot be less than 0" }
     }
 
 
@@ -92,6 +45,7 @@ class AnalysisResultMetadata(
         hash = 31 * hash + createdAt.hashCode()
         hash = 31 * hash + analyzedConsumptionCount.hashCode()
         hash = 31 * hash + analysisTimeMillis.hashCode()
+        hash = 31 * hash + precision.hashCode()
         return hash
     }
 
@@ -109,6 +63,7 @@ class AnalysisResultMetadata(
                 && other.createdAt == this.createdAt
                 && other.analyzedConsumptionCount == this.analyzedConsumptionCount
                 && other.analysisTimeMillis == this.analysisTimeMillis
+                && other.precision == this.precision
     }
 
 
@@ -120,7 +75,7 @@ class AnalysisResultMetadata(
     override fun toString(): String {
         val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")
-        return "[Start: ${start.format(dateFormatter)}] [End: ${end.format(dateFormatter)}] [CreatedAt: ${createdAt.format(dateTimeFormatter)}] [AnalyzedConsumptionCount: $analyzedConsumptionCount] [AnalysisTimeMillis: $analysisTimeMillis]"
+        return "[Start: ${start.format(dateFormatter)}] [End: ${end.format(dateFormatter)}] [CreatedAt: ${createdAt.format(dateTimeFormatter)}] [AnalyzedConsumptionCount: $analyzedConsumptionCount] [AnalysisTimeMillis: $analysisTimeMillis] [Precision: $precision]"
     }
 
 }

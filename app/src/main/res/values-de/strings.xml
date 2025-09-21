@@ -23,6 +23,49 @@
     <string name="consumption_distanceTraveled_suffix">Kilometer</string>
     <string name="consumption_description_label">Notizen</string>
 
+    <string name="analysis_title">Analyse</string>
+    <string name="analysis_clusterVolume_title">Volumen</string>
+    <string name="analysis_clusterVolume_totalSum">Gesamtvolumen</string>
+    <string name="analysis_clusterVolume_totalAverage">Durchschnitt pro Verbrauch</string>
+    <string name="analysis_clusterVolume_precisionAverage">Durchschnitt pro %1$s</string>
+    <string name="analysis_clusterVolume_valuesTitle">Volumen pro %1$s</string>
+    <string name="analysis_clusterVolume_cumulatedTitle">Kumuliertes Volumen</string>
+    <string name="analysis_clusterTotalPrice_title">Ausgaben</string>
+    <string name="analysis_clusterTotalPrice_totalSum">Gesamtausgaben</string>
+    <string name="analysis_clusterTotalPrice_totalAverage">Durchschnitt pro Verbrauch</string>
+    <string name="analysis_clusterTotalPrice_precisionAverage">Ausgaben pro %1$s</string>
+    <string name="analysis_clusterTotalPrice_valuesTitle">Ausgaben pro %1$s</string>
+    <string name="analysis_clusterTotalPrice_cumulatedTitle">Kumulierte Ausgaben</string>
+    <string name="analysis_clusterDistanceTraveled_title">Entfernung</string>
+    <string name="analysis_clusterDistanceTraveled_totalSum">Gesamtentfernung</string>
+    <string name="analysis_clusterDistanceTraveled_totalAverage">Durchschnitt pro Verbrauch</string>
+    <string name="analysis_clusterDistanceTraveled_precisionAverage">Durchschnitt pro %1$s</string>
+    <string name="analysis_clusterDistanceTraveled_valuesTitle">Entfernung pro %1$s</string>
+    <string name="analysis_clusterDistanceTraveled_cumulatedTitle">Kumulierte Entfernung</string>
+    <string name="analysis_precision_month">Monat</string>
+    <string name="analysis_precision_quarter">Quartal</string>
+    <string name="analysis_precision_year">Jahr</string>
+    <string-array name="analysis_monthNames">
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>März</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
+    </string-array>
+    <string-array name="analysis_quarterNames">
+        <item>Q1</item>
+        <item>Q2</item>
+        <item>Q3</item>
+        <item>Q4</item>
+    </string-array>
+
     <string name="help_title">Hinweisnachrichten</string>
     <string name="help_help">Reaktiviere Hinweisnachrichten, die du zuvor ausgeblendet hast.</string>
     <string name="help_reactivate">Klicken zum einblenden</string>

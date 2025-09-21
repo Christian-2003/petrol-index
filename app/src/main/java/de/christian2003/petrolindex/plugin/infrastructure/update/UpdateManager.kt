@@ -1,4 +1,4 @@
-package de.christian2003.petrolindex.model.update
+package de.christian2003.petrolindex.plugin.infrastructure.update
 
 import android.app.Activity
 import android.util.Log

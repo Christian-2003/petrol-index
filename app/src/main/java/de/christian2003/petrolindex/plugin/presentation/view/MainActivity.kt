@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import de.christian2003.petrolindex.R
+import de.christian2003.petrolindex.application.analysis.AnalysisUseCase
 import de.christian2003.petrolindex.application.usecases.CreateConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
@@ -23,15 +24,17 @@ import de.christian2003.petrolindex.application.usecases.GetConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.UpdateConsumptionUseCase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexDatabase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
-import de.christian2003.petrolindex.model.update.UpdateManager
+import de.christian2003.petrolindex.plugin.infrastructure.update.UpdateManager
 import de.christian2003.petrolindex.plugin.infrastructure.backup.AppInfoProvider
 import de.christian2003.petrolindex.plugin.infrastructure.backup.CreateAndRestoreJsonBackupUseCase
 import de.christian2003.petrolindex.plugin.presentation.ui.theme.PetrolIndexTheme
+import de.christian2003.petrolindex.plugin.presentation.view.analysis.AnalysisScreen
+import de.christian2003.petrolindex.plugin.presentation.view.analysis.AnalysisViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.consumption.ConsumptionScreen
 import de.christian2003.petrolindex.plugin.presentation.view.consumption.ConsumptionViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.licenses.LicensesView
 import de.christian2003.petrolindex.plugin.presentation.view.licenses.LicensesViewModel
-import de.christian2003.petrolindex.plugin.presentation.view.main.MainView
+import de.christian2003.petrolindex.plugin.presentation.view.main.MainScreen
 import de.christian2003.petrolindex.plugin.presentation.view.main.MainViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.consumptions.ConsumptionsScreen
 import de.christian2003.petrolindex.plugin.presentation.view.consumptions.ConsumptionsViewModel
@@ -115,7 +118,7 @@ fun PetrolIndex(
                 val mainViewModel: MainViewModel = viewModel()
                 mainViewModel.init(repository, updateManager)
 
-                MainView(
+                MainScreen(
                     viewModel = mainViewModel,
                     onNavigateToPetrolEntries = {
                         navController.navigate("consumptions")
@@ -125,6 +128,9 @@ fun PetrolIndex(
                     },
                     onNavigateToSettings = {
                         navController.navigate("settings")
+                    },
+                    onNavigateToAnalysis = {
+                        navController.navigate("analysis")
                     }
                 )
             }
@@ -167,6 +173,22 @@ fun PetrolIndex(
                     id = id
                 )
                 ConsumptionScreen(
+                    viewModel = viewModel,
+                    onNavigateUp = {
+                        navController.navigateUp()
+                    }
+                )
+            }
+
+            composable("analysis") {
+                val viewModel: AnalysisViewModel = viewModel()
+                viewModel.init(
+                    analysisUseCase = AnalysisUseCase(
+                        repository = repository
+                    )
+                )
+
+                AnalysisScreen(
                     viewModel = viewModel,
                     onNavigateUp = {
                         navController.navigateUp()

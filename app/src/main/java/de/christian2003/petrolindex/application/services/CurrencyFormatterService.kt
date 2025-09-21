@@ -27,4 +27,17 @@ class CurrencyFormatterService {
         return formattedNumber
     }
 
+
+    /**
+     * The value passed in euros or dollars (e.g. 1234.56) is formatted according to the local
+     * number format (e.g. "1,234.56").
+     *
+     * @param value Value (in euros) to format.
+     * @return      Formatted value (in euros or dollars).
+     */
+    fun format(value: Double): String {
+        val formattedNumber = numberFormat.format(value)
+        return formattedNumber
+    }
+
 }

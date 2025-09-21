@@ -4,6 +4,7 @@ import de.christian2003.petrolindex.application.analysis.dto.AnalysisDataSummary
 import de.christian2003.petrolindex.domain.analysis.AnalysisPrecision
 import de.christian2003.petrolindex.domain.model.Consumption
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 
 /**
@@ -93,6 +94,13 @@ class AnalysisDataSummarizer(
             }
         }
 
+        val pricePerLiterAverage: Int = if (volumeSum != 0) {
+            ((totalPriceSum.toDouble() / volumeSum.toDouble()) * 100.0).roundToInt()
+        } else {
+            0
+        }
+
+
         return AnalysisDataSummary(
             date = date,
             volumeSum = volumeSum,
@@ -100,7 +108,8 @@ class AnalysisDataSummarizer(
             distanceTraveledSum = distanceTraveledSum,
             volumeCount = volumeCount,
             totalPriceCount = totalPriceCount,
-            distanceTraveledCount = distanceTraveledCount
+            distanceTraveledCount = distanceTraveledCount,
+            pricePerLiterAverage = pricePerLiterAverage
         )
     }
 

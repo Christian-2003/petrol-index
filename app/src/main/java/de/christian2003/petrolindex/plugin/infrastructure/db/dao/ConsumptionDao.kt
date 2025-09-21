@@ -9,6 +9,7 @@ import androidx.room.Update
 import androidx.room.Upsert
 import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 import kotlin.uuid.Uuid
 
 /**
@@ -23,7 +24,18 @@ interface ConsumptionDao {
      * @return  List of consumptions sorted by date.
      */
     @Query("SELECT * FROM petrol_entries ORDER BY epochSecond DESC")
-    fun selectAllConsumptions() : Flow<List<ConsumptionEntity>>
+    fun selectAllConsumptions(): Flow<List<ConsumptionEntity>>
+
+
+    /**
+     * Returns all consumptions in between the dates passed as argument.
+     *
+     * @param start Start day of the time period.
+     * @param end   End day of the time period.
+     * @return      List of all consumptions in the specified time period.
+     */
+    @Query("SELECT * FROM petrol_entries WHERE epochSecond BETWEEN :start AND :end")
+    fun selectAllConsumptionsInDateRange(start: LocalDate, end: LocalDate): Flow<List<ConsumptionEntity>>
 
 
     /**

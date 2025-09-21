@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
-import de.christian2003.petrolindex.model.update.UpdateManager
+import de.christian2003.petrolindex.plugin.infrastructure.update.UpdateManager
 import kotlinx.coroutines.flow.Flow
 
 

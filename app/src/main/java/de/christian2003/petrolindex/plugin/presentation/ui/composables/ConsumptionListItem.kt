@@ -189,28 +189,3 @@ private fun FormattedText(
         )
     }
 }
-
-
-/**
- * Displays a value.
- *
- * @param formattedValue    Formatted value to display.
- */
-@Composable
-private fun Value(
-    formattedValue: String
-) {
-    Text(
-        text = stringResource(R.string.format_pricePerLiter, formattedValue),
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onPrimaryContainer,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier
-            .clip(MaterialTheme.shapes.extraLargeIncreased)
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            .padding(
-                vertical = 4.dp,
-                horizontal = 12.dp
-            )
-    )
-}

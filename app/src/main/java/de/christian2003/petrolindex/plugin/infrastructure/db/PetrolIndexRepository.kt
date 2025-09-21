@@ -2,6 +2,7 @@ package de.christian2003.petrolindex.plugin.infrastructure.db
 
 import de.christian2003.petrolindex.application.repository.BackupRepository
 import de.christian2003.petrolindex.application.backup.RestoreStrategy
+import de.christian2003.petrolindex.application.repository.AnalysisRepository
 import de.christian2003.petrolindex.application.repository.ConsumptionRepository
 import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.infrastructure.db.dao.ConsumptionDao
@@ -9,6 +10,7 @@ import de.christian2003.petrolindex.plugin.infrastructure.db.entities.Consumptio
 import de.christian2003.petrolindex.plugin.infrastructure.db.mapper.ConsumptionDbMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import kotlin.uuid.Uuid
 
 
@@ -19,7 +21,7 @@ import kotlin.uuid.Uuid
  */
 class PetrolIndexRepository(
     private val consumptionDao: ConsumptionDao
-): ConsumptionRepository, BackupRepository {
+): ConsumptionRepository, BackupRepository, AnalysisRepository {
 
     /**
      * Mapper maps the domain model 'Consumption' to the database entity.
@@ -134,6 +136,24 @@ class PetrolIndexRepository(
                 consumptionDao.insertAllAndIgnoreConflicts(consumptionEntities)
             }
         }
+    }
+
+
+    /**
+     * Returns all consumptions in between the specified start and end days.
+     *
+     * @param start First day of the time period.
+     * @param end   Last day of the time period.
+     * @return      List of all consumptions in the specified time period.
+     */
+    override fun getConsumptionsForTimePeriod(start: LocalDate, end: LocalDate): Flow<List<Consumption>> {
+        val consumptions: Flow<List<Consumption>> = consumptionDao.selectAllConsumptionsInDateRange(start, end).map { list ->
+            list.map { consumption ->
+                consumptionMapper.toDomain(consumption)
+            }
+        }
+
+        return consumptions
     }
 
 }

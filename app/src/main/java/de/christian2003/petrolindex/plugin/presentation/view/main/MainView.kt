@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,14 +41,15 @@ import de.christian2003.petrolindex.R
  * @param onNavigateToAddPetrolEntry    Callback to invoke in order to navigate to the view through
  *                                      which to add a new petrol entry.
  * @param onNavigateToSettings          Callback to invoke in order to navigate to the app settings.
+ * @param onNavigateToAnalysis          Callback invoked to navigate to the analysis screen.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainView(
+fun MainScreen(
     viewModel: MainViewModel,
     onNavigateToPetrolEntries: () -> Unit,
     onNavigateToAddPetrolEntry: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToAnalysis: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -117,6 +118,11 @@ fun MainView(
                         viewModel.requestDownload()
                     }
                 )
+            }
+            Button(
+                onClick = onNavigateToAnalysis
+            ) {
+                Text("analysis")
             }
         }
     }

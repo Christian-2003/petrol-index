@@ -22,6 +22,10 @@ class AnalysisDataSummariesToDataLines {
         val volumes: MutableList<AnalysisDataPoint> = mutableListOf()
         val totalPrices: MutableList<AnalysisDataPoint> = mutableListOf()
         val distancesTraveled: MutableList<AnalysisDataPoint> = mutableListOf()
+        val pricePerLiter: MutableList<AnalysisDataPoint> = mutableListOf()
+        var volumesCount = 0
+        var totalPricesCount = 0
+        var distancesTraveledCount = 0
 
         summaries.forEach { summary ->
             if (summary.volumeCount > 0) {
@@ -33,12 +37,22 @@ class AnalysisDataSummariesToDataLines {
             if (summary.distanceTraveledCount > 0) {
                 distancesTraveled.add(AnalysisDataPoint(summary.date, summary.distanceTraveledSum))
             }
+            if (summary.pricePerLiterAverage > 0) {
+                pricePerLiter.add(AnalysisDataPoint(summary.date, summary.pricePerLiterAverage))
+            }
+            volumesCount += summary.volumeCount
+            totalPricesCount += summary.totalPriceCount
+            distancesTraveledCount += summary.distanceTraveledCount
         }
 
         return AnalysisDataLines(
             volumes = volumes,
             totalPrices = totalPrices,
-            distancesTraveled = distancesTraveled
+            distancesTraveled = distancesTraveled,
+            pricePerLiter = pricePerLiter,
+            volumesCount = volumesCount,
+            totalPricesCount = totalPricesCount,
+            distancesTraveledCount = distancesTraveledCount
         )
     }
 
