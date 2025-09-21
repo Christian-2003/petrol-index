@@ -1,7 +1,7 @@
 package de.christian2003.petrolindex.plugin.infrastructure.backup
 
 import android.util.Log
-import de.christian2003.petrolindex.application.backup.BackupRepository
+import de.christian2003.petrolindex.application.repository.BackupRepository
 import de.christian2003.petrolindex.application.backup.CreateBackupUseCase
 import de.christian2003.petrolindex.application.backup.RestoreBackupUseCase
 import de.christian2003.petrolindex.application.backup.RestoreStrategy

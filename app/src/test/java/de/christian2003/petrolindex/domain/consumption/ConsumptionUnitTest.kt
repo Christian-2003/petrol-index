@@ -6,6 +6,7 @@ import org.junit.Test
 import java.time.LocalDate
 import kotlin.uuid.Uuid
 
+
 class ConsumptionUnitTest {
 
     @Test

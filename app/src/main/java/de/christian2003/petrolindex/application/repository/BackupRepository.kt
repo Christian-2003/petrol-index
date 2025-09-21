@@ -1,8 +1,8 @@
-package de.christian2003.petrolindex.application.backup
+package de.christian2003.petrolindex.application.repository
 
+import de.christian2003.petrolindex.application.backup.RestoreStrategy
 import de.christian2003.petrolindex.domain.model.Consumption
 import kotlinx.coroutines.flow.Flow
-
 
 /**
  * Repository allows to restore data from a backup.

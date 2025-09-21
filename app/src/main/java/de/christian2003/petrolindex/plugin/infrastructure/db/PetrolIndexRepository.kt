@@ -1,6 +1,6 @@
 package de.christian2003.petrolindex.plugin.infrastructure.db
 
-import de.christian2003.petrolindex.application.backup.BackupRepository
+import de.christian2003.petrolindex.application.repository.BackupRepository
 import de.christian2003.petrolindex.application.backup.RestoreStrategy
 import de.christian2003.petrolindex.application.repository.ConsumptionRepository
 import de.christian2003.petrolindex.domain.model.Consumption
