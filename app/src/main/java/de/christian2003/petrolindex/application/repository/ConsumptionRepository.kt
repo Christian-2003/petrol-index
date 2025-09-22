@@ -19,6 +19,14 @@ interface ConsumptionRepository {
 
 
     /**
+     * Returns a list containing the most recent consumptions.
+     *
+     * @return  Flow containing a list of the most recent consumptions.
+     */
+    fun getRecentConsumptions(): Flow<List<Consumption>>
+
+
+    /**
      * Returns the consumption with the passed ID. If no consumption exists, null is returned.
      *
      * @param id    ID of the consumption to return.

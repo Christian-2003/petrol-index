@@ -28,6 +28,15 @@ interface ConsumptionDao {
 
 
     /**
+     * Returns the most recent consumptions.
+     *
+     * @return  List of the most recent consumptions.
+     */
+    @Query("SELECT * FROM petrol_entries ORDER BY epochSecond DESC LIMIT 3")
+    fun selectRecentConsumptions(): Flow<List<ConsumptionEntity>>
+
+
+    /**
      * Returns all consumptions in between the dates passed as argument.
      *
      * @param start Start day of the time period.

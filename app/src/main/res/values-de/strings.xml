@@ -90,6 +90,7 @@
     <string name="button_save">Speichern</string>
     <string name="button_import">Importieren</string>
     <string name="button_showMore">Mehr anzeigen</string>
+    <string name="button_showAllConsumptions">Alle anzeigen</string>
 
     <string name="error_emptyText">Dieses Feld darf nicht leer sein</string>
     <string name="error_volumeError">Das Volumen ist ungültig</string>

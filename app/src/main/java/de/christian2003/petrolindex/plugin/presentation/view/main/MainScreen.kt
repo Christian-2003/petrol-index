@@ -2,9 +2,9 @@ package de.christian2003.petrolindex.plugin.presentation.view.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,33 +25,43 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import de.christian2003.petrolindex.R
+import de.christian2003.petrolindex.domain.model.Consumption
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDeleteDialog
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
+import kotlin.uuid.Uuid
 
 
 /**
  * Composable displays the main view for the app.
  *
- * @param viewModel                     View model for the view.
- * @param onNavigateToPetrolEntries     Callback to invoke in order to navigate to the list of
- *                                      petrol entries.
- * @param onNavigateToAddPetrolEntry    Callback to invoke in order to navigate to the view through
- *                                      which to add a new petrol entry.
- * @param onNavigateToSettings          Callback to invoke in order to navigate to the app settings.
- * @param onNavigateToAnalysis          Callback invoked to navigate to the analysis screen.
+ * @param viewModel                 View model for the view.
+ * @param onNavigateToConsumptions  Callback to invoke in order to navigate to the list of
+ *                                  consumptions.
+ * @param onCreateConsumption       Callback to invoke in order to navigate to the view through
+ *                                  which to add a new consumption.
+ * @param onNavigateToSettings      Callback to invoke in order to navigate to the app settings.
+ * @param onNavigateToAnalysis      Callback invoked to navigate to the analysis screen.
  */
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
-    onNavigateToPetrolEntries: () -> Unit,
-    onNavigateToAddPetrolEntry: () -> Unit,
+    onNavigateToConsumptions: () -> Unit,
+    onCreateConsumption: () -> Unit,
+    onEditConsumption: (Uuid) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAnalysis: () -> Unit
 ) {
+    val recentConsumptions: List<Consumption> by viewModel.recentConsumptions.collectAsState(emptyList())
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -65,7 +76,7 @@ fun MainScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            onNavigateToPetrolEntries()
+                            onNavigateToConsumptions()
                         }
                     ) {
                         Icon(
@@ -91,7 +102,7 @@ fun MainScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    onNavigateToAddPetrolEntry()
+                    onCreateConsumption()
                 },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
@@ -124,6 +135,62 @@ fun MainScreen(
             ) {
                 Text("analysis")
             }
+            ConsumptionsList(
+                consumptions = recentConsumptions,
+                onEditConsumption = { consumption ->
+                    onEditConsumption(consumption.id)
+                },
+                onDeleteConsumption = { consumption ->
+                    viewModel.consumptionToDelete = consumption
+                },
+                onShowAllConsumptions = onNavigateToConsumptions
+            )
+        }
+        if (viewModel.consumptionToDelete != null) {
+            ConfirmDeleteDialog(
+                text = stringResource(R.string.consumptions_deleteText),
+                onDismiss = {
+                    viewModel.consumptionToDelete = null
+                },
+                onConfirm = {
+                    viewModel.deleteConsumption()
+                }
+            )
+        }
+    }
+}
+
+
+@Composable
+private fun ConsumptionsList(
+    consumptions: List<Consumption>,
+    onEditConsumption: (Consumption) -> Unit,
+    onDeleteConsumption: (Consumption) -> Unit,
+    onShowAllConsumptions: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = MaterialTheme.shapes.extraLarge
+            )
+            .clip(MaterialTheme.shapes.extraLarge)
+    ) {
+        consumptions.forEach { consumption ->
+            ConsumptionListItem(
+                consumption = consumption,
+                onEdit = onEditConsumption,
+                onDelete = onDeleteConsumption
+            )
+        }
+        HorizontalDivider()
+        TextButton(
+            onClick = onShowAllConsumptions
+        ) {
+            Text(stringResource(R.string.button_showAllConsumptions))
         }
     }
 }
@@ -135,9 +202,8 @@ fun MainScreen(
  * @param onCancelClicked   Callback invoked once the cancel-button is clicked.
  * @param onConfirmClicked  Callback invoked once the confirm-button is clicked.
  */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun DownloadCard(
+private fun DownloadCard(
     onCancelClicked: () -> Unit,
     onConfirmClicked: () -> Unit
 ) {

@@ -52,6 +52,20 @@ class PetrolIndexRepository(
         return consumptions!!
     }
 
+    /**
+     * Returns a list containing the most recent consumptions.
+     *
+     * @return  Flow containing a list of the most recent consumptions.
+     */
+    override fun getRecentConsumptions(): Flow<List<Consumption>> {
+        val consumptions: Flow<List<Consumption>> = consumptionDao.selectRecentConsumptions().map { list ->
+            list.map { consumption ->
+                consumptionMapper.toDomain(consumption)
+            }
+        }
+        return consumptions
+    }
+
 
     /**
      * Returns the consumption with the passed ID. If no consumption exists, null is returned.

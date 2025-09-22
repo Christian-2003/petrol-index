@@ -5,7 +5,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +29,7 @@ import de.christian2003.petrolindex.application.usecases.CreateConsumptionUseCas
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
 import de.christian2003.petrolindex.application.usecases.GetConsumptionUseCase
+import de.christian2003.petrolindex.application.usecases.GetRecentConsumptionsUseCase
 import de.christian2003.petrolindex.application.usecases.UpdateConsumptionUseCase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexDatabase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
@@ -112,19 +121,40 @@ fun PetrolIndex(
     PetrolIndexTheme {
         NavHost(
             navController = navController,
-            startDestination = "main"
+            startDestination = "main",
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = spring(Spring.DampingRatioLowBouncy, Spring.StiffnessLow)
+                ) + fadeIn(spring(Spring.DampingRatioLowBouncy))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = spring(Spring.DampingRatioLowBouncy, Spring.StiffnessHigh)
+                ) + fadeOut(spring(Spring.DampingRatioLowBouncy))
+            },
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
             composable("main") {
                 val mainViewModel: MainViewModel = viewModel()
-                mainViewModel.init(repository, updateManager)
+                mainViewModel.init(
+                    updateManager = updateManager,
+                    getRecentConsumptionsUseCase = GetRecentConsumptionsUseCase(repository),
+                    deleteConsumptionUseCase = DeleteConsumptionUseCase(repository)
+                )
 
                 MainScreen(
                     viewModel = mainViewModel,
-                    onNavigateToPetrolEntries = {
+                    onNavigateToConsumptions = {
                         navController.navigate("consumptions")
                     },
-                    onNavigateToAddPetrolEntry = {
-                        navController.navigate("consumptions/")
+                    onCreateConsumption = {
+                        navController.navigate("consumption/")
+                    },
+                    onEditConsumption = { id ->
+                        val idAsString: String = id.toString()
+                        navController.navigate("consumption/$idAsString")
                     },
                     onNavigateToSettings = {
                         navController.navigate("settings")
@@ -149,20 +179,20 @@ fun PetrolIndex(
                     },
                     onEditConsumption = { id ->
                         val idAsString: String = id.toString()
-                        navController.navigate("consumptions/$idAsString")
+                        navController.navigate("consumption/$idAsString")
                     }
                 )
             }
 
             composable(
-                route = "consumptions/{id}",
+                route = "consumption/{id}",
                 arguments = listOf(
                     navArgument("id") { type = NavType.StringType }
                 )
             ) { backStackEntry ->
                 val id: Uuid? = try {
                     UUID.fromString(backStackEntry.arguments?.getString("id")!!).toKotlinUuid()
-                } catch(e: Exception) {
+                } catch(_: Exception) {
                     null
                 }
                 val viewModel: ConsumptionViewModel = viewModel()

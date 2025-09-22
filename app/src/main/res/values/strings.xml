@@ -91,6 +91,7 @@
     <string name="button_save">Save</string>
     <string name="button_import">Import</string>
     <string name="button_showMore">Show more</string>
+    <string name="button_showAllConsumptions">Show all</string>
 
     <string name="error_emptyText">This field cannot be empty</string>
     <string name="error_volumeError">The volume is invalid</string>
