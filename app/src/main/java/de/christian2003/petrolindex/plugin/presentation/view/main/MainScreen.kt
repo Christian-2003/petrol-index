@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -46,6 +47,7 @@ import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDeleteDialog
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.EmptyPlaceholder
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
 import okhttp3.internal.http2.Header
 import kotlin.uuid.Uuid
@@ -129,29 +131,43 @@ fun MainScreen(
                     }
                 )
             }
-            Headline(stringResource(R.string.main_quickActions_title))
-            QuickActions(
-                onAnalysisClicked = onNavigateToAnalysis,
-                onConsumptionsClicked = onNavigateToConsumptions,
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
-            )
-
-            Headline(stringResource(R.string.main_consumptions_title))
-            ConsumptionsList(
-                consumptions = recentConsumptions,
-                onEditConsumption = { consumption ->
-                    onEditConsumption(consumption.id)
-                },
-                onDeleteConsumption = { consumption ->
-                    viewModel.consumptionToDelete = consumption
-                },
-                onShowAllConsumptions = onNavigateToConsumptions,
-                modifier = Modifier.padding(
-                    start = dimensionResource(R.dimen.margin_horizontal),
-                    end = dimensionResource(R.dimen.margin_horizontal),
-                    bottom = dimensionResource(R.dimen.padding_vertical)
+            if (recentConsumptions.isEmpty()) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    EmptyPlaceholder(
+                        title = stringResource(R.string.main_emptyPlaceholder_title),
+                        subtitle = stringResource(R.string.main_emptyPlaceholder_subtitle),
+                        painter = painterResource(R.drawable.el_consumptions)
+                    )
+                }
+            }
+            else {
+                Headline(stringResource(R.string.main_quickActions_title))
+                QuickActions(
+                    onAnalysisClicked = onNavigateToAnalysis,
+                    onConsumptionsClicked = onNavigateToConsumptions,
+                    modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
                 )
-            )
+
+                Headline(stringResource(R.string.main_consumptions_title))
+                ConsumptionsList(
+                    consumptions = recentConsumptions,
+                    onEditConsumption = { consumption ->
+                        onEditConsumption(consumption.id)
+                    },
+                    onDeleteConsumption = { consumption ->
+                        viewModel.consumptionToDelete = consumption
+                    },
+                    onShowAllConsumptions = onNavigateToConsumptions,
+                    modifier = Modifier.padding(
+                        start = dimensionResource(R.dimen.margin_horizontal),
+                        end = dimensionResource(R.dimen.margin_horizontal),
+                        bottom = dimensionResource(R.dimen.padding_vertical)
+                    )
+                )
+            }
         }
         if (viewModel.consumptionToDelete != null) {
             ConfirmDeleteDialog(
@@ -284,7 +300,7 @@ private fun ConsumptionsList(
                 onDelete = onDeleteConsumption
             )
         }
-        HorizontalDivider()
+        HorizontalDivider(color = MaterialTheme.colorScheme.outline)
         TextButton(
             onClick = onShowAllConsumptions
         ) {
@@ -329,7 +345,7 @@ private fun DownloadCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_warning),
+                    painter = painterResource(R.drawable.ic_info),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     contentDescription = "",
                     modifier = Modifier

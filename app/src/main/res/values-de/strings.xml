@@ -125,6 +125,8 @@
     <string name="main_quickActions_analysis">Analyse</string>
     <string name="main_quickActions_consumptions">Verbräuche</string>
     <string name="main_consumptions_title">Letzte Verbräuche</string>
+    <string name="main_emptyPlaceholder_title">Keine Daten</string>
+    <string name="main_emptyPlaceholder_subtitle">Füge Verbäuche hinzu und erhalte vollen Zugriff zu Petrol Index</string>
 
     <string name="settings_title">Einstellungen</string>
     <string name="settings_data">Daten</string>

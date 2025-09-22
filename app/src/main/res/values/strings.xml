@@ -127,6 +127,8 @@
     <string name="main_quickActions_analysis">Analysis</string>
     <string name="main_quickActions_consumptions">Consumptions</string>
     <string name="main_consumptions_title">Recent consumptions</string>
+    <string name="main_emptyPlaceholder_title">No data</string>
+    <string name="main_emptyPlaceholder_subtitle">Add consumptions to get full access to Petrol Index</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_data">Data</string>
