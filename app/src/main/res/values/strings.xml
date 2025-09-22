@@ -120,6 +120,10 @@
     <string name="main_content_description_add_petrol_entry">Add new petrol entry</string>
     <string name="main_content_description_view_database">View database</string>
     <string name="main_content_description_settings">Open Settings</string>
+    <string name="main_quickActions_title">Quick actions</string>
+    <string name="main_quickActions_analysis">Analysis</string>
+    <string name="main_quickActions_consumptions">Consumptions</string>
+    <string name="main_consumptions_title">Recent consumptions</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_data">Data</string>

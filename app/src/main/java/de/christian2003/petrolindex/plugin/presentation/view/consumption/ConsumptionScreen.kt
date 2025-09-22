@@ -132,7 +132,7 @@ fun ConsumptionScreen(
                     onNavigateUp()
                 },
                 enabled = viewModel.isDataValid.value,
-                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.space_vertical))
+                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_vertical))
             ) {
                 Text(
                     text = stringResource(R.string.button_save),

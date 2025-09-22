@@ -76,12 +76,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         getRecentConsumptionsUseCase: GetRecentConsumptionsUseCase,
         deleteConsumptionUseCase: DeleteConsumptionUseCase
     ) {
+        isUpdateAvailable = updateManager.isUpdateAvailable
         if (isInitialized) {
             return
         }
         this.deleteConsumptionUseCase = deleteConsumptionUseCase
         this.updateManager = updateManager
-        isUpdateAvailable = updateManager.isUpdateAvailable
         recentConsumptions = getRecentConsumptionsUseCase.getRecentConsumptions()
         isInitialized = true
     }

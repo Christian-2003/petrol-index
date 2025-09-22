@@ -145,8 +145,8 @@ fun LicensesListRow(
                 onLicenseClicked(license)
             }
             .padding(
-                vertical = dimensionResource(R.dimen.space_vertical_between),
-                horizontal = dimensionResource(R.dimen.space_horizontal)
+                vertical = dimensionResource(R.dimen.padding_vertical),
+                horizontal = dimensionResource(R.dimen.margin_horizontal)
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -196,14 +196,14 @@ fun LicenseDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.space_horizontal))
+                .padding(horizontal = dimensionResource(R.dimen.margin_horizontal))
                 .verticalScroll(rememberScrollState())
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.padding(end = dimensionResource(R.dimen.space_horizontal_between)),
+                    modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_horizontal)),
                     painter = painterResource(R.drawable.ic_license),
                     tint = MaterialTheme.colorScheme.onSurface,
                     contentDescription = ""
@@ -217,7 +217,7 @@ fun LicenseDialog(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.space_vertical)),
+                    .padding(vertical = dimensionResource(R.dimen.padding_vertical)),
                 text = licenseText,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyMedium

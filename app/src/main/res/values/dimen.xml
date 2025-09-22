@@ -23,18 +23,4 @@
     <!-- Splash screen duration -->
     <integer name="splash_duration">1000</integer>
 
-
-    <!-- <><><> DEPRECATED BELOW <><><> Todo: Remove <><><> -->
-
-    <dimen name="space_vertical">12dp</dimen>
-    <dimen name="space_vertical_between">6dp</dimen>
-    <dimen name="space_horizontal">24dp</dimen>
-    <dimen name="space_horizontal_between">16dp</dimen>
-    <dimen name="space_horizontal_small">6dp</dimen>
-
-    <dimen name="image_xxl">136dp</dimen>
-
-    <dimen name="diagram_height">128dp</dimen>
-
-    <dimen name="padding_material_text_field_top">8dp</dimen>
 </resources>

@@ -118,6 +118,10 @@
     <string name="main_content_description_add_petrol_entry">Neuen Benzinverbrauch hinzufügen</string>
     <string name="main_content_description_view_database">Datenbank einsehen</string>
     <string name="main_content_description_settings">Einstellungen öffnen</string>
+    <string name="main_quickActions_title">Schnellzugriff</string>
+    <string name="main_quickActions_analysis">Analyse</string>
+    <string name="main_quickActions_consumptions">Verbräuche</string>
+    <string name="main_consumptions_title">Letzte Verbräuche</string>
 
     <string name="settings_title">Einstellungen</string>
     <string name="settings_data">Daten</string>
