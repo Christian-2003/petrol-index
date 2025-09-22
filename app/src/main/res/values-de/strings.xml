@@ -24,6 +24,7 @@
     <string name="consumption_description_label">Notizen</string>
 
     <string name="analysis_title">Analyse</string>
+    <string name="analysis_pricePerLiter">Preis pro Liter</string>
     <string name="analysis_clusterVolume_title">Volumen</string>
     <string name="analysis_clusterVolume_totalSum">Gesamtvolumen</string>
     <string name="analysis_clusterVolume_totalAverage">Durchschnitt pro Verbrauch</string>
@@ -47,6 +48,10 @@
     <string name="analysis_precision_month">Monat</string>
     <string name="analysis_precision_quarter">Quartal</string>
     <string name="analysis_precision_year">Jahr</string>
+    <string name="analysis_period_currentYear">Aktuelles Jahr</string>
+    <string name="analysis_period_lastYear">Letztes Jahr</string>
+    <string name="analysis_period_custom">Eigener Zeitraum</string>
+    <string name="analysis_period_customValue">%1$s - %2$s</string>
     <string-array name="analysis_monthNames">
         <item>Januar</item>
         <item>Februar</item>
@@ -84,6 +89,7 @@
     <string name="button_dismissHelp">Ausblenden</string>
     <string name="button_save">Speichern</string>
     <string name="button_import">Importieren</string>
+    <string name="button_showMore">Mehr anzeigen</string>
 
     <string name="error_emptyText">Dieses Feld darf nicht leer sein</string>
     <string name="error_volumeError">Das Volumen ist ungültig</string>

@@ -39,6 +39,13 @@ import de.christian2003.petrolindex.domain.analysis.AnalysisResultClusterType
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Value
 
 
+/**
+ * Full-screen sheet displays more info about an analysis cluster.
+ *
+ * @param cluster   Cluster to display.
+ * @param precision Analysis precision.
+ * @param onDismiss Callback invoked to dismiss the sheet.
+ */
 @Composable
 fun ClusterSheet(
     cluster: AnalysisResultCluster,
@@ -211,6 +218,16 @@ fun ClusterSheet(
 }
 
 
+/**
+ * Displays the large value.
+ *
+ * @param title                 Title
+ * @param valueTextResourceId   ID of the resource string to use t display the value.
+ * @param formattedValue        Formatted value to display.
+ * @param foregroundColor       Foreground color.
+ * @param backgroundColor       Background color.
+ * @param modifier              Modifier.
+ */
 @Composable
 fun LargeValue(
     title: String,
@@ -253,6 +270,16 @@ fun LargeValue(
 }
 
 
+/**
+ * Displays the small value.
+ *
+ * @param title                 Title
+ * @param valueTextResourceId   ID of the resource string to use t display the value.
+ * @param formattedValue        Formatted value to display.
+ * @param foregroundColor       Foreground color.
+ * @param backgroundColor       Background color.
+ * @param modifier              Modifier.
+ */
 @Composable
 fun SmallValue(
     title: String,
