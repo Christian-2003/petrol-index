@@ -92,6 +92,9 @@
     <string name="button_import">Import</string>
     <string name="button_showMore">Show more</string>
     <string name="button_showAllConsumptions">Show all</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_next">Next</string>
+    <string name="button_finish">Finish</string>
 
     <string name="error_emptyText">This field cannot be empty</string>
     <string name="error_volumeError">The volume is invalid</string>
@@ -138,6 +141,8 @@
     <string name="settings_help">Help</string>
     <string name="settings_help_helpMessagesTitle">Help messages</string>
     <string name="settings_help_helpMessagesInfo">Reactivate dismissed help messages</string>
+    <string name="settings_help_onboardingTitle">Onboarding</string>
+    <string name="settings_help_onboardingInfo">Show onboarding for Petrol Index</string>
     <string name="settings_about">About</string>
     <string name="settings_about_copyright">© %1$s Christian‑2003</string>
     <string name="settings_about_licensesTitle">Used software</string>
@@ -167,5 +172,12 @@
 
     <string name="licenses_title">Used Software</string>
     <string name="licenses_content_description_go_back">Go back to settings</string>
+
+    <string name="onboarding_page1_title">Welcome to Petrol Index</string>
+    <string name="onboarding_page1_text">Document and analyze your petrol consumptions with ease</string>
+    <string name="onboarding_page2_title">Document your consumptions</string>
+    <string name="onboarding_page2_text">Document all your petrol consumptions to get the best results with our analysis</string>
+    <string name="onboarding_page3_title">Analyze your consumptions</string>
+    <string name="onboarding_page3_text">We help you get more efficient. Get the best info about your consumptions with our analysis</string>
 
 </resources>

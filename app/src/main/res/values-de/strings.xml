@@ -91,6 +91,9 @@
     <string name="button_import">Importieren</string>
     <string name="button_showMore">Mehr anzeigen</string>
     <string name="button_showAllConsumptions">Alle anzeigen</string>
+    <string name="button_previous">Zurück</string>
+    <string name="button_next">Weiter</string>
+    <string name="button_finish">Fertig</string>
 
     <string name="error_emptyText">Dieses Feld darf nicht leer sein</string>
     <string name="error_volumeError">Das Volumen ist ungültig</string>
@@ -136,6 +139,8 @@
     <string name="settings_help">Hilfe</string>
     <string name="settings_help_helpMessagesTitle">Hinweisnachrichten</string>
     <string name="settings_help_helpMessagesInfo">Ausgeblendete Hinweisnachrichten wieder einblenden</string>
+    <string name="settings_help_onboardingTitle">Produkttour</string>
+    <string name="settings_help_onboardingInfo">Produkttour für Petrol Index anzeigen</string>
     <string name="settings_about">Über</string>
     <string name="settings_about_copyright">© %1$s Christian‑2003</string>
     <string name="settings_about_licensesTitle">Verwendete Software</string>
@@ -165,4 +170,12 @@
 
     <string name="licenses_title">Verwendete Software</string>
     <string name="licenses_content_description_go_back">Zurück zu Einstellungen</string>
+
+    <string name="onboarding_page1_title">Willkommen bei Petrol Index</string>
+    <string name="onboarding_page1_text">Dokumentieren und analysiere deine Benzinverbäuche ohne großen Aufwand</string>
+    <string name="onboarding_page2_title">Dokumentiere deine Verbräuche</string>
+    <string name="onboarding_page2_text">Dokumentiere alle deine Benzinverbräuche, um die besten Analyseergebnisse zu erhalten</string>
+    <string name="onboarding_page3_title">Analysiere deine Verbäuche</string>
+    <string name="onboarding_page3_text">Wir helfen dir effizienter zu werden. Erhalte die besten Infos über deine Verbäuche mit unseren Analysen</string>
+
 </resources>

@@ -44,17 +44,19 @@ import androidx.core.net.toUri
 /**
  * Composable displays the view containing all settings.
  *
- * @param viewModel             View model for the view.
- * @param onNavigateUp          Callback invoked to navigate up the navigation stack.
- * @param onNavigateToLicenses  Callback to invoke in order to navigate to the licenses view.
- * @param onNavigateToHelp      Callback invoked to navigate to the help screen.
+ * @param viewModel                 View model for the view.
+ * @param onNavigateUp              Callback invoked to navigate up the navigation stack.
+ * @param onNavigateToLicenses      Callback to invoke in order to navigate to the licenses view.
+ * @param onNavigateToHelp          Callback invoked to navigate to the help screen.
+ * @param onNavigateToOnboarding    Callback invoked to navigate to the onboarding.
  */
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     onNavigateUp: () -> Unit,
     onNavigateToLicenses: () -> Unit,
-    onNavigateToHelp: () -> Unit
+    onNavigateToHelp: () -> Unit,
+    onNavigateToOnboarding: () -> Unit
 ) {
     val context = LocalContext.current
     val importMessageSuccess = stringResource(R.string.settings_data_importSuccess)
@@ -163,6 +165,13 @@ fun SettingsScreen(
                 onClick = onNavigateToHelp,
                 endIcon = painterResource(R.drawable.ic_next),
                 prefixIcon = painterResource(R.drawable.ic_help)
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_help_onboardingTitle),
+                info = stringResource(R.string.settings_help_onboardingInfo),
+                onClick = onNavigateToOnboarding,
+                endIcon = painterResource(R.drawable.ic_next),
+                prefixIcon = painterResource(R.drawable.ic_onboarding)
             )
             HorizontalDivider()
 

@@ -13,8 +13,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,6 +54,7 @@ import de.christian2003.petrolindex.plugin.presentation.view.consumptions.Consum
 import de.christian2003.petrolindex.plugin.presentation.view.consumptions.ConsumptionsViewModel
 import de.christian2003.petrolindex.plugin.presentation.view.help.HelpScreen
 import de.christian2003.petrolindex.plugin.presentation.view.help.HelpViewModel
+import de.christian2003.petrolindex.plugin.presentation.view.onboarding.OnboardingScreen
 import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsScreen
 import de.christian2003.petrolindex.plugin.presentation.view.settings.SettingsViewModel
 import kotlinx.coroutines.delay
@@ -117,11 +123,16 @@ fun PetrolIndex(
     val navController = rememberNavController()
     val database = PetrolIndexDatabase.getInstance(context)
     val repository = PetrolIndexRepository(database.petrolEntryDao)
+    var isOnboardingFinished: Boolean by rememberSaveable { mutableStateOf(context.getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("onboardingFinished", false)) }
 
     PetrolIndexTheme {
         NavHost(
             navController = navController,
-            startDestination = "main",
+            startDestination = if (isOnboardingFinished) {
+                "main"
+            } else {
+                "onboarding"
+            },
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -250,6 +261,9 @@ fun PetrolIndex(
                     },
                     onNavigateToHelp = {
                         navController.navigate("help")
+                    },
+                    onNavigateToOnboarding = {
+                        navController.navigate("onboarding")
                     }
                 )
             }
@@ -274,6 +288,29 @@ fun PetrolIndex(
                     viewModel = viewModel,
                     onNavigateBack = {
                         navController.navigateUp()
+                    }
+                )
+            }
+
+            composable("onboarding") {
+                OnboardingScreen(
+                    onNavigateUp = {
+                        if (!isOnboardingFinished) {
+                            //Onboarding shown for the first time:
+                            isOnboardingFinished = true
+                            context.getSharedPreferences("settings", Context.MODE_PRIVATE).edit {
+                                putBoolean("onboardingFinished", true)
+                            }
+                            navController.navigate("main") {
+                                popUpTo("onboarding") {
+                                    inclusive = true
+                                }
+                            }
+                        }
+                        else {
+                            //Onboarding shown through settings:
+                            navController.navigateUp()
+                        }
                     }
                 )
             }
