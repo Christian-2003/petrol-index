@@ -2,7 +2,9 @@ package de.christian2003.petrolindex.plugin.presentation.view
 
 import android.content.Context
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContentTransitionScope

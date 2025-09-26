@@ -278,9 +278,11 @@ fun PetrolIndexTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val activity: Activity = view.context as Activity
-            val insetsController: WindowInsetsControllerCompat = WindowCompat.getInsetsController(activity.window, view)
-            insetsController.isAppearanceLightStatusBars = !darkTheme
-            insetsController.isAppearanceLightNavigationBars = !darkTheme
+            val insetsController: WindowInsetsControllerCompat = WindowCompat.getInsetsController(activity.window, activity.window.decorView)
+            insetsController.apply {
+                isAppearanceLightStatusBars = !darkTheme
+                isAppearanceLightNavigationBars = !darkTheme
+            }
         }
     }
 

@@ -18,7 +18,7 @@
             android:name=".plugin.presentation.view.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PetrolIndex.SplashScreen"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"> <!-- AdjustNothing in order to apply IME padding -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

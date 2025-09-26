@@ -1,8 +1,18 @@
 package de.christian2003.petrolindex.plugin.presentation.view.consumptions
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
@@ -12,12 +22,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDeleteDialog
@@ -41,6 +63,8 @@ fun ConsumptionsScreen(
     onEditConsumption: (Uuid) -> Unit
 ) {
     val consumptions by viewModel.consumptions.collectAsState(emptyList())
+    val appBarState: TopAppBarState = rememberTopAppBarState()
+    val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
     Scaffold(
         topBar = {
@@ -63,12 +87,18 @@ fun ConsumptionsScreen(
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior
             )
-        }
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(
+                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                top = innerPadding.calculateTopPadding(),
+                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current)
+            )
         ) {
             ConsumptionsList(
                 consumptions = consumptions,
@@ -77,7 +107,10 @@ fun ConsumptionsScreen(
                 },
                 onEditConsumption =  { consumption ->
                     onEditConsumption(consumption.id)
-                }
+                },
+                windowInsets = WindowInsets(
+                    bottom = innerPadding.calculateBottomPadding()
+                )
             )
         }
 
@@ -109,7 +142,8 @@ fun ConsumptionsScreen(
 private fun ConsumptionsList(
     consumptions: List<Consumption>,
     onDeleteConsumption: (Consumption) -> Unit,
-    onEditConsumption: (Consumption) -> Unit
+    onEditConsumption: (Consumption) -> Unit,
+    windowInsets: WindowInsets
 ) {
     if (consumptions.isEmpty()) {
         EmptyPlaceholder(
@@ -140,6 +174,14 @@ private fun ConsumptionsList(
                         onEdit = onEditConsumption
                     )
                 }
+            }
+            item {
+                val navigationBars: WindowInsets = WindowInsets.navigationBars
+                val density: Density = LocalDensity.current
+                val height: Int = navigationBars.getBottom(density)
+                Box(
+                    modifier = Modifier.windowInsetsBottomHeight(windowInsets)
+                )
             }
         }
     }
