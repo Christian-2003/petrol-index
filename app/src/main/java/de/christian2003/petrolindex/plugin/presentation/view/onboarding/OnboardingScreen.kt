@@ -119,7 +119,7 @@ private fun BottomRow(
     modifier: Modifier = Modifier,
     nextButtonVisible: Boolean = true
 ) {
-    var color: Color = when (page) {
+    val color: Color = when (page) {
         0 -> MaterialTheme.colorScheme.onPrimary
         1 -> MaterialTheme.colorScheme.onSecondary
         else -> MaterialTheme.colorScheme.onTertiary

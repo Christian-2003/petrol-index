@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
         }
 
         //App content:
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             PetrolIndex(
                 updateManager = updateManager!!

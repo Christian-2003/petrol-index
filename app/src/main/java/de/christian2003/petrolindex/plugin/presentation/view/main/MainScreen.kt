@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -49,7 +48,6 @@ import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDe
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.EmptyPlaceholder
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
-import okhttp3.internal.http2.Header
 import kotlin.uuid.Uuid
 
 
