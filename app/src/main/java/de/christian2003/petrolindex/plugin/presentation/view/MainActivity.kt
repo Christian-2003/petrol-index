@@ -1,6 +1,7 @@
 package de.christian2003.petrolindex.plugin.presentation.view
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -30,6 +32,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.application.analysis.AnalysisUseCase
 import de.christian2003.petrolindex.application.usecases.CreateConsumptionUseCase
@@ -101,12 +104,29 @@ class MainActivity : ComponentActivity() {
         }
 
         //App content:
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            navigationBarStyle = if (isNightMode()) {
+                SystemBarStyle.dark(
+                    scrim = android.graphics.Color.TRANSPARENT
+                )
+            } else {
+                SystemBarStyle.light(
+                    scrim = android.graphics.Color.TRANSPARENT,
+                    darkScrim = android.graphics.Color.TRANSPARENT
+                )
+            }
+        )
         setContent {
             PetrolIndex(
                 updateManager = updateManager!!
             )
         }
+    }
+
+
+    private fun isNightMode(): Boolean {
+        val currentMode: Int = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentMode == Configuration.UI_MODE_NIGHT_YES
     }
 
 }
