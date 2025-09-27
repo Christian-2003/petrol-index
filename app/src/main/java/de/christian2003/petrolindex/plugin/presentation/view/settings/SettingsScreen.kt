@@ -164,7 +164,7 @@ fun SettingsScreen(
                 info = stringResource(R.string.settings_help_helpMessagesInfo),
                 onClick = onNavigateToHelp,
                 endIcon = painterResource(R.drawable.ic_next),
-                prefixIcon = painterResource(R.drawable.ic_help)
+                prefixIcon = painterResource(R.drawable.ic_help_outlined)
             )
             SettingsItemButton(
                 setting = stringResource(R.string.settings_help_onboardingTitle),

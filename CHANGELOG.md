@@ -2,7 +2,7 @@
 
 # Changelog
 
-## 1.0.3 (XXXX-XX-XX)
+## 1.1.0 (XXXX-XX-XX)
 ###### Release Highlights
 Major refactoring of the codebase to increase maintainability.
 
@@ -22,6 +22,14 @@ Major refactoring of the codebase to increase maintainability.
 * Add unit tests for application layer.
 * Add unit tests for plugin layer.
 * Add instrumented tests for database migration.
+* List of used software no longer shows license name and software version to increase maintainability.
+* License text is now displayed in a fully-expanded modal bottom sheet instead of a partially expanded bottom sheet.
+* Change the scrim color of the navigation bar to match the app surface color.
+* List of consumptions collapses top app bar to increase space for scrolling.
+* List of consumptions displays below navigation bar to increase space for scrolling.
+* Add onboarding to the app to help the user get started with the app.
+* Switch all app icons (except the info- and help-icons on cards) from filled to outlined versions. This puts less emphasis on these icons.
+* Values (e.g. volume and price) are now entered according to user locale. For German, the values are entered using a comma instead of a dot to separate decimals (e.g. "1.234,56 €" instead of "1234.56 €").
 
 <br/>
 

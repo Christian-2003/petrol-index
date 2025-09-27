@@ -7,7 +7,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import de.christian2003.petrolindex.R
-import de.christian2003.petrolindex.plugin.presentation.view.licenses.License
 import kotlinx.coroutines.launch
 import java.io.InputStream
 
@@ -21,6 +20,11 @@ import java.io.InputStream
 class LicensesViewModel(application: Application): AndroidViewModel(application) {
 
     /**
+     * Whether the view model is initialized.
+     */
+    private var isInitialized: Boolean = false
+
+    /**
      * Attribute stores a list of all licenses used.
      */
     var licenses: List<License> by mutableStateOf(emptyList())
@@ -31,9 +35,9 @@ class LicensesViewModel(application: Application): AndroidViewModel(application)
     var isLoading: Boolean by mutableStateOf(false)
 
     /**
-     * Attribute stores the name of the license currently displayed in a dialog.
+     * Attribute stores the name of the software whose license is currently displayed in a dialog.
      */
-    var displayedLicenseName: String? by mutableStateOf(null)
+    var displayedSoftwareName: String? by mutableStateOf(null)
 
     /**
      * Attribute stores the text of the license currently displayed in a dialog.
@@ -45,13 +49,18 @@ class LicensesViewModel(application: Application): AndroidViewModel(application)
      * Method initializes the view model.
      */
     fun init() {
-
+        if (isInitialized) {
+            return
+        }
+        loadLicenses()
+        isInitialized = true
     }
+
 
     /**
      * Method loads all licenses.
      */
-    fun loadLicenses() = viewModelScope.launch {
+    private fun loadLicenses() = viewModelScope.launch {
         if (!isLoading && licenses.isEmpty()) {
             isLoading = true
             val csv = readLicensesFile()
@@ -61,6 +70,7 @@ class LicensesViewModel(application: Application): AndroidViewModel(application)
             isLoading = false
         }
     }
+
 
     /**
      * Method loads the license text for the specified license. This loads in another thread and is
@@ -77,14 +87,15 @@ class LicensesViewModel(application: Application): AndroidViewModel(application)
             content = ByteArray(inputStream.available())
             inputStream.read(content)
             inputStream.close()
-            displayedLicenseName = license.licenseName
+            displayedSoftwareName = license.softwareName
             displayedLicenseText = String(content)
         }
-        catch (e: Exception) {
-            displayedLicenseName = null
+        catch (_: Exception) {
+            displayedSoftwareName = null
             displayedLicenseText = null
         }
     }
+
 
     /**
      * Method reads the file containing the list of all used software licenses.
@@ -99,11 +110,12 @@ class LicensesViewModel(application: Application): AndroidViewModel(application)
             inputStream.read(content)
             inputStream.close()
         }
-        catch (e: Exception) {
+        catch (_: Exception) {
             return null
         }
         return String(content)
     }
+
 
     /**
      * Method parses the licenses file whose CSV is passed as argument. The result is written to the
@@ -116,12 +128,10 @@ class LicensesViewModel(application: Application): AndroidViewModel(application)
         val software: List<String> = csv.split("\n")
         software.forEach { s ->
             val attributes: List<String> = s.split(",")
-            if (attributes.size == 4) {
+            if (attributes.size == 2) {
                 list.add(License(
                     softwareName = attributes[0],
-                    softwareVersion = attributes[1],
-                    licenseFile = attributes[2],
-                    licenseName = attributes[3]
+                    licenseFile = attributes[1],
                 ))
             }
         }
