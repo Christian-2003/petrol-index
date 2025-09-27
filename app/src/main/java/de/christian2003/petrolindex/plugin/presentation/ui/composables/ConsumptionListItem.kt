@@ -59,7 +59,7 @@ fun ConsumptionListItem(
     consumption: Consumption,
     onEdit: (Consumption) -> Unit,
     onDelete: (Consumption) -> Unit,
-    displayStyle: ListItemDisplayStyle = ListItemDisplayStyle.DEFAULT
+    displayStyle: ListItemDisplayStyle
 ) {
     when(displayStyle) {
         ListItemDisplayStyle.DEFAULT -> {
@@ -239,7 +239,7 @@ private fun ClassicListItem(
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = stringResource(R.string.format_volume, consumption.volume),
+                text = stringResource(R.string.format_volume, currencyFormatter.format(consumption.volume)),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )

@@ -132,7 +132,7 @@
     <string name="settings_title">Einstellungen</string>
     <string name="settings_customization">Personalisierung</string>
     <string name="settings_customization_listTitle">Listen</string>
-    <string name="settings_customization_listInfo">Ändere das Erscheinungsbild von Listen</string>
+    <string name="settings_customization_listInfo">Erscheinungsbild von Listen wählen</string>
     <string name="settings_customization_listDialogTitle">Erscheinungsbild auswählen</string>
     <string name="settings_customization_listItem_default">Standard</string>
     <string name="settings_customization_listItem_classic">Klassisch</string>

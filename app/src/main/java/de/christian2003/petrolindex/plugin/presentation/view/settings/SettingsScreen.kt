@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import coil.compose.rememberAsyncImagePainter
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
@@ -140,7 +141,7 @@ fun SettingsScreen(
                 onClick = {
                     viewModel.isListItemDisplayDialogVisible = true
                 },
-                prefixIcon = painterResource(R.drawable.ic_export)
+                prefixIcon = painterResource(R.drawable.ic_list)
             )
             HorizontalDivider()
 
@@ -336,7 +337,8 @@ fun SettingsItemButton(
                 Text(
                     text = setting,
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
                 )
                 if (endIcon != null) {
                     Icon(
@@ -465,7 +467,8 @@ private fun AppsSection(
                             Text(
                                 text = app.displayName,
                                 color = MaterialTheme.colorScheme.onSurface,
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold
                             )
                             Icon(
                                 painter = painterResource(R.drawable.ic_external),

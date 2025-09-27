@@ -1,144 +1,78 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="96dp"
-    android:height="96dp"
+    android:height="64dp"
     android:viewportWidth="96"
-    android:viewportHeight="96">
+    android:viewportHeight="64">
   <path
-      android:pathData="M4,4H30"
+      android:pathData="M4,4H31"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurface"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M4,10H39"
+      android:pathData="M75,7H91"
+      android:strokeWidth="6"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/md_theme_primaryContainer"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M4,10H43"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurfaceVariant"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M74,7H90"
-      android:strokeWidth="8"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_primaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M76,7L88,7"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onPrimaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M4,49H30"
+      android:pathData="M4,20H31"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurface"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M4,55H39"
+      android:pathData="M75,23H91"
+      android:strokeWidth="6"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/md_theme_primaryContainer"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M4,26H43"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurfaceVariant"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M74,52H90"
-      android:strokeWidth="8"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_primaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M76,52L88,52"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onPrimaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M4,65H30"
+      android:pathData="M4,36H31"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurface"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M4,71H39"
+      android:pathData="M75,39H91"
+      android:strokeWidth="6"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/md_theme_primaryContainer"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M4,42H43"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurfaceVariant"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M74,68H90"
-      android:strokeWidth="8"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_primaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M76,68L88,68"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onPrimaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M4,81H30"
+      android:pathData="M4,52H31"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurface"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M4,87H39"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onSurfaceVariant"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M74,84H90"
-      android:strokeWidth="8"
+      android:pathData="M75,55H91"
+      android:strokeWidth="6"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_primaryContainer"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M76,84L88,84"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onPrimaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M4,20H30"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onSurface"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M4,26H39"
+      android:pathData="M4,58H43"
       android:strokeWidth="4"
       android:fillColor="#00000000"
       android:strokeColor="@color/md_theme_onSurfaceVariant"
       android:strokeLineCap="round"/>
-  <path
-      android:pathData="M3,32H23"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onSurfaceVariant"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M3,36H25"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onSurfaceVariant"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M74,23H90"
-      android:strokeWidth="8"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_primaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M76,23L88,23"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="@color/md_theme_onPrimaryContainer"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M88,35m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
-      android:fillColor="@color/md_theme_surfaceContainer"/>
-  <path
-      android:pathData="M74,35m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
-      android:fillColor="@color/md_theme_surfaceContainer"/>
 </vector>
