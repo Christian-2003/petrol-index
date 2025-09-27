@@ -1,6 +1,7 @@
 package de.christian2003.petrolindex.plugin.presentation.view.main
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -35,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -43,12 +45,15 @@ import androidx.compose.ui.text.style.Hyphens
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.christian2003.petrolindex.R
+import de.christian2003.petrolindex.application.services.CurrencyFormatterService
+import de.christian2003.petrolindex.domain.analysis.ShortAnalysisResult
 import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDeleteDialog
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.EmptyPlaceholder
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemDisplayStyle
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.Value
 import kotlin.uuid.Uuid
 
 
@@ -92,7 +97,7 @@ fun MainScreen(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_settings),
-                            contentDescription = stringResource(R.string.main_content_description_settings),
+                            contentDescription = "",
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -109,7 +114,7 @@ fun MainScreen(
                 Icon(
                     painter = painterResource(R.drawable.ic_add),
                     tint = MaterialTheme.colorScheme.onPrimary,
-                    contentDescription = stringResource(R.string.main_content_description_add_petrol_entry)
+                    contentDescription = ""
                 )
             }
         }
@@ -147,7 +152,19 @@ fun MainScreen(
                 QuickActions(
                     onAnalysisClicked = onNavigateToAnalysis,
                     onConsumptionsClicked = onNavigateToConsumptions,
+                    onCreateConsumption = onCreateConsumption,
                     modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
+                )
+
+                Headline(stringResource(R.string.main_analysis_title))
+                AnalysisOverview(
+                    result = viewModel.shortAnalysisResult,
+                    onMoreClick = onNavigateToAnalysis,
+                    modifier = Modifier.padding(
+                        start = dimensionResource(R.dimen.margin_horizontal),
+                        end = dimensionResource(R.dimen.margin_horizontal),
+                        bottom = dimensionResource(R.dimen.padding_vertical)
+                    )
                 )
 
                 Headline(stringResource(R.string.main_consumptions_title))
@@ -189,12 +206,14 @@ fun MainScreen(
  *
  * @param onAnalysisClicked		Callback invoked once the button for analysis is clicked.
  * @param onConsumptionsClicked	Callback invoked once the button to show all consumptions is clicked.
+ * @param onCreateConsumption   Callback invoked once the button to create a consumption is clicked.
  * @param modifier				Modifier.
  */
 @Composable
 fun QuickActions(
     onAnalysisClicked: () -> Unit,
     onConsumptionsClicked: () -> Unit,
+    onCreateConsumption: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -218,6 +237,14 @@ fun QuickActions(
                 .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
                 .width(96.dp)
         )
+        QuickActionsButton(
+            painter = painterResource(R.drawable.ic_add),
+            text = stringResource(R.string.main_quickActions_createConsumption),
+            onClick = onCreateConsumption,
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                .width(96.dp)
+        )
     }
 }
 
@@ -231,7 +258,7 @@ fun QuickActions(
  * @param modifier	Modifier.
  */
 @Composable
-fun QuickActionsButton(
+private fun QuickActionsButton(
     painter: Painter,
     text: String,
     onClick: () -> Unit,
@@ -261,6 +288,153 @@ fun QuickActionsButton(
             style = MaterialTheme.typography.labelMedium.copy(hyphens = Hyphens.Auto),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_vertical) / 2)
+        )
+    }
+}
+
+
+/**
+ * Displays the short analysis result overview.
+ *
+ * @param result        Short analysis result to display.
+ * @param onMoreClick   Callback invoked to show the extensive analysis.
+ * @param modifier      Modifier.
+ */
+@Composable
+private fun AnalysisOverview(
+    result: ShortAnalysisResult?,
+    onMoreClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = MaterialTheme.shapes.extraLarge
+            )
+            .clip(MaterialTheme.shapes.extraLarge)
+            .padding(
+                horizontal = dimensionResource(R.dimen.margin_horizontal),
+                vertical = dimensionResource(R.dimen.padding_vertical)
+            )
+    ) {
+        if (result == null || (result.averagePricePerLiter == 0 && result.totalVolume == 0 && result.totalPrice == 0 && result.totalDistanceTraveled == 0)) {
+            //No data:
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.main_analysis_noData),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = dimensionResource(R.dimen.padding_horizontal))
+                )
+                Image(
+                    painter = painterResource(R.drawable.el_eco),
+                    contentDescription = "",
+                    modifier = Modifier.size(dimensionResource(R.dimen.image_emptyPlaceholderSmall))
+                )
+            }
+        }
+        else {
+            //Display data:
+            val currencyFormatter = CurrencyFormatterService()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.main_analysis_averagePricePerLiter),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = dimensionResource(R.dimen.padding_horizontal))
+                )
+                Value(
+                    formattedValue = currencyFormatter.format(result.averagePricePerLiter),
+                    valueTextResourceId = R.string.format_pricePerLiter
+                )
+            }
+            Text(
+                text = stringResource(R.string.main_analysis_info),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_vertical))
+            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+
+            AnalysisOverviewItem(
+                painter = painterResource(R.drawable.ic_petrol),
+                text = stringResource(R.string.main_analysis_totalVolume),
+                value = stringResource(R.string.format_volume, currencyFormatter.format(result.totalVolume)),
+                color = MaterialTheme.colorScheme.primary
+            )
+            AnalysisOverviewItem(
+                painter = painterResource(R.drawable.ic_price),
+                text = stringResource(R.string.main_analysis_totalPrice),
+                value = stringResource(R.string.format_totalPrice, currencyFormatter.format(result.totalPrice)),
+                color = MaterialTheme.colorScheme.secondary
+            )
+            AnalysisOverviewItem(
+                painter = painterResource(R.drawable.ic_distance),
+                text = stringResource(R.string.main_analysis_totalDistanceTraveled),
+                value = stringResource(R.string.format_distanceTraveled, currencyFormatter.format(result.totalDistanceTraveled)),
+                color = MaterialTheme.colorScheme.tertiary
+            )
+
+            TextButton(
+                onClick = onMoreClick
+            ) {
+                Text(stringResource(R.string.button_showMore))
+            }
+        }
+    }
+}
+
+
+/**
+ * Single item for the analysis overview.
+ *
+ * @param painter   Prefix icon.
+ * @param text      Text.
+ * @param value     Formatted value including value symbol (e.g. "1,234.56 €")
+ * @param color     Color for the item.
+ */
+@Composable
+private fun AnalysisOverviewItem(
+    painter: Painter,
+    text: String,
+    value: String,
+    color: Color
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = dimensionResource(R.dimen.padding_vertical))
+    ) {
+        Icon(
+            painter = painter,
+            contentDescription = "",
+            tint = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.size(dimensionResource(R.dimen.image_xxs))
+        )
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                .weight(1f)
+        )
+        Text(
+            text = value,
+            color = color,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

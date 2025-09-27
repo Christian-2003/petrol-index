@@ -2,15 +2,13 @@ package de.christian2003.petrolindex.plugin.presentation.view.settings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -72,6 +69,7 @@ fun ListItemDisplayStyleDialog(
                         painter = when (selectedListItemDisplayStyle) {
                             ListItemDisplayStyle.DEFAULT -> painterResource(R.drawable.ic_list_default)
                             ListItemDisplayStyle.CLASSIC -> painterResource(R.drawable.ic_list_classic)
+                            else -> painterResource(R.drawable.ic_list_default)
                         },
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth,
@@ -92,7 +90,9 @@ fun ListItemDisplayStyleDialog(
                 )
 
                 SingleChoiceSegmentedButtonRow(
-                    modifier = Modifier.padding(horizontal = 24.dp)
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 24.dp)
                 ) {
                     ListItemDisplayStyle.entries.forEach { style ->
                         SegmentedButton(
@@ -100,12 +100,18 @@ fun ListItemDisplayStyleDialog(
                             onClick = {
                                 selectedListItemDisplayStyle = style
                             },
-                            shape = MaterialTheme.shapes.small
+                            shape = RoundedCornerShape(
+                                topStart = if (style.ordinal == 0) { 100.dp } else { 0.dp },
+                                topEnd = if (style.ordinal == ListItemDisplayStyle.entries.size - 1) { 100.dp } else { 0.dp },
+                                bottomStart = if (style.ordinal == 0) { 100.dp } else { 0.dp },
+                                bottomEnd = if (style.ordinal == ListItemDisplayStyle.entries.size - 1) { 100.dp } else { 0.dp }
+                            )
                         ) {
                             Text(
                                 text = when (style) {
                                     ListItemDisplayStyle.DEFAULT -> stringResource(R.string.settings_customization_listItem_default)
                                     ListItemDisplayStyle.CLASSIC -> stringResource(R.string.settings_customization_listItem_classic)
+                                    else -> stringResource(R.string.settings_customization_listItem_default)
                                 }
                             )
                         }

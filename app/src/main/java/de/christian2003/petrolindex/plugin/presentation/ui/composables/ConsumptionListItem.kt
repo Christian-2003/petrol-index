@@ -76,6 +76,13 @@ fun ConsumptionListItem(
                 onDelete = onDelete
             )
         }
+        else -> {
+            DefaultListItem(
+                consumption = consumption,
+                onEdit = onEdit,
+                onDelete = onDelete
+            )
+        }
     }
 }
 

@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 import kotlin.math.roundToInt
 
 
-class AnalysisUseCase(
+class ExtensiveAnalysisUseCase(
     private val repository: AnalysisRepository
 ) {
 

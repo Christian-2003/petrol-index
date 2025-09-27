@@ -104,30 +104,23 @@
 
 
     <string name="main_title">Petrol Index</string>
-    <string name="main_diagram_price_per_liter_title">Preis pro Liter</string>
-    <string name="main_diagram_price_per_liter_indicator">{arg} EUR / Liter</string>
-    <string name="main_diagram_price_per_liter_unit">EUR / Liter</string>
-    <string name="main_diagram_cumulated_expenses_title">Kumulierte Ausgaben</string>
-    <string name="main_diagram_cumulated_expenses_indicator">{arg} EUR</string>
-    <string name="main_diagram_cumulated_expenses_unit">EUR</string>
-    <string name="main_diagram_cumulated_volume_title">Kumuliertes Volumen</string>
-    <string name="main_diagram_cumulated_volume_indicator">{arg} Liter</string>
-    <string name="main_diagram_cumulated_volume_unit">Liter</string>
-    <string name="main_diagram_distance_title">Entfernung</string>
-    <string name="main_diagram_distance_indicator">{arg} Kilometer</string>
-    <string name="main_diagram_distance_unit">Kilometer</string>
     <string name="main_download_message">Eine neue Version der App ist verfügbar. Soll die neue Version jetzt heruntergeladen werden?</string>
     <string name="main_download_cancel">Später</string>
     <string name="main_download_confirm">Herunterladen</string>
-    <string name="main_content_description_add_petrol_entry">Neuen Benzinverbrauch hinzufügen</string>
-    <string name="main_content_description_view_database">Datenbank einsehen</string>
-    <string name="main_content_description_settings">Einstellungen öffnen</string>
     <string name="main_quickActions_title">Schnellzugriff</string>
     <string name="main_quickActions_analysis">Analyse</string>
     <string name="main_quickActions_consumptions">Verbräuche</string>
+    <string name="main_quickActions_createConsumption">Verbrauch erstellen</string>
     <string name="main_consumptions_title">Letzte Verbräuche</string>
     <string name="main_emptyPlaceholder_title">Keine Daten</string>
     <string name="main_emptyPlaceholder_subtitle">Füge Verbäuche hinzu und erhalte vollen Zugriff zu Petrol Index</string>
+    <string name="main_analysis_title">Übersicht</string>
+    <string name="main_analysis_info">Analyseergebnisse der letzten 12 Monate</string>
+    <string name="main_analysis_noData">Es gibt keine Verbräuche in den letzten 12 Monaten</string>
+    <string name="main_analysis_averagePricePerLiter">Durchschnittlicher Preis pro Liter</string>
+    <string name="main_analysis_totalVolume">Gesamtvolumen</string>
+    <string name="main_analysis_totalPrice">Gesamtpreis</string>
+    <string name="main_analysis_totalDistanceTraveled">Gesamtentferung</string>
 
     <string name="settings_title">Einstellungen</string>
     <string name="settings_customization">Personalisierung</string>

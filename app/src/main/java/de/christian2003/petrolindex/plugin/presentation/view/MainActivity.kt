@@ -31,12 +31,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import de.christian2003.petrolindex.R
-import de.christian2003.petrolindex.application.analysis.AnalysisUseCase
+import de.christian2003.petrolindex.application.analysis.ExtensiveAnalysisUseCase
+import de.christian2003.petrolindex.application.analysis.ShortAnalysisUseCase
 import de.christian2003.petrolindex.application.apps.GetAppsUseCase
 import de.christian2003.petrolindex.application.usecases.CreateConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
 import de.christian2003.petrolindex.application.usecases.GetConsumptionUseCase
+import de.christian2003.petrolindex.application.usecases.GetConsumptionsForTimePeriodUseCase
 import de.christian2003.petrolindex.application.usecases.GetRecentConsumptionsUseCase
 import de.christian2003.petrolindex.application.usecases.UpdateConsumptionUseCase
 import de.christian2003.petrolindex.plugin.PetrolIndexApplication
@@ -174,7 +176,9 @@ fun PetrolIndex(
                 mainViewModel.init(
                     updateManager = updateManager,
                     getRecentConsumptionsUseCase = GetRecentConsumptionsUseCase(repository),
-                    deleteConsumptionUseCase = DeleteConsumptionUseCase(repository)
+                    deleteConsumptionUseCase = DeleteConsumptionUseCase(repository),
+                    getConsumptionsForTimePeriodUseCase = GetConsumptionsForTimePeriodUseCase(repository),
+                    shortAnalysisUseCase = ShortAnalysisUseCase()
                 )
 
                 MainScreen(
@@ -246,7 +250,7 @@ fun PetrolIndex(
             composable("analysis") {
                 val viewModel: AnalysisViewModel = viewModel()
                 viewModel.init(
-                    analysisUseCase = AnalysisUseCase(
+                    analysisUseCase = ExtensiveAnalysisUseCase(
                         repository = repository
                     )
                 )

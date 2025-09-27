@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import de.christian2003.petrolindex.application.analysis.AnalysisUseCase
+import de.christian2003.petrolindex.application.analysis.ExtensiveAnalysisUseCase
 import de.christian2003.petrolindex.domain.analysis.AnalysisPrecision
 import de.christian2003.petrolindex.domain.analysis.AnalysisResult
 import de.christian2003.petrolindex.domain.analysis.AnalysisResultCluster
@@ -22,7 +22,7 @@ class AnalysisViewModel(application: Application): AndroidViewModel(application)
     /**
      * Use case to start an analysis.
      */
-    private lateinit var analysisUseCase: AnalysisUseCase
+    private lateinit var analysisUseCase: ExtensiveAnalysisUseCase
 
     /**
      * Indicates whether the view model has been initialized.
@@ -62,7 +62,7 @@ class AnalysisViewModel(application: Application): AndroidViewModel(application)
      *
      * @param analysisUseCase   Analysis use case.
      */
-    fun init(analysisUseCase: AnalysisUseCase) {
+    fun init(analysisUseCase: ExtensiveAnalysisUseCase) {
         if (isInitialized) {
             return
         }

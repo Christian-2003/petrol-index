@@ -9,17 +9,18 @@ import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
+import de.christian2003.petrolindex.application.analysis.ShortAnalysisUseCase
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
-import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
+import de.christian2003.petrolindex.application.usecases.GetConsumptionsForTimePeriodUseCase
 import de.christian2003.petrolindex.application.usecases.GetRecentConsumptionsUseCase
+import de.christian2003.petrolindex.domain.analysis.ShortAnalysisResult
 import de.christian2003.petrolindex.domain.model.Consumption
-import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
-import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
 import de.christian2003.petrolindex.plugin.infrastructure.update.UpdateManager
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemDisplayStyle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 
 /**
@@ -50,6 +51,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
      * Stores the most recent consumptions.
      */
     lateinit var recentConsumptions: Flow<List<Consumption>>
+
+    /**
+     * Result of the short analysis.
+     */
+    var shortAnalysisResult: ShortAnalysisResult? by mutableStateOf(null)
+        private set
 
     /**
      * Attribute indicates whether an update for the app is available.
@@ -84,15 +91,19 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     /**
      * Method instantiates the view model.
      *
-     * @param updateManager                 Update manager through which to check whether updates
-     *                                      are available.
-     * @param getRecentConsumptionsUseCase  Use case to get the most recent consumptions.
-     * @param deleteConsumptionUseCase      Use case to delete a consumption.
+     * @param updateManager                         Update manager through which to check whether
+     *                                              updates are available.
+     * @param getRecentConsumptionsUseCase          Use case to get the most recent consumptions.
+     * @param deleteConsumptionUseCase              Use case to delete a consumption.
+     * @param getConsumptionsForTimePeriodUseCase   Use case to get consumptions for a time period.
+     * @param shortAnalysisUseCase                  Use case to perform the short analysis
      */
     fun init(
         updateManager: UpdateManager,
         getRecentConsumptionsUseCase: GetRecentConsumptionsUseCase,
-        deleteConsumptionUseCase: DeleteConsumptionUseCase
+        deleteConsumptionUseCase: DeleteConsumptionUseCase,
+        getConsumptionsForTimePeriodUseCase: GetConsumptionsForTimePeriodUseCase,
+        shortAnalysisUseCase: ShortAnalysisUseCase
     ) {
         isUpdateAvailable = updateManager.isUpdateAvailable
         if (isInitialized) {
@@ -102,6 +113,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         this.updateManager = updateManager
         recentConsumptions = getRecentConsumptionsUseCase.getRecentConsumptions()
         isInitialized = true
+        viewModelScope.launch(Dispatchers.Main) {
+            val now: LocalDate = LocalDate.now()
+            val consumptionsLastYear: Flow<List<Consumption>> = getConsumptionsForTimePeriodUseCase.getConsumptionsForTimePeriod(now.minusYears(1), now)
+
+            consumptionsLastYear.collect { list ->
+                shortAnalysisResult = shortAnalysisUseCase.analyzeData(list)
+            }
+        }
     }
 
 
