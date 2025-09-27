@@ -1,10 +1,13 @@
 package de.christian2003.petrolindex.plugin.presentation.view.main
 
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
@@ -13,6 +16,7 @@ import de.christian2003.petrolindex.domain.model.Consumption
 import de.christian2003.petrolindex.plugin.infrastructure.db.entities.ConsumptionEntity
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
 import de.christian2003.petrolindex.plugin.infrastructure.update.UpdateManager
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemDisplayStyle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -61,6 +65,20 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
      * Stores the consumption to delete.
      */
     var consumptionToDelete: Consumption? by mutableStateOf(null)
+
+    /**
+     * Display style for list items.
+     */
+    var listItemDisplayStyle: ListItemDisplayStyle
+        set(value) {
+            application.getSharedPreferences("settings", Context.MODE_PRIVATE).edit {
+                putInt("list_item_style", value.ordinal)
+            }
+        }
+        get() {
+            val ordinal = application.getSharedPreferences("settings", Context.MODE_PRIVATE).getInt("list_item_style", ListItemDisplayStyle.DEFAULT.ordinal)
+            return ListItemDisplayStyle.entries[ordinal]
+        }
 
 
     /**

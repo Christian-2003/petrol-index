@@ -35,6 +35,7 @@ import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDe
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.EmptyPlaceholder
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemDisplayStyle
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.NavigationBarProtection
 import kotlin.uuid.Uuid
 
@@ -92,6 +93,7 @@ fun ConsumptionsScreen(
         ) {
             ConsumptionsList(
                 consumptions = consumptions,
+                listItemDisplayStyle = viewModel.listItemDisplayStyle,
                 onDeleteConsumption = { consumption ->
                     viewModel.consumptionToDelete = consumption
                 },
@@ -132,6 +134,7 @@ fun ConsumptionsScreen(
  * Composable displays a list of consumptions.
  *
  * @param consumptions          List of consumptions to display.
+ * @param listItemDisplayStyle  Style for the list items.
  * @param onDeleteConsumption   Callback to delete a consumption.
  * @param onEditConsumption     Callback to edit a consumption.
  * @param windowInsets          Window insets of the entire screen.
@@ -139,6 +142,7 @@ fun ConsumptionsScreen(
 @Composable
 private fun ConsumptionsList(
     consumptions: List<Consumption>,
+    listItemDisplayStyle: ListItemDisplayStyle,
     onDeleteConsumption: (Consumption) -> Unit,
     onEditConsumption: (Consumption) -> Unit,
     windowInsets: WindowInsets
@@ -168,6 +172,7 @@ private fun ConsumptionsList(
                 items(yearConsumptions) { consumption ->
                     ConsumptionListItem(
                         consumption = consumption,
+                        displayStyle = listItemDisplayStyle,
                         onDelete = onDeleteConsumption,
                         onEdit = onEditConsumption
                     )

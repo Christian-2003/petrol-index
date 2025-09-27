@@ -9,16 +9,19 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import de.christian2003.petrolindex.application.apps.GetAppsUseCase
 import de.christian2003.petrolindex.application.backup.CreateBackupUseCase
 import de.christian2003.petrolindex.application.backup.RestoreBackupUseCase
 import de.christian2003.petrolindex.application.backup.RestoreStrategy
 import de.christian2003.petrolindex.domain.apps.AppItem
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemDisplayStyle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
+import androidx.core.content.edit
 
 
 /**
@@ -52,9 +55,28 @@ class SettingsViewModel(application: Application): AndroidViewModel(application)
     var restoreUri: Uri? by mutableStateOf(null)
 
     /**
+     * Indicates whether the dialog to change the list item display style is visible.
+     */
+    var isListItemDisplayDialogVisible: Boolean by mutableStateOf(false)
+
+    /**
      * List of apps to advertise to the user.
      */
     val apps: MutableList<AppItem> = mutableStateListOf()
+
+    /**
+     * Display style for list items.
+     */
+    var listItemDisplayStyle: ListItemDisplayStyle
+        set(value) {
+            application.getSharedPreferences("settings", Context.MODE_PRIVATE).edit {
+                putInt("list_item_style", value.ordinal)
+            }
+        }
+        get() {
+            val ordinal = application.getSharedPreferences("settings", Context.MODE_PRIVATE).getInt("list_item_style", ListItemDisplayStyle.DEFAULT.ordinal)
+            return ListItemDisplayStyle.entries[ordinal]
+        }
 
 
     /**

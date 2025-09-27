@@ -95,6 +95,7 @@
     <string name="button_previous">Previous</string>
     <string name="button_next">Next</string>
     <string name="button_finish">Finish</string>
+    <string name="button_ok">Okay</string>
 
     <string name="error_emptyText">This field cannot be empty</string>
     <string name="error_volumeError">The volume is invalid</string>
@@ -128,6 +129,12 @@
     <string name="main_emptyPlaceholder_subtitle">Add consumptions to get full access to Petrol Index</string>
 
     <string name="settings_title">Settings</string>
+    <string name="settings_customization">Customization</string>
+    <string name="settings_customization_listTitle">List items</string>
+    <string name="settings_customization_listInfo">Change the appearance of list items</string>
+    <string name="settings_customization_listDialogTitle">Select appearance</string>
+    <string name="settings_customization_listItem_default">Default</string>
+    <string name="settings_customization_listItem_classic">Classic</string>
     <string name="settings_data">Data</string>
     <string name="settings_data_exportTitle">Export data</string>
     <string name="settings_data_exportInfo">Export data to external file</string>

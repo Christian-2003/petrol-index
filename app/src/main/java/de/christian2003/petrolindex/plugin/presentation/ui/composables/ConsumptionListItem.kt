@@ -10,7 +10,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,16 +29,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import de.christian2003.petrolindex.R
+
+
+/**
+ * Display styles for the list item.
+ */
+enum class ListItemDisplayStyle {
+    DEFAULT,
+    CLASSIC
+}
 
 
 /**
@@ -50,6 +56,39 @@ import de.christian2003.petrolindex.R
  */
 @Composable
 fun ConsumptionListItem(
+    consumption: Consumption,
+    onEdit: (Consumption) -> Unit,
+    onDelete: (Consumption) -> Unit,
+    displayStyle: ListItemDisplayStyle = ListItemDisplayStyle.DEFAULT
+) {
+    when(displayStyle) {
+        ListItemDisplayStyle.DEFAULT -> {
+            DefaultListItem(
+                consumption = consumption,
+                onEdit = onEdit,
+                onDelete = onDelete
+            )
+        }
+        ListItemDisplayStyle.CLASSIC -> {
+            ClassicListItem(
+                consumption = consumption,
+                onEdit = onEdit,
+                onDelete = onDelete
+            )
+        }
+    }
+}
+
+
+/**
+ * Displays a single consumption as list item with the default style.
+ *
+ * @param consumption   Consumption to display.
+ * @param onEdit        Callback invoked to edit the consumption.
+ * @param onDelete      Callback invoked to delete the consumption.
+ */
+@Composable
+private fun DefaultListItem(
     consumption: Consumption,
     onEdit: (Consumption) -> Unit,
     onDelete: (Consumption) -> Unit
@@ -162,6 +201,96 @@ fun ConsumptionListItem(
 }
 
 
+/**
+ * Displays a single consumption as list item with the classic style.
+ *
+ * @param consumption   Consumption to display.
+ * @param onEdit        Callback invoked to edit the consumption.
+ * @param onDelete      Callback invoked to delete the consumption.
+ */
+@Composable
+private fun ClassicListItem(
+    consumption: Consumption,
+    onEdit: (Consumption) -> Unit,
+    onDelete: (Consumption) -> Unit
+) {
+    val currencyFormatter = CurrencyFormatterService()
+    val dateTimeFormatter = DateTimeFormatterService()
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onEdit(consumption)
+            }
+            .padding(
+                vertical = dimensionResource(R.dimen.padding_vertical),
+                horizontal = dimensionResource(R.dimen.margin_horizontal)
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = dimensionResource(R.dimen.padding_horizontal))
+        ) {
+            Text(
+                text = dateTimeFormatter.format(consumption.consumptionDate),
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = stringResource(R.string.format_volume, consumption.volume),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = stringResource(R.string.format_totalPrice, currencyFormatter.format(consumption.totalPrice)),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (consumption.distanceTraveled != null) {
+                Text(
+                    text = stringResource(R.string.format_distanceTraveled, consumption.distanceTraveled!!),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Text(
+                text = stringResource(R.string.format_pricePerLiter, currencyFormatter.format(consumption.calculatePricePerLiter())),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (consumption.description.isNotEmpty()) {
+                Text(
+                    text = consumption.description,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+        IconButton(
+            onClick = {
+                onDelete(consumption)
+            }
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_delete),
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+
+/**
+ * Formatted value used in the list item.
+ *
+ * @param text          Text to display.
+ * @param color         Color for the text.
+ * @param style         Style for the text.
+ * @param prefixIcon    Prefix icon for the text.
+ */
 @Composable
 private fun FormattedText(
     text: String,

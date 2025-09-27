@@ -129,6 +129,22 @@ fun SettingsScreen(
             GeneralSection()
             HorizontalDivider()
 
+            //Customization:
+            Headline(
+                title = stringResource(R.string.settings_customization),
+                indentToPrefixIcon = true
+            )
+            SettingsItemButton(
+                setting = stringResource(R.string.settings_customization_listTitle),
+                info = stringResource(R.string.settings_customization_listInfo),
+                onClick = {
+                    viewModel.isListItemDisplayDialogVisible = true
+                },
+                prefixIcon = painterResource(R.drawable.ic_export)
+            )
+            HorizontalDivider()
+
+
             //Data:
             Headline(
                 title = stringResource(R.string.settings_data),
@@ -260,6 +276,16 @@ fun SettingsScreen(
                 }
             )
         }
+    }
+
+    if (viewModel.isListItemDisplayDialogVisible) {
+        ListItemDisplayStyleDialog(
+            listItemDisplayStyle = viewModel.listItemDisplayStyle,
+            onDismiss = { style ->
+                viewModel.isListItemDisplayDialogVisible = false
+                viewModel.listItemDisplayStyle = style
+            }
+        )
     }
 }
 

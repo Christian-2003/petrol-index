@@ -48,6 +48,7 @@ import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConfirmDe
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.ConsumptionListItem
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.EmptyPlaceholder
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Headline
+import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemDisplayStyle
 import kotlin.uuid.Uuid
 
 
@@ -152,6 +153,7 @@ fun MainScreen(
                 Headline(stringResource(R.string.main_consumptions_title))
                 ConsumptionsList(
                     consumptions = recentConsumptions,
+                    listItemDisplayStyle = viewModel.listItemDisplayStyle,
                     onEditConsumption = { consumption ->
                         onEditConsumption(consumption.id)
                     },
@@ -268,6 +270,7 @@ fun QuickActionsButton(
  * Displays a list of consumptions.
  *
  * @param consumptions          Consumptions to display.
+ * @param listItemDisplayStyle  Style for the list items.
  * @param onEditConsumption     Callback invoked to edit a consumption.
  * @param onDeleteConsumption   Callback invoked to delete a consumption.
  * @param onShowAllConsumptions Callback invoked to show all consumptions.
@@ -276,6 +279,7 @@ fun QuickActionsButton(
 @Composable
 private fun ConsumptionsList(
     consumptions: List<Consumption>,
+    listItemDisplayStyle: ListItemDisplayStyle,
     onEditConsumption: (Consumption) -> Unit,
     onDeleteConsumption: (Consumption) -> Unit,
     onShowAllConsumptions: () -> Unit,
@@ -294,6 +298,7 @@ private fun ConsumptionsList(
         consumptions.forEach { consumption ->
             ConsumptionListItem(
                 consumption = consumption,
+                displayStyle = listItemDisplayStyle,
                 onEdit = onEditConsumption,
                 onDelete = onDeleteConsumption
             )
