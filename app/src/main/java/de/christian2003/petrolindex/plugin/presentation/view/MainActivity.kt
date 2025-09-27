@@ -3,7 +3,6 @@ package de.christian2003.petrolindex.plugin.presentation.view
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -21,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -32,20 +30,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.application.analysis.AnalysisUseCase
+import de.christian2003.petrolindex.application.apps.GetAppsUseCase
 import de.christian2003.petrolindex.application.usecases.CreateConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetAllConsumptionsUseCase
 import de.christian2003.petrolindex.application.usecases.GetConsumptionUseCase
 import de.christian2003.petrolindex.application.usecases.GetRecentConsumptionsUseCase
 import de.christian2003.petrolindex.application.usecases.UpdateConsumptionUseCase
+import de.christian2003.petrolindex.plugin.PetrolIndexApplication
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexDatabase
 import de.christian2003.petrolindex.plugin.infrastructure.db.PetrolIndexRepository
 import de.christian2003.petrolindex.plugin.infrastructure.update.UpdateManager
 import de.christian2003.petrolindex.plugin.infrastructure.backup.AppInfoProvider
 import de.christian2003.petrolindex.plugin.infrastructure.backup.CreateAndRestoreJsonBackupUseCase
+import de.christian2003.petrolindex.plugin.infrastructure.rest.apps.AppsRestRepository
 import de.christian2003.petrolindex.plugin.presentation.ui.theme.PetrolIndexTheme
 import de.christian2003.petrolindex.plugin.presentation.view.analysis.AnalysisScreen
 import de.christian2003.petrolindex.plugin.presentation.view.analysis.AnalysisViewModel
@@ -267,10 +267,18 @@ fun PetrolIndex(
                         override fun getAppVersion(): String { return context.applicationInfo.loadLabel(context.packageManager).toString() }
                     }
                 )
+                val client = (context.applicationContext as PetrolIndexApplication).getClient()
                 val viewModel: SettingsViewModel = viewModel()
                 viewModel.init(
                     createBackupUseCase = jsonBackupUseCase,
-                    restoreBackupUseCase = jsonBackupUseCase
+                    restoreBackupUseCase = jsonBackupUseCase,
+                    getAppsUseCase = GetAppsUseCase(
+                        repository = AppsRestRepository(
+                            packageName = context.packageName,
+                            client = client
+                        )
+                    ),
+                    client = client
                 )
 
                 SettingsScreen(

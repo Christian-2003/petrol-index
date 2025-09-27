@@ -5,16 +5,20 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import de.christian2003.petrolindex.application.apps.GetAppsUseCase
 import de.christian2003.petrolindex.application.backup.CreateBackupUseCase
 import de.christian2003.petrolindex.application.backup.RestoreBackupUseCase
 import de.christian2003.petrolindex.application.backup.RestoreStrategy
+import de.christian2003.petrolindex.domain.apps.AppItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
 
 /**
@@ -38,24 +42,47 @@ class SettingsViewModel(application: Application): AndroidViewModel(application)
     private var isInitialized: Boolean = false
 
     /**
+     * Stores the HTTP client to use in the frontend for web requests.
+     */
+    lateinit var client: OkHttpClient
+
+    /**
      * URI of the backup file from which to restore the backup.
      */
     var restoreUri: Uri? by mutableStateOf(null)
 
+    /**
+     * List of apps to advertise to the user.
+     */
+    val apps: MutableList<AppItem> = mutableStateListOf()
+
 
     /**
      * Instantiates the view model.
+     *
+     * @param createBackupUseCase   Use case to create a backup.
+     * @param restoreBackupUseCase  Use case to restore a backup.
+     * @param getAppsUseCase        Use case to get a list of all apps.
+     * @param client                Http client for web requests
      */
     fun init(
         createBackupUseCase: CreateBackupUseCase,
-        restoreBackupUseCase: RestoreBackupUseCase
+        restoreBackupUseCase: RestoreBackupUseCase,
+        getAppsUseCase: GetAppsUseCase,
+        client: OkHttpClient
     ) {
         if (isInitialized) {
             return
         }
         this.createBackupUseCase = createBackupUseCase
         this.restoreBackupUseCase = restoreBackupUseCase
+        this.client = client
         isInitialized = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val apps: List<AppItem> = getAppsUseCase.getAllApps()
+            this@SettingsViewModel.apps.clear()
+            this@SettingsViewModel.apps.addAll(apps)
+        }
     }
 
 

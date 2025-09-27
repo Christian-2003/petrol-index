@@ -155,7 +155,7 @@
     <string name="settings_about_moreInfo">Öffne die App in den Systemeinstellungen</string>
     <string name="settings_info_version">Version {arg}</string>
     <string name="settings_info_copyright">© 2024-{arg} Christian-2003</string>
-    <string name="settings_content_description_go_back">Zurück</string>
+    <string name="settings_apps">Weitere Apps</string>
 
     <string name="restore_title">Option auswählen</string>
     <string name="restore_text">Wähle aus, was mit deinen aktuellen Daten geschehen soll</string>

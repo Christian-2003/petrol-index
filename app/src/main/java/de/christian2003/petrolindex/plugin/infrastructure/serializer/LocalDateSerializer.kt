@@ -1,4 +1,4 @@
-package de.christian2003.petrolindex.plugin.infrastructure.backup.serializer
+package de.christian2003.petrolindex.plugin.infrastructure.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer

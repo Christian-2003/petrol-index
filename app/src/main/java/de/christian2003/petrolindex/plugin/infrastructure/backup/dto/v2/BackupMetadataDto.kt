@@ -1,6 +1,6 @@
 package de.christian2003.petrolindex.plugin.infrastructure.backup.dto.v2
 
-import de.christian2003.petrolindex.plugin.infrastructure.backup.serializer.LocalDateTimeSerializer
+import de.christian2003.petrolindex.plugin.infrastructure.serializer.LocalDateTimeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime

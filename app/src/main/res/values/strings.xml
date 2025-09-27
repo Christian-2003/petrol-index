@@ -154,7 +154,7 @@
     <string name="settings_about_moreInfo">View app in system settings</string>
     <string name="settings_info_version">Version {arg}</string>
     <string name="settings_info_copyright">© 2024-{arg} Christian-2003</string>
-    <string name="settings_content_description_go_back">Go back</string>
+    <string name="settings_apps">Other apps</string>
 
     <string name="restore_title">Select option</string>
     <string name="restore_text">Select what should happen with existing data</string>

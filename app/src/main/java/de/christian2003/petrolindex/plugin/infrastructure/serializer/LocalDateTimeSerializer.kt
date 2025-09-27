@@ -1,4 +1,4 @@
-package de.christian2003.petrolindex.plugin.infrastructure.backup.serializer
+package de.christian2003.petrolindex.plugin.infrastructure.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
@@ -6,7 +6,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 
 /**
