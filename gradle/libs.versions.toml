@@ -19,7 +19,7 @@ room = "2.8.0"
 coroutines = "1.9.0"
 navigationRuntimeKtx = "2.8.3"
 navigationCompose = "2.8.3"
-material3 = "1.4.0-alpha15"
+material3 = "1.5.0-alpha04"
 okhttp = "4.12.0"
 
 [libraries]

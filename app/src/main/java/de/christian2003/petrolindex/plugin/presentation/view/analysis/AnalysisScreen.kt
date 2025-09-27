@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import androidx.compose.material3.CalendarLocale
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerFormatter
 import androidx.compose.material3.DateRangePicker
+import androidx.compose.material3.DateRangePickerDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,25 +28,25 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.getSelectedEndDate
 import androidx.compose.material3.getSelectedStartDate
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import de.christian2003.petrolindex.R
 import de.christian2003.petrolindex.application.services.CurrencyFormatterService
 import de.christian2003.petrolindex.application.services.DateTimeFormatterService
 import de.christian2003.petrolindex.domain.analysis.AnalysisResultCluster
 import de.christian2003.petrolindex.domain.analysis.AnalysisResultClusterType
-import de.christian2003.petrolindex.plugin.infrastructure.db.converter.LocalDateConverter
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.Value
 import java.time.LocalDate
+import java.time.ZoneOffset
+import java.time.Instant
 
 
 /**
@@ -356,6 +359,22 @@ private fun DateRangePickerModal(
         initialSelectedEndDate = selectedAnalysisPeriod.end
     )
 
+    val dateTimeFormatter = DateTimeFormatterService()
+    val dateFormatter: DatePickerFormatter = object: DatePickerFormatter {
+        override fun formatMonthYear(monthMillis: Long?, locale: CalendarLocale): String? {
+            return ""
+        }
+
+        override fun formatDate(dateMillis: Long?, locale: CalendarLocale, forContentDescription: Boolean): String? {
+            val date: LocalDate = if (dateMillis != null) {
+                LocalDate.ofInstant(Instant.ofEpochMilli(dateMillis), ZoneOffset.UTC)
+            } else {
+                LocalDate.now()
+            }
+            return dateTimeFormatter.format(date)
+        }
+    }
+
     DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
@@ -381,7 +400,30 @@ private fun DateRangePickerModal(
         }
     ) {
         DateRangePicker(
-            state = dateRangePickerState
+            state = dateRangePickerState,
+            title = {
+                DateRangePickerDefaults.DateRangePickerTitle(
+                    displayMode = dateRangePickerState.displayMode,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding( //Library has incorrect padding. So we need to override here manually!
+                            start = 24.dp,
+                            top = 16.dp,
+                            end = 24.dp
+                        )
+                )
+            },
+            headline = {
+                DateRangePickerDefaults.DateRangePickerHeadline(
+                    selectedStartDateMillis = dateRangePickerState.selectedStartDateMillis,
+                    selectedEndDateMillis = dateRangePickerState.selectedEndDateMillis,
+                    displayMode = dateRangePickerState.displayMode,
+                    dateFormatter = dateFormatter,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 24.dp) //Library has incorrect padding. So we need to override here manually!
+                )
+            }
         )
     }
 }
