@@ -2,6 +2,7 @@ package de.christian2003.petrolindex.plugin.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +11,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -272,18 +274,6 @@ fun PetrolIndexTheme(
 
         darkTheme -> darkScheme
         else -> lightScheme
-    }
-
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val activity: Activity = view.context as Activity
-            val insetsController: WindowInsetsControllerCompat = WindowCompat.getInsetsController(activity.window, activity.window.decorView)
-            insetsController.apply {
-                isAppearanceLightStatusBars = !darkTheme
-                isAppearanceLightNavigationBars = !darkTheme
-            }
-        }
     }
 
     MaterialExpressiveTheme(
