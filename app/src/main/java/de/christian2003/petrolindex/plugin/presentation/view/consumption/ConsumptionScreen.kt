@@ -15,8 +15,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CalendarLocale
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerFormatter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +37,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import de.christian2003.petrolindex.R
+import de.christian2003.petrolindex.application.services.DateTimeFormatterService
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.HelpCard
 import de.christian2003.petrolindex.plugin.presentation.ui.composables.TextInput
 import java.time.Instant
@@ -294,6 +299,22 @@ private fun DatePickerModal(
     val datePickerState = rememberDatePickerState()
     datePickerState.selectedDateMillis = selectedMillis
 
+    val dateTimeFormatter = DateTimeFormatterService()
+    val dateFormatter: DatePickerFormatter = object: DatePickerFormatter {
+        override fun formatMonthYear(monthMillis: Long?, locale: CalendarLocale): String? {
+            return ""
+        }
+
+        override fun formatDate(dateMillis: Long?, locale: CalendarLocale, forContentDescription: Boolean): String? {
+            val date: LocalDate = if (dateMillis != null) {
+                LocalDate.ofInstant(Instant.ofEpochMilli(dateMillis), ZoneOffset.UTC)
+            } else {
+                LocalDate.now()
+            }
+            return dateTimeFormatter.format(date)
+        }
+    }
+
     DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
@@ -310,6 +331,16 @@ private fun DatePickerModal(
             }
         }
     ) {
-        DatePicker(state = datePickerState)
+        DatePicker(
+            state = datePickerState,
+            headline = {
+                DatePickerDefaults.DatePickerHeadline(
+                    selectedDateMillis = datePickerState.selectedDateMillis,
+                    displayMode = datePickerState.displayMode,
+                    dateFormatter = dateFormatter,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+            }
+        )
     }
 }

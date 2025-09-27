@@ -4,7 +4,7 @@
 
 ## 1.1.0 (XXXX-XX-XX)
 ###### Release Highlights
-Major refactoring of the codebase to increase maintainability.
+Major refactoring of the codebase to increase maintainability as well as changes to the user interface.
 
 ###### Features
 * Add custom app icon for debugging releases to better distinguish them from release builds.
@@ -30,6 +30,7 @@ Major refactoring of the codebase to increase maintainability.
 * Add onboarding to the app to help the user get started with the app.
 * Switch all app icons (except the info- and help-icons on cards) from filled to outlined versions. This puts less emphasis on these icons.
 * Values (e.g. volume and price) are now entered according to user locale. For German, the values are entered using a comma instead of a dot to separate decimals (e.g. "1.234,56 €" instead of "1234.56 €").
+* Date pickers show date in medium format (e.g. "27.09.2025") instead of default format (e.g. "27. Sept. 2025").
 
 <br/>
 
