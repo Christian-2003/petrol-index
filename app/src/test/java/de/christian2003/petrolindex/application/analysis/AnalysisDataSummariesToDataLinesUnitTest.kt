@@ -18,7 +18,8 @@ class AnalysisDataSummariesToDataLinesUnitTest {
                 distanceTraveledSum = 350,
                 volumeCount = 10,
                 totalPriceCount = 10,
-                distanceTraveledCount = 1
+                distanceTraveledCount = 1,
+                pricePerLiterAverage = 180
             ),
             AnalysisDataSummary(
                 date = LocalDate.of(2025, 3, 1),
@@ -27,7 +28,8 @@ class AnalysisDataSummariesToDataLinesUnitTest {
                 distanceTraveledSum = 0,
                 volumeCount = 5,
                 totalPriceCount = 5,
-                distanceTraveledCount = 0
+                distanceTraveledCount = 0,
+                pricePerLiterAverage = 160
             ),
             AnalysisDataSummary(
                 date = LocalDate.of(2025, 4, 1),
@@ -36,7 +38,8 @@ class AnalysisDataSummariesToDataLinesUnitTest {
                 distanceTraveledSum = 500,
                 volumeCount = 10,
                 totalPriceCount = 10,
-                distanceTraveledCount = 1
+                distanceTraveledCount = 1,
+                pricePerLiterAverage = 210
             )
         )
 

@@ -24,8 +24,6 @@ data class AnalysisDiagram(
      * Initializes the diagram.
      */
     init {
-        require(min >= 0) { "Min value cannot be negative" }
-        require(max >= 0) { "Max value cannot be negative" }
         require(min <= max) { "Min value cannot be greater than max value" }
     }
 

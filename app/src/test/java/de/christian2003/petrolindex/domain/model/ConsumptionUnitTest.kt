@@ -1,6 +1,5 @@
-package de.christian2003.petrolindex.domain.consumption
+package de.christian2003.petrolindex.domain.model
 
-import de.christian2003.petrolindex.domain.model.Consumption
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate
