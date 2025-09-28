@@ -1,0 +1,80 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0" version="28.2.0">
+  <diagram name="Page-1" id="86DyE4iFojEXtG5Y-RKm">
+    <mxGraphModel dx="1296" dy="665" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-14" target="yMwmE3qfdgWV35wLSOWw-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-14" value="Start" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry y="60" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-15">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-15" value="&lt;div&gt;Group consumptions by month&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-31" target="yMwmE3qfdgWV35wLSOWw-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-31" value="Calculate sum of values for each map entry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="420" y="60" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-32" target="yMwmE3qfdgWV35wLSOWw-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-32" value="Sort resulted list by date" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="560" y="60" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-33" value="End" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="700" y="60" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-37" target="yMwmE3qfdgWV35wLSOWw-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-47" value="Quarter" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" vertex="1" connectable="0" parent="yMwmE3qfdgWV35wLSOWw-44">
+          <mxGeometry x="-0.3763" y="3" relative="1" as="geometry">
+            <mxPoint x="31" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-37" target="yMwmE3qfdgWV35wLSOWw-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-50" value="Month" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" vertex="1" connectable="0" parent="yMwmE3qfdgWV35wLSOWw-45">
+          <mxGeometry x="0.5087" y="-1" relative="1" as="geometry">
+            <mxPoint x="19" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-37" target="yMwmE3qfdgWV35wLSOWw-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-51" value="Year" style="edgeLabel;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" vertex="1" connectable="0" parent="yMwmE3qfdgWV35wLSOWw-46">
+          <mxGeometry x="0.6602" relative="1" as="geometry">
+            <mxPoint x="10" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-37" value="precision" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="100" y="40" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-41" target="yMwmE3qfdgWV35wLSOWw-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-41" value="&lt;div&gt;Group consumptions by quarter&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" y="60" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="yMwmE3qfdgWV35wLSOWw-42">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yMwmE3qfdgWV35wLSOWw-42" value="&lt;div&gt;Group consumptions by year&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" y="120" width="120" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

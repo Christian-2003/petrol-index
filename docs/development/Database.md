@@ -3,7 +3,6 @@
 # Database
 This document describes the database architecture for the app Petrol Index.
 
-
 ###### Table of Contents
 1. [Database Schema](#database-schema)
 2. [Database Migration](#database-migration)
