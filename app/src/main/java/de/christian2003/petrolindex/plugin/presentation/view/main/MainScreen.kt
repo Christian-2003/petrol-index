@@ -242,7 +242,7 @@ fun QuickActions(
             text = stringResource(R.string.main_quickActions_createConsumption),
             onClick = onCreateConsumption,
             modifier = Modifier
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                .padding(end = dimensionResource(R.dimen.padding_horizontal))
                 .width(96.dp)
         )
     }

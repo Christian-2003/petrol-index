@@ -2,7 +2,7 @@
 
 # Changelog
 
-## 1.1.0 (XXXX-XX-XX)
+## 1.1.0 (2025-09-29)
 ###### Release Highlights
 Major refactoring of the codebase to increase maintainability as well as changes to the user interface.
 

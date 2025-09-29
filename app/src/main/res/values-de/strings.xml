@@ -174,7 +174,7 @@
     <string name="licenses_content_description_go_back">Zurück zu Einstellungen</string>
 
     <string name="onboarding_page1_title">Willkommen bei Petrol Index</string>
-    <string name="onboarding_page1_text">Dokumentieren und analysiere deine Benzinverbäuche ohne großen Aufwand</string>
+    <string name="onboarding_page1_text">Dokumentiere und analysiere deine Benzinverbäuche ohne großen Aufwand</string>
     <string name="onboarding_page2_title">Dokumentiere deine Verbräuche</string>
     <string name="onboarding_page2_text">Dokumentiere alle deine Benzinverbräuche, um die besten Analyseergebnisse zu erhalten</string>
     <string name="onboarding_page3_title">Analysiere deine Verbäuche</string>
