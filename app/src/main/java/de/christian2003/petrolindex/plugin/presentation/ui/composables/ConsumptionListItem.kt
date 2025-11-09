@@ -10,7 +10,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import de.christian2003.petrolindex.R
 
 
@@ -50,37 +52,47 @@ enum class ListItemDisplayStyle {
 /**
  * Displays a single consumption as list item.
  *
- * @param consumption   Consumption to display.
- * @param onEdit        Callback invoked to edit the consumption.
- * @param onDelete      Callback invoked to delete the consumption.
+ * @param consumption           Consumption to display.
+ * @param onEdit                Callback invoked to edit the consumption.
+ * @param onDelete              Callback invoked to delete the consumption.
+ * @param displayStyle          Display style.
+ * @param isInMultiselectState  Whether the screen is in multiselect state.
+ * @param onBeginMultiselect    Callback invoked to begin multiselect.
+ * @param onToggleSelection     Callback invoked to toggle whether a consumption is selected.
+ * @param isConsumptionSelected Callback invoked to query whether a consumption is selected.
  */
 @Composable
 fun ConsumptionListItem(
     consumption: Consumption,
     onEdit: (Consumption) -> Unit,
     onDelete: (Consumption) -> Unit,
-    displayStyle: ListItemDisplayStyle
+    displayStyle: ListItemDisplayStyle,
+    isInMultiselectState: Boolean = false,
+    onBeginMultiselect: ((Consumption) -> Unit)? = null,
+    onToggleSelection: ((Consumption, Boolean) -> Unit)? = null,
+    isConsumptionSelected: ((Consumption) -> Boolean)? = null
 ) {
     when(displayStyle) {
         ListItemDisplayStyle.DEFAULT -> {
             DefaultListItem(
                 consumption = consumption,
                 onEdit = onEdit,
-                onDelete = onDelete
+                onDelete = onDelete,
+                isInMultiselectState = isInMultiselectState,
+                onBeginMultiselect = onBeginMultiselect,
+                onToggleSelection = onToggleSelection,
+                isConsumptionSelected = isConsumptionSelected
             )
         }
         ListItemDisplayStyle.CLASSIC -> {
             ClassicListItem(
                 consumption = consumption,
                 onEdit = onEdit,
-                onDelete = onDelete
-            )
-        }
-        else -> {
-            DefaultListItem(
-                consumption = consumption,
-                onEdit = onEdit,
-                onDelete = onDelete
+                onDelete = onDelete,
+                isInMultiselectState = isInMultiselectState,
+                onBeginMultiselect = onBeginMultiselect,
+                onToggleSelection = onToggleSelection,
+                isConsumptionSelected = isConsumptionSelected
             )
         }
     }
@@ -90,34 +102,71 @@ fun ConsumptionListItem(
 /**
  * Displays a single consumption as list item with the default style.
  *
- * @param consumption   Consumption to display.
- * @param onEdit        Callback invoked to edit the consumption.
- * @param onDelete      Callback invoked to delete the consumption.
+ * @param consumption           Consumption to display.
+ * @param onEdit                Callback invoked to edit the consumption.
+ * @param onDelete              Callback invoked to delete the consumption.
+ * @param isInMultiselectState  Whether the screen is in multiselect state.
+ * @param onBeginMultiselect    Callback invoked to begin multiselect.
+ * @param onToggleSelection     Callback invoked to toggle whether a consumption is selected.
+ * @param isConsumptionSelected Callback invoked to query whether a consumption is selected.
  */
 @Composable
 private fun DefaultListItem(
     consumption: Consumption,
     onEdit: (Consumption) -> Unit,
-    onDelete: (Consumption) -> Unit
+    onDelete: (Consumption) -> Unit,
+    isInMultiselectState: Boolean = false,
+    onBeginMultiselect: ((Consumption) -> Unit)? = null,
+    onToggleSelection: ((Consumption, Boolean) -> Unit)? = null,
+    isConsumptionSelected: ((Consumption) -> Boolean)? = null
 ) {
     val currencyFormatter = CurrencyFormatterService()
     val dateTimeFormatter = DateTimeFormatterService()
     var isExpanded: Boolean by remember { mutableStateOf(false) }
+    val isSelected: Boolean = if (isConsumptionSelected != null) { isConsumptionSelected(consumption) } else { false }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                isExpanded = !isExpanded
-            }
+            .combinedClickable(
+                onClick = {
+                    if (!isInMultiselectState) {
+                        isExpanded = !isExpanded
+                    }
+                    else if (onToggleSelection != null) {
+                        onToggleSelection(consumption, !isSelected)
+                    }
+                },
+                onLongClick = {
+                    if (onBeginMultiselect != null) {
+                        onBeginMultiselect(consumption)
+                    }
+                }
+            )
             .padding(
-                horizontal = dimensionResource(R.dimen.margin_horizontal),
-                vertical = dimensionResource(R.dimen.padding_vertical)
+                start = if (isInMultiselectState) {
+                    dimensionResource(R.dimen.margin_horizontal) - 12.dp
+                } else {
+                    dimensionResource(R.dimen.margin_horizontal)
+                },
+                top = dimensionResource(R.dimen.padding_vertical),
+                end = dimensionResource(R.dimen.margin_horizontal),
+                bottom = dimensionResource(R.dimen.padding_vertical)
             )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
+            if (isInMultiselectState) {
+                RadioButton(
+                    selected = isSelected,
+                    onClick = {
+                        if(onToggleSelection != null) {
+                            onToggleSelection(consumption, !isSelected)
+                        }
+                    }
+                )
+            }
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -139,7 +188,7 @@ private fun DefaultListItem(
             )
         }
         AnimatedVisibility(
-            visible = isExpanded,
+            visible = isExpanded && !isInMultiselectState,
             enter = expandVertically(spring(Spring.DampingRatioMediumBouncy)) + fadeIn(spring(Spring.DampingRatioMediumBouncy)),
             exit = shrinkVertically(spring(Spring.DampingRatioMediumBouncy)) + fadeOut(spring(Spring.DampingRatioMediumBouncy))
         ) {
@@ -211,28 +260,51 @@ private fun DefaultListItem(
 /**
  * Displays a single consumption as list item with the classic style.
  *
- * @param consumption   Consumption to display.
- * @param onEdit        Callback invoked to edit the consumption.
- * @param onDelete      Callback invoked to delete the consumption.
+ * @param consumption           Consumption to display.
+ * @param onEdit                Callback invoked to edit the consumption.
+ * @param onDelete              Callback invoked to delete the consumption.
+ * @param isInMultiselectState  Whether the screen is in multiselect state.
+ * @param onBeginMultiselect    Callback invoked to begin multiselect.
+ * @param onToggleSelection     Callback invoked to toggle whether a consumption is selected.
+ * @param isConsumptionSelected Callback invoked to query whether a consumption is selected.
  */
 @Composable
 private fun ClassicListItem(
     consumption: Consumption,
     onEdit: (Consumption) -> Unit,
-    onDelete: (Consumption) -> Unit
+    onDelete: (Consumption) -> Unit,
+    isInMultiselectState: Boolean = false,
+    onBeginMultiselect: ((Consumption) -> Unit)? = null,
+    onToggleSelection: ((Consumption, Boolean) -> Unit)? = null,
+    isConsumptionSelected: ((Consumption) -> Boolean)? = null
 ) {
     val currencyFormatter = CurrencyFormatterService()
     val dateTimeFormatter = DateTimeFormatterService()
+    val isSelected: Boolean = if (isConsumptionSelected != null) { isConsumptionSelected(consumption) } else { false }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                onEdit(consumption)
-            }
+            .combinedClickable(
+                onClick = {
+                    if (!isInMultiselectState) {
+                        onEdit(consumption)
+                    }
+                    else if (onToggleSelection != null) {
+                        onToggleSelection(consumption, !isSelected)
+                    }
+                },
+                onLongClick = {
+                    if (onBeginMultiselect != null) {
+                        onBeginMultiselect(consumption)
+                    }
+                }
+            )
             .padding(
-                vertical = dimensionResource(R.dimen.padding_vertical),
-                horizontal = dimensionResource(R.dimen.margin_horizontal)
+                start = dimensionResource(R.dimen.margin_horizontal),
+                top = dimensionResource(R.dimen.padding_vertical),
+                end = dimensionResource(R.dimen.margin_horizontal) - 12.dp,
+                bottom = dimensionResource(R.dimen.padding_vertical)
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -275,16 +347,28 @@ private fun ClassicListItem(
                 )
             }
         }
-        IconButton(
-            onClick = {
-                onDelete(consumption)
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_delete),
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+        if (isInMultiselectState) {
+            RadioButton(
+                selected = isSelected,
+                onClick = {
+                    if (onToggleSelection != null) {
+                        onToggleSelection(consumption, !isSelected)
+                    }
+                }
             )
+        }
+        else {
+            IconButton(
+                onClick = {
+                    onDelete(consumption)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_delete),
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }

@@ -7,9 +7,20 @@
     <string name="format_distanceTraveled">%1$s Km</string>
 
     <string name="consumptions_title">Deine Verbräuche</string>
+    <plurals name="consumptions_titleMultiselect">
+        <item quantity="one">%1$d Verbrauch</item>
+        <item quantity="other">%1$d Verbräuche</item>
+    </plurals>
     <string name="consumptions_emptyPlaceholder_title">Keine Verbräuche</string>
     <string name="consumptions_emptyPlaceholder_subtitle">Erstellte Verbräuche erscheinen hier</string>
     <string name="consumptions_deleteText">Bist du dir sicher, dass du diesen Benzinverbrauch löschen möchtest?</string>
+    <plurals name="consumptions_deleteMultiselectText">
+        <item quantity="one">Bist du dir sicher, dass du %1$d Verbrauch löschen möchtest?</item>
+        <item quantity="other">Bist du dir sicher, dass du %1$d Verbräuche löschen möchtest?</item>
+    </plurals>
+    <string name="consumptions_tooltip_closeMultiselect">Mehrfachauswahl beenden</string>
+    <string name="consumptions_tooltip_selectAll">Alle auswählen</string>
+    <string name="consumptions_tooltip_deleteSelected">Ausgewählte löschen</string>
 
     <string name="consumption_titleCreate">Verbrauch erstellen</string>
     <string name="consumption_titleEdit">Verbrauch bearbeiten</string>

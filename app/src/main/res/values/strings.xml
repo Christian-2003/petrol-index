@@ -8,9 +8,20 @@
     <string name="export_file_name" translatable="false">petrol_index_{arg}.json</string>
 
     <string name="consumptions_title">Your consumptions</string>
+    <plurals name="consumptions_titleMultiselect">
+        <item quantity="one">%1$d consumption</item>
+        <item quantity="other">%1$d consumptions</item>
+    </plurals>
     <string name="consumptions_emptyPlaceholder_title">No consumptions</string>
     <string name="consumptions_emptyPlaceholder_subtitle">Created consumptions will show up here</string>
     <string name="consumptions_deleteText">Are you sure you want to delete the petrol entry?</string>
+    <plurals name="consumptions_deleteMultiselectText">
+        <item quantity="one">Are you sure you want to delete %1$d consumption?</item>
+        <item quantity="other">Are you sure you want to delete %1$d consumptions?</item>
+    </plurals>
+    <string name="consumptions_tooltip_closeMultiselect">Close multiselect</string>
+    <string name="consumptions_tooltip_selectAll">Select all</string>
+    <string name="consumptions_tooltip_deleteSelected">Delete selected</string>
 
     <string name="consumption_titleCreate">Create consumption</string>
     <string name="consumption_titleEdit">Edit consumption</string>

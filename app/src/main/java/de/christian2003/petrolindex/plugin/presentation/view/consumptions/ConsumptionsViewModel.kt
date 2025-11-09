@@ -5,9 +5,9 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateSetOf
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import de.christian2003.petrolindex.application.usecases.DeleteConsumptionUseCase
@@ -17,6 +17,7 @@ import de.christian2003.petrolindex.plugin.presentation.ui.composables.ListItemD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlin.uuid.Uuid
 
 
 /**
@@ -33,6 +34,13 @@ class ConsumptionsViewModel(application: Application): AndroidViewModel(applicat
     lateinit var consumptions: Flow<List<Consumption>>
 
     var consumptionToDelete: Consumption? by mutableStateOf(null)
+
+    var isInMultiselectState: Boolean by mutableStateOf(false)
+
+    var isDeleteMultiselectDialogVisible: Boolean by mutableStateOf(false)
+
+    var selectedConsumptionIds: MutableSet<Uuid> = mutableStateSetOf()
+
 
     /**
      * Display style for list items.
@@ -69,6 +77,48 @@ class ConsumptionsViewModel(application: Application): AndroidViewModel(applicat
         if (consumption != null) {
             deleteConsumptionUseCase.deleteConsumption(consumption.id)
         }
+    }
+
+    fun selectAllConsumptions(consumptions: List<Consumption>) {
+        selectedConsumptionIds.addAll(consumptions.map { it -> it.id })
+    }
+
+    fun toggleConsumptionSelection(consumption: Consumption, isSelected: Boolean) {
+        if (isSelected) {
+            selectedConsumptionIds.add(consumption.id)
+        }
+        else {
+            selectedConsumptionIds.remove(consumption.id)
+            if (selectedConsumptionIds.isEmpty()) {
+                dismissMultiselectState()
+            }
+        }
+    }
+
+    fun isConsumptionSelected(consumption: Consumption): Boolean {
+        return selectedConsumptionIds.contains(consumption.id)
+    }
+
+    fun startMultiselect(consumption: Consumption) {
+        selectedConsumptionIds.add(consumption.id)
+        isInMultiselectState = true
+    }
+
+    fun dismissMultiselectState() {
+        isInMultiselectState = false
+        selectedConsumptionIds.clear()
+    }
+
+
+    fun dismissDeleteMultiselectDialog(selectedConsumptionIds: Set<Uuid>? = null, allConsumptions: List<Consumption>? = null) = viewModelScope.launch(Dispatchers.Default) {
+        isDeleteMultiselectDialogVisible = false
+        isInMultiselectState = false
+        if (selectedConsumptionIds != null && allConsumptions != null) {
+            selectedConsumptionIds.forEach { id ->
+                deleteConsumptionUseCase.deleteConsumption(id)
+            }
+        }
+        this@ConsumptionsViewModel.selectedConsumptionIds.clear()
     }
 
 }
