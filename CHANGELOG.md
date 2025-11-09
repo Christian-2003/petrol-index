@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.1.1 (XXXX-XX-XX)
+###### Release Highlights
+n./a.
+
+###### Features
+* Downgrade `minSdk` from 35 to 34 in order to support devices running Android 14.
+
+<br/>
+
 ## 1.1.0 (2025-09-29)
 ###### Release Highlights
 Major refactoring of the codebase to increase maintainability as well as changes to the user interface.

@@ -14,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId = "de.christian2003.petrolindex"
-        minSdk = 35
+        minSdk = 34
         targetSdk = 35
-        versionCode = 11
-        versionName = "1.1.0"
+        versionCode = 12
+        versionName = "1.1.1-pre1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
