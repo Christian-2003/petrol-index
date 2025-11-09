@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -29,13 +30,16 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import de.christian2003.petrolindex.R
@@ -60,6 +64,13 @@ fun ConsumptionScreen(
     viewModel: ConsumptionViewModel,
     onNavigateUp: () -> Unit
 ) {
+    val invokeOnSave: () -> Unit = {
+        if (viewModel.isDataValid.value) {
+            viewModel.save()
+            onNavigateUp()
+        }
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -129,13 +140,11 @@ fun ConsumptionScreen(
                 },
                 onShowDatePicker = {
                     viewModel.showModalDatePickerDialog = true
-                }
+                },
+                onSave = invokeOnSave
             )
             Button(
-                onClick = {
-                    viewModel.save()
-                    onNavigateUp()
-                },
+                onClick = invokeOnSave,
                 enabled = viewModel.isDataValid.value,
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_vertical))
             ) {
@@ -182,6 +191,7 @@ fun ConsumptionScreen(
  * @param onDescriptionChange           Callback invoked when the description is changed.
  * @param onShowDatePicker              Callback invoked when the modal date picker dialog shall be
  *                                      displayed.
+ * @param onSave                        Callback invoked to save the conmsumption.
  */
 @Composable
 fun InputSection(
@@ -197,9 +207,14 @@ fun InputSection(
     onTotalPriceChange: (String) -> Unit,
     onDistanceTraveledChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
-    onShowDatePicker: () -> Unit
+    onShowDatePicker: () -> Unit,
+    onSave: () -> Unit
 ) {
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+    val totalPriceFocusRequester: FocusRequester = remember { FocusRequester() }
+    val distanceTraveledFocusRequester: FocusRequester = remember { FocusRequester() }
+    val descriptionFocusRequester: FocusRequester = remember { FocusRequester() }
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -233,7 +248,12 @@ fun InputSection(
             },
             label = stringResource(R.string.consumption_volume_label),
             prefixIcon = painterResource(R.drawable.ic_petrol),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    totalPriceFocusRequester?.requestFocus()
+                }
+            ),
             suffixLabel = stringResource(R.string.consumption_volume_suffix),
             errorMessage = volumeErrorMessage,
             visualTransformation = NumberFormatTransformation(),
@@ -248,10 +268,16 @@ fun InputSection(
             },
             label = stringResource(R.string.consumption_totalPrice_label),
             prefixIcon = painterResource(R.drawable.ic_price),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    distanceTraveledFocusRequester?.requestFocus()
+                }
+            ),
             suffixLabel = stringResource(R.string.consumption_totalPrice_suffix),
             errorMessage = totalPriceErrorMessage,
             visualTransformation = NumberFormatTransformation(),
+            focusRequester = totalPriceFocusRequester,
             modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
         )
 
@@ -263,10 +289,16 @@ fun InputSection(
             },
             label = stringResource(R.string.consumption_distanceTraveled_label),
             prefixIcon = painterResource(R.drawable.ic_distance),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword, imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    descriptionFocusRequester?.requestFocus()
+                }
+            ),
             suffixLabel = stringResource(R.string.consumption_distanceTraveled_suffix),
             errorMessage = distanceTraveledErrorMessage,
             visualTransformation = NumberFormatTransformation(),
+            focusRequester = distanceTraveledFocusRequester,
             modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_vertical))
         )
 
@@ -277,7 +309,14 @@ fun InputSection(
                 onDescriptionChange(it)
             },
             label = stringResource(R.string.consumption_description_label),
-            prefixIcon = painterResource(R.drawable.ic_description)
+            prefixIcon = painterResource(R.drawable.ic_description),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onSave()
+                }
+            ),
+            focusRequester = descriptionFocusRequester
         )
     }
 }

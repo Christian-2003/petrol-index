@@ -8,6 +8,7 @@ n./a.
 
 ###### Features
 * Downgrade `minSdk` from 35 to 34 in order to support devices running Android 14.
+* Add focus requester to `ConsumptionScreen` so that the user is able to switch between inputs using IME keyboards.
 
 <br/>
 
