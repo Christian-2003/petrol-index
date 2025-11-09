@@ -165,6 +165,12 @@ fun ConsumptionsScreen(
 }
 
 
+/**
+ * App bar displayed in default state.
+ *
+ * @param scrollBehavior    Scroll behavior.
+ * @param onNavigateUp      Callback invoked to navigate up the navigation stack.
+ */
 @Composable
 private fun DefaultAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
@@ -193,6 +199,14 @@ private fun DefaultAppBar(
 }
 
 
+/**
+ * App bar displayed in multiselect state.
+ *
+ * @param selectedConsumptionsCount Number of consumptions that are selected.
+ * @param onSelectAll               Callback invoked to select all consumptions.
+ * @param onDeleteSelected          Callback invoked to delete the selected consumptions.
+ * @param onFinishMultiselect       Callback invoked to finish multiselect state.
+ */
 @Composable
 private fun MultiselectAppBar(
     selectedConsumptionsCount: Int,
@@ -265,8 +279,12 @@ private fun MultiselectAppBar(
  *
  * @param consumptions          List of consumptions to display.
  * @param listItemDisplayStyle  Style for the list items.
+ * @param isInMultiselectState  Whether the screen is in multiselect state.
  * @param onDeleteConsumption   Callback to delete a consumption.
  * @param onEditConsumption     Callback to edit a consumption.
+ * @param onBeginMultiselect    Callback invoked to begin multiselect state.
+ * @param onToggleSelection     Callback invoked to toggle the selection of a consumption.
+ * @param isConsumptionSelected Callback invoked to query whether a consumption is selected.
  * @param windowInsets          Window insets of the entire screen.
  */
 @Composable
