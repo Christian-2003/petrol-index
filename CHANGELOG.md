@@ -2,9 +2,9 @@
 
 # Changelog
 
-## 1.1.1 (XXXX-XX-XX)
+## 1.1.1 (2025-11-15)
 ###### Release Highlights
-n./a.
+Quality of life improvements and add support for devices running Android 14.
 
 ###### Features
 * Downgrade `minSdk` from 35 to 34 in order to support devices running Android 14.
