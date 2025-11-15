@@ -43,8 +43,8 @@ This section helps you to install and use the app on you Android device.
 
 ###### System Requirements
 In order to use Petrol Index, you need to fulfil the following requirements:
-* Have an Android device with version **Android 15** or higher
-* Have **8 MB** of internal storage
+* Have an Android device with version **Android 14** or higher
+* Have **15 MB** of internal storage
 
 ###### Installation Guide
 1. Download the latest version of the APK file through [GitHub releases](https://github.com/Christian-2003/petrol-index/releases/latest).
